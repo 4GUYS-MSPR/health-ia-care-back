@@ -1,0 +1,27 @@
+services:
+  api:
+    build: .
+    container_name: health-ia-api
+    restart: unless-stopped
+    command: "python manage.py runserver 0.0.0.0:5555"
+    entrypoint: ["/app/entrypoint.sh"]
+    ports:
+      - "5555:5555"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: health-ia-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: health
+      POSTGRES_USER: health
+      POSTGRES_PASSWORD: healthIAPass927832
+    user: "999:999"
+    ports:
+      - "5432:5432"
+    volumes:
+      - .data:/var/lib/postgresql/data
