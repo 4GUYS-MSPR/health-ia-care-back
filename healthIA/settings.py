@@ -35,6 +35,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+JAZZMIN_SETTINGS = {
+    "site_title": "HealthIA",
+    "site_header": "HealthIA",
+    "site_brand": "HealthIA",
+    "welcome_sign": "Welcome to HealthIA !",
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
