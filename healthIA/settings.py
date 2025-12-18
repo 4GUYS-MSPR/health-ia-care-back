@@ -26,7 +26,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
-    'jazzmin',
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

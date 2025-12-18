@@ -1,4 +1,4 @@
 django
-django-jazzmin
+django-unfold
 python-dotenv
 psycopg2-binary
