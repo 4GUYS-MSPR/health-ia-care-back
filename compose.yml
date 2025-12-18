@@ -17,11 +17,11 @@ services:
     container_name: health-ia-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: health
-      POSTGRES_USER: health
-      POSTGRES_PASSWORD: healthIAPass927832
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: "999:999"
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - .data:/var/lib/postgresql/data
