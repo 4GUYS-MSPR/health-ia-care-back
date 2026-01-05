@@ -7,6 +7,8 @@ load_dotenv('.env')
 ENV_NEEDS = [
     'SECRET_KEY',
     'DEBUG',
+    'ALLOWED_HOSTS',
+    'CSRF_TRUSTED_ORIGINS',
     'POSTGRES_DB',
     'POSTGRES_USER',
     'POSTGRES_PASSWORD',
@@ -46,6 +48,7 @@ JAZZMIN_SETTINGS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -104,7 +107,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
