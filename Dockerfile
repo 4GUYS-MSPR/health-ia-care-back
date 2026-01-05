@@ -1,11 +1,12 @@
-FROM python
-
-RUN apt-get update && apt-get upgrade -y
-RUN mkdir /app
+FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY . /app
+RUN apt-get update && apt-get install -y libpq-dev gcc && rm -rf /var/lib/apt/lists/*
 
-RUN python -m pip install -r requirements.txt
-RUN chmod u+x /app/entrypoint.sh
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD sh -c "python manage.py makemigrations app && python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn bankAccountManager.wsgi:application --bind 0.0.0.0:5555"
