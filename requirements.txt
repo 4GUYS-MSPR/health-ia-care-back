@@ -1,4 +1,6 @@
 django
 django-jazzmin
+gunicorn
 python-dotenv
 psycopg2-binary
+whitenoise
