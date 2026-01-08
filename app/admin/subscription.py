@@ -1,6 +1,4 @@
 from django.contrib import admin
-from app.models.subscription import Subscription
-
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ['value']
+    list_display = ['pk','value']
     search_fields = ['value']
