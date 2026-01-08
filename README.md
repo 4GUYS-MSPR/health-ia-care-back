@@ -37,7 +37,7 @@ You can now available to use all commands.
 
 | Command             | Linux / macOS  | Windows (PowerShell)              |
 |---------------------|----------------|-----------------------------------|
-| up                  | `make up`      | `docker compose up -d`    |
+| up                  | `make up`      | `docker compose up -d --build`    |
 | down                | `make down`    | `docker compose down`             |
 | migrate             | `make migrate` | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
 | run                 | `make run`     | `docker exec -it health-ia-api python manage.py <cmd>` |
