@@ -1,0 +1,56 @@
+[
+    {
+        "value": "BACK"
+    },
+    {
+        "value": "CALVES"
+    },
+    {
+        "value": "CHEST"
+    },
+    {
+        "value": "FOREARMS"
+    },
+    {
+        "value": "HIPS"
+    },
+    {
+        "value": "NECK"
+    },
+    {
+        "value": "SHOULDERS"
+    },
+    {
+        "value": "THIGHS"
+    },
+    {
+        "value": "WAIST"
+    },
+    {
+        "value": "HANDS"
+    },
+    {
+        "value": "FEET"
+    },
+    {
+        "value": "FACE"
+    },
+    {
+        "value": "FULL_BODY"
+    },
+    {
+        "value": "BICEPS"
+    },
+    {
+        "value": "UPPER_ARMS"
+    },
+    {
+        "value": "TRICEPS"
+    },
+    {
+        "value": "HAMSTRINGS"
+    },
+    {
+        "value": "QUADRICEPS"
+    }
+]

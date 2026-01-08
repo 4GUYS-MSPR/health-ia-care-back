@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from .gender import Gender
 from .level import Level
@@ -11,6 +12,7 @@ class Member(models.Model):
     weight = models.FloatField()
     workout_frequency = models.IntegerField()
 
-    gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT SPECIFIED',related_name='genders')
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT_SPECIFIED',related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')

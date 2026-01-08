@@ -31,13 +31,15 @@ You should have docker installed.
 
 ### HealthIA
 Run project using `run` command.<br>
-You can now available to use all commands.
+You can now available to use all commands.<br>
+<span style="color: red">WARNING:</span><span style="color: grey"> *But don't use directly `python manage.py ...`, you are going to have database host invalid !*</span>
 
 ## Usage
 
 | Command             | Linux / macOS  | Windows (PowerShell)              |
 |---------------------|----------------|-----------------------------------|
-| up                  | `make up`      | `docker compose up -d --build`    |
+| up                  | `make up`      | `docker compose up -d`            |
+| reload              | `make reload`  | `docker compose up -d --build`    |
 | down                | `make down`    | `docker compose down`             |
 | migrate             | `make migrate` | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
 | run                 | `make run`     | `docker exec -it health-ia-api python manage.py <cmd>` |
