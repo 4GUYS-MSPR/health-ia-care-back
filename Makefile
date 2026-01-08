@@ -12,6 +12,9 @@ migrate:
 	docker exec -it health-ia-api python manage.py makemigrations app
 	docker exec -it health-ia-api python manage.py migrate
 
+check:
+	pylint **/*.py
+
 run:
 ifndef cmd
 	$(error cmd must be set, make run cmd=cmd.gx)
@@ -25,6 +28,7 @@ help:
 	echo "    up         Start docker-compose in detached mode"
 	echo "    down       Stop docker-compose"
 	echo "    migrate    Run Django migrations inside container"
+	echo "    check      Run pylint"
 	echo "    run        Run arbitrary Django manage.py command (ex: make run cmd=createsuperuser)"
 	echo "    help       Show this help message"
 	echo ""
