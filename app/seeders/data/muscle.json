@@ -1,0 +1,143 @@
+[
+    {
+        "value": "ADDUCTOR_LONGUS"
+    },
+    {
+        "value": "DDUCTOR_BREVIS"
+    },
+    {
+        "value": "ADDUCTOR_MAGNUS"
+    },
+    {
+        "value": "BICEPS_BRACHII"
+    },
+    {
+        "value": "BRACHIALIS"
+    },
+    {
+        "value": "BRACHIORADIALIS"
+    },
+    {
+        "value": "DEEP_HIP_EXTERNAL_ROTATORS"
+    },
+    {
+        "value": "ANTERIOR_DELTOID"
+    },
+    {
+        "value": "LATERAL_DELTOID"
+    },
+    {
+        "value": "POSTERIOR_DELTOID"
+    },
+    {
+        "value": "ERECTOR_SPINAE"
+    },
+    {
+        "value": "GASTROCNEMIUS"
+    },
+    {
+        "value": "GLUTEUS_MAXIMUS"
+    },
+    {
+        "value": "GLUTEUS_MEDIUS"
+    },
+    {
+        "value": "GLUTEUS_MINIMUS"
+    },
+    {
+        "value": "GRACILIS"
+    },
+    {
+        "value": "HAMSTRINGS"
+    },
+    {
+        "value": "ILIOPSOAS"
+    },
+    {
+        "value": "INFRASPINATUS"
+    },
+    {
+        "value": "LATISSIMUS_DORSI"
+    },
+    {
+        "value": "LEVATOR_SCAPULAE"
+    },
+    {
+        "value": "OBLIQUES"
+    },
+    {
+        "value": "PECTINEUS"
+    },
+    {
+        "value": "PECTORALIS_MAJOR_CLAVICULAR_HEAD"
+    },
+    {
+        "value": "PECTORALIS_MAJOR_STERNAL_HEAD"
+    },
+    {
+        "value": "POPLITEUS"
+    },
+    {
+        "value": "QUADRICEPS"
+    },
+    {
+        "value": "RECTUS_ABDOMINIS"
+    },
+    {
+        "value": "SARTORIUS"
+    },
+    {
+        "value": "QUADRICEPS"
+    },
+    {
+        "value": "SERRATUS_ANTE"
+    },
+    {
+        "value": "SERRATUS_ANTERIOR"
+    },
+    {
+        "value": "SOLEUS"
+    },
+    {
+        "value": "SPLENIUS"
+    },
+    {
+        "value": "STERNOCLEIDOMASTOID"
+    },
+    {
+        "value": "SUBSCAPULARIS"
+    },
+    {
+        "value": "TENSOR_FASCIAE_LATAE"
+    },
+    {
+        "value": "TERES_MAJOR"
+    },
+    {
+        "value": "TERES_MINOR"
+    },
+    {
+        "value": "TIBIALIS_ANTERIOR"
+    },
+    {
+        "value": "TRANSVERSUS_ABDOMINIS"
+    },
+    {
+        "value": "TRAPEZIUS_LOWER_FIBERS"
+    },
+    {
+        "value": "TRAPEZIUS_MIDDLE_FIBERS"
+    },
+    {
+        "value": "TRAPEZIUS_UPPER_FIBERS"
+    },
+    {
+        "value": "TRICEPS_BRACHII"
+    },
+    {
+        "value": "WRIST_EXTENSORS"
+    },
+    {
+        "value": "WRIST_FLEXORS"
+    }
+]
