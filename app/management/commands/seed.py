@@ -1,8 +1,8 @@
 import json
 
+from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import models
-from pathlib import Path
 
 from app.models.body_part import BodyPart
 from app.models.category import Category

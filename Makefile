@@ -16,7 +16,7 @@ migrate:
 	docker exec -it health-ia-api python manage.py migrate
 
 check:
-	pylint **/*.py
+	pylint $$(git ls-files '*.py')
 
 run:
 ifndef cmd
