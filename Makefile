@@ -3,6 +3,9 @@
 all: help
 
 up:
+	docker compose up -d
+	
+reload:
 	docker compose up -d --build
 
 down:
@@ -26,6 +29,7 @@ help:
 	echo "Usage: make <target>"
 	echo ""
 	echo "    up         Start docker-compose in detached mode"
+	echo "    reload     Rebuild docker-compose in detached mode"
 	echo "    down       Stop docker-compose"
 	echo "    migrate    Run Django migrations inside container"
 	echo "    check      Run pylint"
