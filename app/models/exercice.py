@@ -1,11 +1,15 @@
 from django.db import models
 
-class Exercice(models.Model):
-   category = models.CharField(max_length=50)  # enum
-   level = models.CharField(max_length=20)  # enum
-   equipments = models.CharField(max_length=20)  # enum
-   image_url = models.URLField()
-   body_parts = models.CharField(max_length=50)  # enum
-   target_muscles = models.CharField(max_length=50)  # enum
-   secondary_muscles = models.CharField(max_length=50)  # enum
+from .body_part import BodyPart
+from .category import Category
+from .equipment import Equipment
+from .muscle import Muscle
 
+class Exercice(models.Model):
+    image_url = models.URLField()
+
+    body_parts = models.ManyToManyField(BodyPart, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='categories')
+    equipments = models.ForeignKey(Equipment, on_delete=models.SET_NULL, null=True, related_name='equipments')
+    secondary_muscles = models.ManyToManyField(Muscle, blank=True, related_name='secondary_muscles')
+    target_muscles = models.ManyToManyField(Muscle, blank=True, related_name='target_muscles')
