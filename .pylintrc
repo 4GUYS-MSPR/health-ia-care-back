@@ -1,5 +1,15 @@
+[MASTER]
+ignore=migrations
+
 [MESSAGES CONTROL]
-disable=missing-module-docstring,
-      missing-class-docstring,
-      missing-function-docstring,
-      invalid-name
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    R0903,
+    C0415,
+    W0212,
+    invalid-name,
+
+[DESIGN]
+max-line-length=120
