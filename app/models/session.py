@@ -1,15 +1,15 @@
 from django.db import models
 
+from .exercice import Exercice
+from .member import Member
 
 class Session(models.Model):
-    max_bpm = models.IntegerField()
     avg_bpm = models.IntegerField()
-    resting_bpm = models.IntegerField()
-    duration = models.TimeField() 
     calories_burned = models.FloatField()
-    exercices = models.TextField() #en attente
+    duration = models.TimeField() 
+    max_bpm = models.IntegerField()
+    resting_bpm = models.IntegerField()
     water_intake = models.FloatField()
-    member = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='sessions')
 
-   
-   
+    exercices = models.ManyToManyField(Exercice, blank=True, related_name='exercices')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='members')
