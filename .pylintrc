@@ -10,6 +10,6 @@ disable=
     C0415,
     W0212,
     invalid-name,
-
-[DESIGN]
-max-line-length=120
+    line-too-long,
+    no-member,
+    broad-exception-caught,

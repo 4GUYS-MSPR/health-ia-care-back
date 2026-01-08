@@ -6,6 +6,7 @@ from .equipment import Equipment
 from .muscle import Muscle
 
 class Exercice(models.Model):
+
     image_url = models.URLField()
 
     body_parts = models.ManyToManyField(BodyPart, blank=True)
@@ -13,6 +14,3 @@ class Exercice(models.Model):
     equipments = models.ManyToManyField(Equipment, blank=True, related_name='equipments')
     secondary_muscles = models.ManyToManyField(Muscle, blank=True, related_name='secondary_muscles')
     target_muscles = models.ManyToManyField(Muscle, blank=True, related_name='target_muscles')
-
-
-

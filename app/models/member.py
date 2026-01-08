@@ -6,6 +6,7 @@ from .level import Level
 from .subscription import Subscription
 
 class Member(models.Model):
+
     bmi = models.FloatField()
     fat_percentage = models.FloatField()
     height = models.FloatField()
