@@ -16,4 +16,4 @@ class Exercice(models.Model):
     target_muscles = models.ManyToManyField(Muscle, blank=True, related_name='target_muscles')
 
     def __str__(self):
-        return str(self.pk)
+        return f"Exercice {self.pk}"

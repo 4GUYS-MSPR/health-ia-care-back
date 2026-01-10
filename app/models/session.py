@@ -14,3 +14,6 @@ class Session(models.Model):
 
     exercices = models.ManyToManyField(Exercice, blank=True, related_name='exercices')
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='members')
+
+    def __str__(self):
+        return f"Session {self.pk}"

@@ -17,3 +17,10 @@ class Member(models.Model):
     gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT_SPECIFIED', related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
+
+    def get_client_name(self):
+        fullname = self.client.get_full_name()
+        return fullname if fullname is not "" else str(self.client.username)
+
+    def __str__(self):
+        return self.get_client_name()
