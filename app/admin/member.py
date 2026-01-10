@@ -1,5 +1,4 @@
 from django.contrib import admin
-from app.models.member import Member
 
 class MemberAdmin(admin.ModelAdmin):
 
@@ -8,7 +7,7 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ["client__first_name", "client__last_name", "client__username"]
 
     readonly_fields = ["get_client_name"]
-    
+
     fieldsets = [
         (None, {"fields": ["client", "gender", "level", "subscription"]}),
         ("Data", {"fields": ["bmi", "fat_percentage", "height", "weight", "workout_frequency"]}),
@@ -16,5 +15,5 @@ class MemberAdmin(admin.ModelAdmin):
 
     def get_client_name(self, obj):
         fullname = obj.client.get_full_name()
-        return fullname if fullname is not "" else str(obj.client.username)
+        return fullname if fullname != "" else str(obj.client.username)
     get_client_name.short_description = "Name"

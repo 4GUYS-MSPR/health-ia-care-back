@@ -20,7 +20,7 @@ class Member(models.Model):
 
     def get_client_name(self):
         fullname = self.client.get_full_name()
-        return fullname if fullname is not "" else str(self.client.username)
+        return fullname if fullname != "" else str(self.client.username)
 
     def __str__(self):
         return self.get_client_name()
