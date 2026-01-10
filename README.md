@@ -18,29 +18,39 @@ After clone this repo, you have to rename & `.env.example` as `.env` and fill it
 
 | System            | Command                                    |
 |-------------------|--------------------------------------------|
-| Linux / macOS     | `mv .env.example .env`                     |
+| Linux / MacOS     | `mv .env.example .env`                     |
 | Windows           | `ren .env.example .env`                    |
 
 ### Docker compose
 You should have docker installed.
 | System            | Lien / Command                             |
 |-------------------|--------------------------------------------|
-| Linux / macOS     | `curl https://get.docker.com \| bash`<br>https://docs.docker.com/desktop/setup/install/windows-install/ |
+| Linux / MacOS     | `curl https://get.docker.com \| bash`<br>https://docs.docker.com/desktop/setup/install/windows-install/ |
 | MacOS             | https://docs.docker.com/desktop/setup/install/mac-install/ |
 | Windows           | https://docs.docker.com/desktop/setup/install/windows-install/ |
+
+### First usage
+To execute next commands, here `base`:
+```sh
+make run cmd=<cmd>                                       # Linux / MacOS
+docker exec -it health-ia-api python manage.py <cmd>     # Windows
+```
+
+Prepare your database. Create your super user with `<base> createsuperuser`.<br>
+Then seed static informations with `<base> seed`.
 
 ### HealthIA
 Run project using `run` command.<br>
 You can now available to use all commands.<br>
-<span style="color: red">WARNING:</span><span style="color: grey"> *But don't use directly `python manage.py ...`, you are going to have database host invalid !*</span>
+<span style="color: red">WARNING:</span><span style="color: grey"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
 
-## Usage
+## Commands
 
-| Command             | Linux / macOS  | Windows (PowerShell)              |
-|---------------------|----------------|-----------------------------------|
-| up                  | `make up`      | `docker compose up -d`            |
-| reload              | `make reload`  | `docker compose up -d --build`    |
-| down                | `make down`    | `docker compose down`             |
-| migrate             | `make migrate` | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
-| run                 | `make run`     | `docker exec -it health-ia-api python manage.py <cmd>` |
-| help                | `make help`    | /                                 |
+| Command             | Linux / MacOS        | Windows                           |
+|---------------------|----------------------|-----------------------------------|
+| up                  | `make up`            | `docker compose up -d`            |
+| reload              | `make reload`        | `docker compose up -d --build`    |
+| down                | `make down`          | `docker compose down`             |
+| migrate             | `make migrate`       | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
+| run                 | `make run cmd=<cmd>` | `docker exec -it health-ia-api python manage.py <cmd>` |
+| help                | `make help`          | /                                 |
