@@ -6,9 +6,6 @@ from app.admin.equipment import EquipmentInline
 from app.admin.muscle import TargetMuscleInline, SecondaryMuscleInline
 from app.models.session import Session
 
-from app.admin.body_part import BodyPartInline
-from app.admin.equipment import EquipmentInline
-
 class ExerciceAdmin(admin.ModelAdmin):
 
     list_display = ['pk', 'category', 'display_image']
