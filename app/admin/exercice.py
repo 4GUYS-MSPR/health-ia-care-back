@@ -6,9 +6,6 @@ from app.admin.equipment import EquipmentInline
 from app.admin.muscle import TargetMuscleInline, SecondaryMuscleInline
 from app.models.session import Session
 
-from app.admin.body_part import BodyPartInline
-from app.admin.equipment import EquipmentInline
-
 class ExerciceAdmin(admin.ModelAdmin):
 
     list_display = ['pk', 'category', 'display_image']
@@ -35,7 +32,7 @@ class ExerciceAdmin(admin.ModelAdmin):
         return "No image"
 
     display_image.short_description = 'Image'
-    
+
     def display_image_large(self, obj):
         if obj.image_url:
             return format_html('<img src="{}" style="width: 300px; height: auto; border-radius: 2px;" />', obj.image_url)
