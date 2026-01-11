@@ -30,6 +30,8 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 INSTALLED_APPS = [
     'app.apps.HealIaAppConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 JAZZMIN_SETTINGS = {
     "site_title": "HealthIA",
