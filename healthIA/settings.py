@@ -29,10 +29,11 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 INSTALLED_APPS = [
+    'jazzmin',
+    'drf_redesign',
+    'app.apps.HealIaAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'jazzmin',
-    'app.apps.HealIaAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

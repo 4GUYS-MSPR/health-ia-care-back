@@ -1,4 +1,6 @@
 from django.db import models
+from pydantic import BaseModel, AnyHttpUrl
+from typing import List
 
 from .body_part import BodyPart
 from .category import Category
@@ -17,3 +19,12 @@ class Exercice(models.Model):
 
     def __str__(self):
         return f"Exercice {self.pk}"
+
+class ExerciceScheme(BaseModel):
+    imageUrl: AnyHttpUrl
+
+    bodyParts: List[str]
+    exerciseType: str
+    equipments: List[str]
+    secondaryMuscles: List[str]
+    targetMuscles: List[str]
