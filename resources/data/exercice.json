@@ -1,0 +1,69 @@
+[
+  {
+    "exerciseId": "exr_41n2hxnFMotsXTj3",
+    "name": "Bench Press",
+    "equipments": [
+      "Barbell"
+    ],
+    "bodyParts": [
+      "Chest"
+    ],
+    "exerciseType": "strength",
+    "targetMuscles": [
+      "Pectoralis Major Clavicular Head"
+    ],
+    "secondaryMuscles": [
+      "Deltoid Anterior",
+      "Pectoralis Major Clavicular Head",
+      "Triceps Brachii"
+    ],
+    "imageUrl": "",
+    "keywords": [
+      "Chest workout with barbell",
+      "Barbell bench press exercise",
+      "Strength training for chest",
+      "Upper body workout with barbell",
+      "Barbell chest exercises",
+      "Bench press for chest muscles",
+      "Building chest muscles with bench press",
+      "Chest strengthening with barbell",
+      "Bench press workout routine",
+      "Barbell exercises for chest muscle growth"
+    ]
+  },
+  {
+    "exerciseId": "exr_41n2haAabPyN5t8y",
+    "name": "Side Lunge",
+    "imageUrl": "https://cdn.exercisedb.dev/media/w/images/RB7NBcf79I.jpg",
+    "bodyParts": [
+      "QUADRICEPS",
+      "THIGHS"
+    ],
+    "equipments": [
+      "BODY WEIGHT"
+    ],
+    "exerciseType": "STRENGTH",
+    "targetMuscles": [
+      "GLUTEUS MAXIMUS",
+      "QUADRICEPS"
+    ],
+    "secondaryMuscles": [
+      "ADDUCTOR MAGNUS",
+      "GLUTEUS MEDIUS",
+      "SOLEUS",
+      "TENSOR FASCIAE LATAE"
+    ],
+    "keywords": [
+      "Body weight exercise for thighs",
+      "Quadriceps strengthening exercises",
+      "Side Lunge workout",
+      "Bodyweight workout for legs",
+      "Thigh toning exercises",
+      "Side Lunge body weight exercise",
+      "Quadriceps body weight workout",
+      "Thigh strengthening workouts",
+      "Body weight Side Lunge",
+      "Leg toning exercises with body weight"
+    ]
+  }
+]
