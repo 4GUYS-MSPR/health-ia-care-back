@@ -1,10 +1,10 @@
 django
+django-filter
 django-jazzmin
+djangorestframework
 gunicorn
+markdown
 psycopg2-binary
 pylint
 python-dotenv
 whitenoise
-djangorestframework
-markdown
-django-filter
