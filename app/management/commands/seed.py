@@ -56,7 +56,7 @@ class Command(BaseCommand):
                         try:
                             seeder.model.objects.get_or_create(**row)
                             ok+=1
-                        except Exception as e:
+                        except Exception:
                             ko.append(row)
                 if logs:
                     logger.success(f"    {ok} elements inserted")

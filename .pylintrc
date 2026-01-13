@@ -13,3 +13,4 @@ disable=
     line-too-long,
     no-member,
     broad-exception-caught,
+    too-many-ancestors,

@@ -1,10 +1,8 @@
 import datetime
-from pathlib import Path
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from loguru import logger
-from rest_framework.authtoken.models import Token
 
 from app.models.setup import Setup
 

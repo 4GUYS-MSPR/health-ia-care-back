@@ -1,6 +1,6 @@
+from typing import List
 from django.db import models
 from pydantic import BaseModel, AnyHttpUrl
-from typing import List
 
 from .body_part import BodyPart
 from .category import Category

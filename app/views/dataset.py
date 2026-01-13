@@ -1,5 +1,3 @@
-import json
-
 from pydantic import ValidationError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -20,18 +18,18 @@ class DataImportViewSet(viewsets.ViewSet):
 
         if not file and not request.data:
             return Response(
-                {"detail": "No data"}, 
+                {"detail": "No data"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         data = request.data
         if not isinstance(data, list):
             data = [data]
-        
+
         errors = []
         valid_data = []
-        
-        for index, item in enumerate(data):
+
+        for _, item in enumerate(data):
             try:
                 scheme = ExerciceScheme(**item)
                 valid_data.append(scheme.model_dump_json())
