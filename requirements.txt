@@ -4,6 +4,7 @@ django-jazzmin
 djangorestframework
 drf-redesign
 gunicorn
+loguru
 markdown
 psycopg2-binary
 pydantic

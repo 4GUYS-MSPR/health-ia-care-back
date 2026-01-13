@@ -7,4 +7,5 @@ from .level import Level
 from .member import Member
 from .muscle import Muscle
 from .session import Session
+from .setup import Setup
 from .subscription import Subscription

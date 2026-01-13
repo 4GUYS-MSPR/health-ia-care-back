@@ -29,15 +29,7 @@ You should have docker installed.
 | MacOS             | https://docs.docker.com/desktop/setup/install/mac-install/ |
 | Windows           | https://docs.docker.com/desktop/setup/install/windows-install/ |
 
-### First usage
-To execute next commands, here `base`:
-```sh
-make run cmd=<cmd>                                       # Linux / MacOS
-docker exec -it health-ia-api python manage.py <cmd>     # Windows
-```
-
-Prepare your database. Create your super user with `<base> createsuperuser`.<br>
-Then seed static informations with `<base> seed`.
+Then, juste run `up` command bellow.
 
 ### HealthIA
 Run project using `run` command.<br>
@@ -51,6 +43,6 @@ You can now available to use all commands.<br>
 | up                  | `make up`            | `docker compose up -d`            |
 | reload              | `make reload`        | `docker compose up -d --build`    |
 | down                | `make down`          | `docker compose down`             |
-| migrate             | `make migrate`       | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
+| migration           | `make migration`     | `POSTGRES_HOST=localhost python manage.py makemigrations app` |
 | run                 | `make run cmd=<cmd>` | `docker exec -it health-ia-api python manage.py <cmd>` |
 | help                | `make help`          | /                                 |

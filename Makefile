@@ -7,13 +7,15 @@ up:
 	
 reload:
 	docker compose up -d --build
+	@if [ "$(logs)" = "1" ]; then \
+		docker logs -f health-ia-api; \
+	fi
 
 down:
 	docker compose down
 
-migrate:
-	docker exec -it health-ia-api python manage.py makemigrations app
-	docker exec -it health-ia-api python manage.py migrate
+migrations:
+	POSTGRES_HOST=localhost python manage.py makemigrations app
 
 check:
 	pylint $$(git ls-files '*.py')
