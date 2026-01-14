@@ -1,55 +1,37 @@
-from pydantic import ValidationError
+from django.utils.module_loading import import_string
+
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAdminUser
-from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.parsers import JSONParser
 
-from app.models.body_part import BodyPart
-from app.models.category import Category
-from app.models.equipment import Equipment
-from app.models.exercice import ExerciceScheme
-from app.models.muscle import Muscle
-from app.utils.validation import validateFieldsData
+from app.imports.request import ImportRequest
+from app.utils.validation import validateRequest
 from app.utils.response import JsonResponse
 
 class DataImportViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAdminUser]
 
-    parser_classes = [MultiPartParser, JSONParser]
+    parser_classes = [JSONParser]
 
     def create(self, request):
-        file = request.FILES.get('file')
+        if not isinstance(request.data, dict):
+            return JsonResponse.errors("dict excepted")
+        validated = validateRequest(ImportRequest, request.data)
 
-        if not file and not request.data:
-            return JsonResponse.errors("No data")
+        data = validated.data
+        classname = validated.classname.value
+        class_path = f"app.imports.actions.{classname}.{classname}"
+        try:
+            cls = import_string(class_path)
+        except ImportError:
+            return JsonResponse.response({"message": f"{classname} not found."}, 404)
 
-        data = request.data
-        if not isinstance(data, list):
-            data = [data]
-
-        errors = []
-        exercices = []
-
-        for _, item in enumerate(data):
-            try:
-                scheme = ExerciceScheme(**item)
-                exercices.append(scheme)
-            except ValidationError as e:
-                errors.append(e.json())
+        action = cls()
+        valid_data, errors = action.validate(data)
 
         if errors:
             return JsonResponse.errors(errors)
         else:
-            fields = [
-                {"name": "targetMuscles", "model": Muscle, "enum": True},
-                {"name": "secondaryMuscles", "model": Muscle, "enum": True},
-                {"name": "equipments", "model": Equipment, "enum": True},
-                {"name": "bodyParts", "model": BodyPart, "enum": True},
-                {"name": "exerciseType", "model": Category, "enum": False},
-            ]
-            invalidValue = validateFieldsData(exercices, fields)
-            if invalidValue:
-                return JsonResponse.errors(invalidValue)
-            else:
-                return JsonResponse.success({"message": "All good !"})
+            action.handle(valid_data)

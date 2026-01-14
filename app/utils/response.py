@@ -10,3 +10,7 @@ class JsonResponse:
     @staticmethod
     def success(data):
         return Response(data, status=status.HTTP_200_OK)
+
+    @staticmethod
+    def response(data: dict, code: int):
+        return Response(data, status=code)

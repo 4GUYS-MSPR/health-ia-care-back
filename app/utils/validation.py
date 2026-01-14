@@ -4,6 +4,11 @@ def validateFieldsData(dataList, fields: list[dict]) -> dict:
         valid_data = [r.value for r in f["model"].objects.all()]
         for data in dataList:
             data = data.model_dump()
+
+            field_value = data.get(f["name"])
+            if field_value is None:
+                continue
+
             if not f["enum"]:
                 if not data[f["name"]] in valid_data:
                     addToDict(invalid, f["name"], data[f["name"]])
@@ -18,3 +23,6 @@ def addToDict(d: dict, name, value):
         d[name].append(value)
     else:
         d[name] = [value]
+
+def validateRequest(model, request):
+    return model(**request)

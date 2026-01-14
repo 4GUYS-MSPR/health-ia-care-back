@@ -1,6 +1,8 @@
-from typing import List, ClassVar
+from typing import List
+from urllib.parse import urlparse
+
 from django.db import models
-from pydantic import AnyHttpUrl, BaseModel, validator, field_validator
+from pydantic import BaseModel, field_validator
 
 from .body_part import BodyPart
 from .category import Category
@@ -21,10 +23,17 @@ class Exercice(models.Model):
         return f"Exercice {self.pk}"
 
 class ExerciceScheme(BaseModel):
-    imageUrl: AnyHttpUrl
+    imageUrl: str
 
     bodyParts: List[str]
     exerciseType: str
     equipments: List[str]
     secondaryMuscles: List[str]
     targetMuscles: List[str]
+
+    @field_validator("imageUrl")
+    def check_url(cls, v):
+        result = urlparse(v)
+        if not (result.scheme and result.netloc):
+            raise ValueError(f"{v} is not a valid URL")
+        return v
