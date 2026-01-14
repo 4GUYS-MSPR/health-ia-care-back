@@ -36,4 +36,7 @@ class DataImportViewSet(viewsets.ViewSet):
             except ValidationError as e:
                 errors.append(e.json())
 
-        return Response({"errors": errors, "data": valid_data}, status=status.HTTP_200_OK)
+        if errors:
+            return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"data": valid_data}, status=status.HTTP_200_OK)

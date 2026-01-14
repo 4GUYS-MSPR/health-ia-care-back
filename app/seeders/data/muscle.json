@@ -1,15 +1,15 @@
 [
     {
-        "value": "ADDUCTOR_LONGUS"
+        "value": "ADDUCTOR LONGUS"
     },
     {
-        "value": "DDUCTOR_BREVIS"
+        "value": "ADDUCTOR BREVIS"
     },
     {
-        "value": "ADDUCTOR_MAGNUS"
+        "value": "ADDUCTOR MAGNUS"
     },
     {
-        "value": "BICEPS_BRACHII"
+        "value": "BICEPS BRACHII"
     },
     {
         "value": "BRACHIALIS"
@@ -18,31 +18,31 @@
         "value": "BRACHIORADIALIS"
     },
     {
-        "value": "DEEP_HIP_EXTERNAL_ROTATORS"
+        "value": "DEEP HIP EXTERNAL ROTATORS"
     },
     {
-        "value": "ANTERIOR_DELTOID"
+        "value": "ANTERIOR DELTOID"
     },
     {
-        "value": "LATERAL_DELTOID"
+        "value": "LATERAL DELTOID"
     },
     {
-        "value": "POSTERIOR_DELTOID"
+        "value": "POSTERIOR DELTOID"
     },
     {
-        "value": "ERECTOR_SPINAE"
+        "value": "ERECTOR SPINAE"
     },
     {
         "value": "GASTROCNEMIUS"
     },
     {
-        "value": "GLUTEUS_MAXIMUS"
+        "value": "GLUTEUS MAXIMUS"
     },
     {
-        "value": "GLUTEUS_MEDIUS"
+        "value": "GLUTEUS MEDIUS"
     },
     {
-        "value": "GLUTEUS_MINIMUS"
+        "value": "GLUTEUS MINIMUS"
     },
     {
         "value": "GRACILIS"
@@ -57,10 +57,10 @@
         "value": "INFRASPINATUS"
     },
     {
-        "value": "LATISSIMUS_DORSI"
+        "value": "LATISSIMUS DORSI"
     },
     {
-        "value": "LEVATOR_SCAPULAE"
+        "value": "LEVATOR SCAPULAE"
     },
     {
         "value": "OBLIQUES"
@@ -69,10 +69,10 @@
         "value": "PECTINEUS"
     },
     {
-        "value": "PECTORALIS_MAJOR_CLAVICULAR_HEAD"
+        "value": "PECTORALIS MAJOR CLAVICULAR HEAD"
     },
     {
-        "value": "PECTORALIS_MAJOR_STERNAL_HEAD"
+        "value": "PECTORALIS MAJOR STERNAL HEAD"
     },
     {
         "value": "POPLITEUS"
@@ -81,7 +81,7 @@
         "value": "QUADRICEPS"
     },
     {
-        "value": "RECTUS_ABDOMINIS"
+        "value": "RECTUS ABDOMINIS"
     },
     {
         "value": "SARTORIUS"
@@ -90,10 +90,10 @@
         "value": "QUADRICEPS"
     },
     {
-        "value": "SERRATUS_ANTE"
+        "value": "SERRATUS ANTE"
     },
     {
-        "value": "SERRATUS_ANTERIOR"
+        "value": "SERRATUS ANTERIOR"
     },
     {
         "value": "SOLEUS"
@@ -108,36 +108,36 @@
         "value": "SUBSCAPULARIS"
     },
     {
-        "value": "TENSOR_FASCIAE_LATAE"
+        "value": "TENSOR FASCIAE LATAE"
     },
     {
-        "value": "TERES_MAJOR"
+        "value": "TERES MAJOR"
     },
     {
-        "value": "TERES_MINOR"
+        "value": "TERES MINOR"
     },
     {
-        "value": "TIBIALIS_ANTERIOR"
+        "value": "TIBIALIS ANTERIOR"
     },
     {
-        "value": "TRANSVERSUS_ABDOMINIS"
+        "value": "TRANSVERSUS ABDOMINIS"
     },
     {
-        "value": "TRAPEZIUS_LOWER_FIBERS"
+        "value": "TRAPEZIUS LOWER FIBERS"
     },
     {
-        "value": "TRAPEZIUS_MIDDLE_FIBERS"
+        "value": "TRAPEZIUS MIDDLE FIBERS"
     },
     {
-        "value": "TRAPEZIUS_UPPER_FIBERS"
+        "value": "TRAPEZIUS UPPER FIBERS"
     },
     {
-        "value": "TRICEPS_BRACHII"
+        "value": "TRICEPS BRACHII"
     },
     {
-        "value": "WRIST_EXTENSORS"
+        "value": "WRIST EXTENSORS"
     },
     {
-        "value": "WRIST_FLEXORS"
+        "value": "WRIST FLEXORS"
     }
 ]

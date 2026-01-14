@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, ClassVar
 from django.db import models
-from pydantic import BaseModel, AnyHttpUrl
+from pydantic import AnyHttpUrl, BaseModel, validator, field_validator
 
 from .body_part import BodyPart
 from .category import Category
