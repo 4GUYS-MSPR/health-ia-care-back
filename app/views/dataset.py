@@ -1,11 +1,16 @@
 from pydantic import ValidationError
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, JSONParser
 
+from app.models.body_part import BodyPart
+from app.models.category import Category
+from app.models.equipment import Equipment
 from app.models.exercice import ExerciceScheme
+from app.models.muscle import Muscle
+from app.utils.validation import validateFieldsData
+from app.utils.response import JsonResponse
 
 class DataImportViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
@@ -17,26 +22,34 @@ class DataImportViewSet(viewsets.ViewSet):
         file = request.FILES.get('file')
 
         if not file and not request.data:
-            return Response(
-                {"detail": "No data"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return JsonResponse.errors("No data")
 
         data = request.data
         if not isinstance(data, list):
             data = [data]
 
         errors = []
-        valid_data = []
+        exercices = []
 
         for _, item in enumerate(data):
             try:
                 scheme = ExerciceScheme(**item)
-                valid_data.append(scheme.model_dump_json())
+                exercices.append(scheme)
             except ValidationError as e:
                 errors.append(e.json())
 
         if errors:
-            return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse.errors(errors)
         else:
-            return Response({"data": valid_data}, status=status.HTTP_200_OK)
+            fields = [
+                {"name": "targetMuscles", "model": Muscle, "enum": True},
+                {"name": "secondaryMuscles", "model": Muscle, "enum": True},
+                {"name": "equipments", "model": Equipment, "enum": True},
+                {"name": "bodyParts", "model": BodyPart, "enum": True},
+                {"name": "exerciseType", "model": Category, "enum": False},
+            ]
+            invalidValue = validateFieldsData(exercices, fields)
+            if invalidValue:
+                return JsonResponse.errors(invalidValue)
+            else:
+                return JsonResponse.success({"message": "All good !"})
