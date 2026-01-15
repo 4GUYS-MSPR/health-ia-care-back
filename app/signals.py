@@ -4,6 +4,6 @@ from django.dispatch import receiver
 from django.conf import settings
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_user_token(instance=None, created=False):
+def create_user_token(sender, instance=None, created=False, **kwargs): # pylint: disable=unused-argument
     if created:
         Token.objects.create(user=instance)
