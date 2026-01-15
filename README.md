@@ -25,24 +25,21 @@ After clone this repo, you have to rename & `.env.example` as `.env` and fill it
 You should have docker installed.
 | System            | Lien / Command                             |
 |-------------------|--------------------------------------------|
-| Linux / MacOS     | `curl https://get.docker.com \| bash`<br>https://docs.docker.com/desktop/setup/install/windows-install/ |
+| Linux             | `curl https://get.docker.com \| bash`      |
 | MacOS             | https://docs.docker.com/desktop/setup/install/mac-install/ |
 | Windows           | https://docs.docker.com/desktop/setup/install/windows-install/ |
 
-### First usage
-To execute next commands, here `base`:
-```sh
-make run cmd=<cmd>                                       # Linux / MacOS
-docker exec -it health-ia-api python manage.py <cmd>     # Windows
-```
-
-Prepare your database. Create your super user with `<base> createsuperuser`.<br>
-Then seed static informations with `<base> seed`.
+Then, juste run `up` command bellow.
 
 ### HealthIA
-Run project using `run` command.<br>
-You can now available to use all commands.<br>
-<span style="color: red">WARNING:</span><span style="color: grey"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
+#### Default Credentials
+| Identifier | Value   |
+|------------|---------|
+| Username   | `admin` |
+| password   | `admin` |
+
+<span style="color: gold">WARNING</span> : <span style="color: grey"> **Don't forget to change admin password !**</span><br>
+<span style="color: gold">WARNING</span> : <span style="color: grey"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
 
 ## Commands
 
@@ -51,6 +48,6 @@ You can now available to use all commands.<br>
 | up                  | `make up`            | `docker compose up -d`            |
 | reload              | `make reload`        | `docker compose up -d --build`    |
 | down                | `make down`          | `docker compose down`             |
-| migrate             | `make migrate`       | `docker exec -it health-ia-api python manage.py makemigrations app && docker exec -it health-ia-api python manage.py migrate` |
+| migration           | `make migration`     | `POSTGRES_HOST=localhost python manage.py makemigrations app` |
 | run                 | `make run cmd=<cmd>` | `docker exec -it health-ia-api python manage.py <cmd>` |
 | help                | `make help`          | /                                 |

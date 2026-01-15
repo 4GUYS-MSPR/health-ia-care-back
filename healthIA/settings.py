@@ -23,16 +23,17 @@ for x in ENV_NEEDS:
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 INSTALLED_APPS = [
+    'jazzmin',
+    'drf_redesign',
+    'app.apps.HealIaAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'jazzmin',
-    'app.apps.HealIaAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
 ]
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -59,8 +59,9 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API documentation for HealthIA',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    #A modifier en production?
-   # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAdminUser'],
+    'SERVE_PERMISSIONS': [
+        'rest_framework.permissions.IsAdminUser'
+    ],
 }
 
 JAZZMIN_SETTINGS = {
@@ -127,9 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 USE_I18N = True
-USE_TZ = True
+USE_TZ = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

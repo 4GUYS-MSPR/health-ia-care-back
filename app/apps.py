@@ -5,4 +5,4 @@ class HealIaAppConfig(AppConfig):
     name = 'app'
 
     def ready(self):
-        import app.signals  # pylint: disable=unused-import
+        import app.signals # pylint: disable=unused-import

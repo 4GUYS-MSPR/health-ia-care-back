@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import models
+from loguru import logger
 
 from app.models.body_part import BodyPart
 from app.models.category import Category
@@ -25,7 +26,16 @@ class SeedFile:
 class Command(BaseCommand):
     help = "Seed database"
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--logs',
+            type=bool,
+            help='Display logs',
+            default=True
+        )
+
     def handle(self, *args, **options):
+        logs = options.get('logs')
         try:
             seeders: list[SeedFile] = [
                 SeedFile(model=BodyPart, file='body_part.json'),
@@ -39,19 +49,22 @@ class Command(BaseCommand):
             for seeder in seeders:
                 ok = 0
                 ko = []
-                self.stdout.write(self.style.MIGRATE_HEADING(f"Processing {seeder.model._meta.model_name}:"))
+                if logs:
+                    logger.info(f"Processing {seeder.model._meta.model_name}:")
                 with open(seeder.file, 'r', encoding='utf-8') as data:
                     for row in json.load(data):
                         try:
                             seeder.model.objects.get_or_create(**row)
                             ok+=1
-                        except Exception as e:
+                        except Exception:
                             ko.append(row)
-                            self.stdout.write(self.style.ERROR(e))
-                self.stdout.write(self.style.SUCCESS(f"    - {ok} elements inserted"))
-                if len(ko) > 0:
-                    self.stdout.write(self.style.ERROR(f"   - {len(ko)} errors:"))
-                    for error in ko:
-                        self.stdout.write(self.style.ERROR(f"       \n- {json.dumps(error)}"))
+                if logs:
+                    logger.success(f"    {ok} elements inserted")
+                    if len(ko) > 0:
+                        logger.error(f"    {len(ko)} errors:")
+                        for error in ko:
+                            logger.error(f"     - {json.dumps(error)}")
+                elif len(ko) > 0:
+                    logger.error(f"{len(ko)} errors on model: {seeder.model._meta.model_name}")
         except CommandError as e:
-            self.stdout.write(e)
+            logger.error(e)

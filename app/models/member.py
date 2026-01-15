@@ -14,7 +14,7 @@ class Member(models.Model):
     workout_frequency = models.IntegerField()
 
     client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT_SPECIFIED', related_name='genders')
+    gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT SPECIFIED', related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
 

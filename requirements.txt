@@ -2,10 +2,13 @@ django
 django-filter
 django-jazzmin
 djangorestframework
+drf-redesign
+drf-spectacular
 gunicorn
+loguru
 markdown
 psycopg2-binary
+pydantic
 pylint
 python-dotenv
 whitenoise
-drf-spectacular

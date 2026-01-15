@@ -9,13 +9,13 @@
         "value": "BARBELL"
     },
     {
-        "value": "BATTLING_ROPE"
+        "value": "BATTLING ROPE"
     },
     {
         "value": "BODY WEIGHT"
     },
     {
-        "value": "BOSU_BALL"
+        "value": "BOSU BALL"
     },
     {
         "value": "CABLE"
@@ -24,7 +24,7 @@
         "value": "DUMBBELL"
     },
     {
-        "value": "EZ_BARBELL"
+        "value": "EZ BARBELL"
     },
     {
         "value": "HAMMER"
@@ -33,19 +33,19 @@
         "value": "KETTLEBELL"
     },
     {
-        "value": "LEVERAGE_MACHINE"
+        "value": "LEVERAGE MACHINE"
     },
     {
-        "value": "MEDICINE_BALL"
+        "value": "MEDICINE BALL"
     },
     {
-        "value": "OLYMPIC_BARBELL"
+        "value": "OLYMPIC BARBELL"
     },
     {
         "value": "POWER SLED"
     },
     {
-        "value": "RESISTANCE_BAND"
+        "value": "RESISTANCE BAND"
     },
     {
         "value": "ROLL"
@@ -69,15 +69,15 @@
         "value": "SUSPENSION"
     },
     {
-        "value": "TRAP_BAR"
+        "value": "TRAP BAR"
     },
     {
-        "value": "VIBRATE_PLATE"
+        "value": "VIBRATE PLATE"
     },
     {
         "value": "WEIGHTED"
     },
     {
-        "value": "WHEEL_ROLLER"
+        "value": "WHEEL ROLLER"
     }
 ]
