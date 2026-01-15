@@ -1,8 +1,6 @@
 from django.utils.module_loading import import_string
 
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import JSONParser
 
 from app.imports.request import ImportRequest
@@ -10,8 +8,6 @@ from app.utils.validation import validate_request
 from app.utils.response import JsonResponse
 
 class DataImportViewSet(viewsets.ViewSet):
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAdminUser]
 
     parser_classes = [JSONParser]
 

@@ -9,7 +9,7 @@ def validate_fields_fata(data_list, fields: list[dict]) -> dict:
             if field_value is None:
                 continue
 
-            if not f["enum"]:
+            if not f["is_list"]:
                 if not data[f["name"]] in valid_data:
                     add_to_dict(invalid, f["name"], data[f["name"]])
             else:

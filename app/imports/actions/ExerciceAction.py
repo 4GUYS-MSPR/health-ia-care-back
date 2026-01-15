@@ -16,11 +16,11 @@ class ExerciceAction(BaseAction):
 
     def handle(self, data):
         fields = [
-            {"name": "targetMuscles", "model": Muscle, "enum": True},
-            {"name": "secondaryMuscles", "model": Muscle, "enum": True},
-            {"name": "equipments", "model": Equipment, "enum": True},
-            {"name": "bodyParts", "model": BodyPart, "enum": True},
-            {"name": "exerciseType", "model": Category, "enum": False},
+            {"name": "targetMuscles", "model": Muscle, "is_list": True},
+            {"name": "secondaryMuscles", "model": Muscle, "is_list": True},
+            {"name": "equipments", "model": Equipment, "is_list": True},
+            {"name": "bodyParts", "model": BodyPart, "is_list": True},
+            {"name": "exerciseType", "model": Category, "is_list": False},
         ]
         invalid_value = validate_fields_fata(data, fields)
         if invalid_value:

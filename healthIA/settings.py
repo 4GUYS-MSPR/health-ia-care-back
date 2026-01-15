@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -60,8 +59,9 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API documentation for HealthIA',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    #A modifier en production?
-   # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAdminUser'],
+    'SERVE_PERMISSIONS': [
+        'rest_framework.permissions.IsAdminUser'
+    ],
 }
 
 JAZZMIN_SETTINGS = {

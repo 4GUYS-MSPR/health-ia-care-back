@@ -25,16 +25,21 @@ After clone this repo, you have to rename & `.env.example` as `.env` and fill it
 You should have docker installed.
 | System            | Lien / Command                             |
 |-------------------|--------------------------------------------|
-| Linux / MacOS     | `curl https://get.docker.com \| bash`<br>https://docs.docker.com/desktop/setup/install/windows-install/ |
+| Linux             | `curl https://get.docker.com \| bash`      |
 | MacOS             | https://docs.docker.com/desktop/setup/install/mac-install/ |
 | Windows           | https://docs.docker.com/desktop/setup/install/windows-install/ |
 
 Then, juste run `up` command bellow.
 
 ### HealthIA
-Run project using `run` command.<br>
-You can now available to use all commands.<br>
-<span style="color: red">WARNING:</span><span style="color: grey"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
+#### Default Credentials
+| Identifier | Value   |
+|------------|---------|
+| Username   | `admin` |
+| password   | `admin` |
+
+<span style="color: gold">WARNING</span> : <span style="color: grey"> **Don't forget to change admin password !**</span><br>
+<span style="color: gold">WARNING</span> : <span style="color: grey"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
 
 ## Commands
 

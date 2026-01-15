@@ -4,7 +4,7 @@ from rest_framework import routers
 from rest_framework.authtoken import views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from app.serializers.user import UserViewSet
+from app.views.users import UserViewSet
 from app.views.dataset import DataImportViewSet
 
 router = routers.DefaultRouter()
