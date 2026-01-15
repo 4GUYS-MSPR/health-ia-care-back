@@ -4,7 +4,7 @@ from app.models.equipment import Equipment
 from app.models.exercice import ExerciceScheme
 from app.models.muscle import Muscle
 
-from app.utils.validation import validateFieldsData
+from app.utils.validation import validate_fields_fata
 from app.utils.response import JsonResponse
 
 from . import BaseAction
@@ -22,7 +22,7 @@ class ExerciceAction(BaseAction):
             {"name": "bodyParts", "model": BodyPart, "enum": True},
             {"name": "exerciseType", "model": Category, "enum": False},
         ]
-        invalidValue = validateFieldsData(data, fields)
-        if invalidValue:
-            return JsonResponse.errors({"count": len(invalidValue)})
+        invalid_value = validate_fields_fata(data, fields)
+        if invalid_value:
+            return JsonResponse.errors({"count": len(invalid_value)})
         return JsonResponse.success({"message": "All good !"})

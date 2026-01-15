@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import JSONParser
 
 from app.imports.request import ImportRequest
-from app.utils.validation import validateRequest
+from app.utils.validation import validate_request
 from app.utils.response import JsonResponse
 
 class DataImportViewSet(viewsets.ViewSet):
@@ -18,7 +18,7 @@ class DataImportViewSet(viewsets.ViewSet):
     def create(self, request):
         if not isinstance(request.data, dict):
             return JsonResponse.errors("dict excepted")
-        validated = validateRequest(ImportRequest, request.data)
+        validated = validate_request(ImportRequest, request.data)
 
         data = validated.data
         classname = validated.classname.value

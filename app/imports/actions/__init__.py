@@ -4,12 +4,12 @@ from app.utils.response import JsonResponse
 
 class BaseAction(ABC):
 
-    def __init__(self, scheme: BaseModel):
+    def __init__(self, scheme: type[BaseModel]):
         self.scheme = scheme
 
     @abstractmethod
     def handle(self, data):
-        return JsonResponse.notImplemented()
+        return JsonResponse.not_implemented()
 
     def validate(self, data: list):
         errors = []
@@ -20,7 +20,8 @@ class BaseAction(ABC):
                 valid.append(scheme)
             except ValidationError as e:
                 errors.append(e.json())
-        return errors, valid
+        return valid, errors
 
-    def response(self, data: dict, code: int):
+    @staticmethod
+    def response(data: dict, code: int):
         return JsonResponse.response(data, code)

@@ -3,6 +3,7 @@ django-filter
 django-jazzmin
 djangorestframework
 drf-redesign
+drf-spectacular
 gunicorn
 loguru
 markdown
@@ -11,4 +12,3 @@ pydantic
 pylint
 python-dotenv
 whitenoise
-drf-spectacular
