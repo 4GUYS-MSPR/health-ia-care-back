@@ -32,7 +32,8 @@ class ExerciceScheme(BaseModel):
     targetMuscles: List[str]
 
     @field_validator("imageUrl")
-    def check_url(cls, v):
+    @staticmethod
+    def check_url(_, v):
         result = urlparse(v)
         if not (result.scheme and result.netloc):
             raise ValueError(f"{v} is not a valid URL")

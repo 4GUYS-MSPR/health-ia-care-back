@@ -33,5 +33,4 @@ class DataImportViewSet(viewsets.ViewSet):
 
         if errors:
             return JsonResponse.errors(errors)
-        else:
-            action.handle(valid_data)
+        return action.handle(valid_data)

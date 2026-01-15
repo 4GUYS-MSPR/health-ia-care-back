@@ -14,3 +14,7 @@ class JsonResponse:
     @staticmethod
     def response(data: dict, code: int):
         return Response(data, status=code)
+
+    @staticmethod
+    def notImplemented():
+        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)

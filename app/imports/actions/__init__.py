@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from app.utils.response import JsonResponse
 from pydantic import BaseModel, ValidationError
+from app.utils.response import JsonResponse
 
 class BaseAction(ABC):
 
@@ -8,8 +8,8 @@ class BaseAction(ABC):
         self.scheme = scheme
 
     @abstractmethod
-    def handle(self):
-        pass
+    def handle(self, data):
+        return JsonResponse.notImplemented()
 
     def validate(self, data: list):
         errors = []

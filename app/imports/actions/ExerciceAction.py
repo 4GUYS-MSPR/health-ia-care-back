@@ -1,17 +1,20 @@
-from . import BaseAction
-
 from app.models.body_part import BodyPart
 from app.models.category import Category
 from app.models.equipment import Equipment
 from app.models.exercice import ExerciceScheme
 from app.models.muscle import Muscle
 
+from app.utils.validation import validateFieldsData
+from app.utils.response import JsonResponse
+
+from . import BaseAction
+
 class ExerciceAction(BaseAction):
 
     def __init__(self):
         super().__init__(ExerciceScheme)
 
-    def handle(self):
+    def handle(self, data):
         fields = [
             {"name": "targetMuscles", "model": Muscle, "enum": True},
             {"name": "secondaryMuscles", "model": Muscle, "enum": True},
@@ -19,8 +22,7 @@ class ExerciceAction(BaseAction):
             {"name": "bodyParts", "model": BodyPart, "enum": True},
             {"name": "exerciseType", "model": Category, "enum": False},
         ]
-        invalidValue = validateFieldsData(exercices, fields)
+        invalidValue = validateFieldsData(data, fields)
         if invalidValue:
             return JsonResponse.errors({"count": len(invalidValue)})
-        else:
-            return JsonResponse.success({"message": "All good !"})
+        return JsonResponse.success({"message": "All good !"})
