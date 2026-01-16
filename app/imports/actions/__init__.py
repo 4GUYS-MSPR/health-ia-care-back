@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, ValidationError
+
+from django.db import transaction
+
 from app.utils.response import JsonResponse
 
 class BaseAction(ABC):
@@ -8,6 +11,7 @@ class BaseAction(ABC):
         self.scheme = scheme
 
     @abstractmethod
+    @transaction.atomic
     def handle(self, data):
         return JsonResponse.not_implemented()
 
