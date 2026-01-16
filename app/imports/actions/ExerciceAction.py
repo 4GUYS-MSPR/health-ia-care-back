@@ -24,7 +24,7 @@ class ExerciceAction(BaseAction):
         ]
         invalid_value = validate_fields_fata(data, fields)
         if invalid_value:
-            return JsonResponse.errors({"count": len(invalid_value)})
+            return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
             bodyParts = BodyPart.objects.filter(value__in=scheme.bodyParts)

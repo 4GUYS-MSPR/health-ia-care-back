@@ -1,5 +1,6 @@
 def validate_fields_fata(data_list, fields: list[dict]) -> dict:
     invalid = {}
+    index = 1
     for f in fields:
         valid_data = [r.value for r in f["model"].objects.all()]
         for data in data_list:
@@ -10,19 +11,22 @@ def validate_fields_fata(data_list, fields: list[dict]) -> dict:
                 continue
 
             if not f["is_list"]:
-                if not data[f["name"]] in valid_data:
-                    add_to_dict(invalid, f["name"], data[f["name"]])
+                if not data[f["name"]].upper() in valid_data:
+                    add_to_dict(invalid, index, f["name"], data[f["name"]].upper())
             else:
                 for e in data[f["name"]]:
-                    if not e in valid_data:
-                        add_to_dict(invalid, f["name"], e)
+                    if not e.upper() in valid_data:
+                        add_to_dict(invalid, index, f["name"], e.upper())
+        index+=1
     return invalid
 
-def add_to_dict(d: dict, name, value):
-    if name in d.keys():
-        d[name].append(value)
+def add_to_dict(d: dict, index: int, name: str, value):
+    if not index in d.keys():
+        d[index] = {}
+    if name in d[index].keys():
+        d[index][name].append(value)
     else:
-        d[name] = [value]
+        d[index][name] = [value]
 
 def validate_request(model, request):
     return model(**request)

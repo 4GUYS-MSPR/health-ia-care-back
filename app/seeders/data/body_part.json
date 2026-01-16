@@ -3,13 +3,31 @@
         "value": "BACK"
     },
     {
+        "value": "BICEPS"
+    },
+    {
         "value": "CALVES"
     },
     {
         "value": "CHEST"
     },
     {
+        "value": "FACE"
+    },
+    {
+        "value": "FEET"
+    },
+    {
         "value": "FOREARMS"
+    },
+    {
+        "value": "FULL BODY"
+    },
+    {
+        "value": "HAMSTRINGS"
+    },
+    {
+        "value": "HANDS"
     },
     {
         "value": "HIPS"
@@ -18,39 +36,21 @@
         "value": "NECK"
     },
     {
+        "value": "QUADRICEPS"
+    },
+    {
         "value": "SHOULDERS"
     },
     {
         "value": "THIGHS"
     },
     {
-        "value": "WAIST"
-    },
-    {
-        "value": "HANDS"
-    },
-    {
-        "value": "FEET"
-    },
-    {
-        "value": "FACE"
-    },
-    {
-        "value": "FULL BODY"
-    },
-    {
-        "value": "BICEPS"
+        "value": "TRICEPS"
     },
     {
         "value": "UPPER ARMS"
     },
     {
-        "value": "TRICEPS"
-    },
-    {
-        "value": "HAMSTRINGS"
-    },
-    {
-        "value": "QUADRICEPS"
+        "value": "WAIST"
     }
 ]

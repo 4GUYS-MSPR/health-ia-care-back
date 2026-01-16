@@ -1,12 +1,15 @@
 [
     {
-        "value": "ADDUCTOR LONGUS"
-    },
-    {
         "value": "ADDUCTOR BREVIS"
     },
     {
+        "value": "ADDUCTOR LONGUS"
+    },
+    {
         "value": "ADDUCTOR MAGNUS"
+    },
+    {
+        "value": "ANTERIOR DELTOID"
     },
     {
         "value": "BICEPS BRACHII"
@@ -21,13 +24,7 @@
         "value": "DEEP HIP EXTERNAL ROTATORS"
     },
     {
-        "value": "ANTERIOR DELTOID"
-    },
-    {
-        "value": "LATERAL DELTOID"
-    },
-    {
-        "value": "POSTERIOR DELTOID"
+        "value": "DELTOID ANTERIOR"
     },
     {
         "value": "ERECTOR SPINAE"
@@ -57,6 +54,9 @@
         "value": "INFRASPINATUS"
     },
     {
+        "value": "LATERAL DELTOID"
+    },
+    {
         "value": "LATISSIMUS DORSI"
     },
     {
@@ -78,6 +78,9 @@
         "value": "POPLITEUS"
     },
     {
+        "value": "POSTERIOR DELTOID"
+    },
+    {
         "value": "QUADRICEPS"
     },
     {
@@ -85,9 +88,6 @@
     },
     {
         "value": "SARTORIUS"
-    },
-    {
-        "value": "QUADRICEPS"
     },
     {
         "value": "SERRATUS ANTE"
