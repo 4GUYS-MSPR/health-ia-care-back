@@ -27,11 +27,13 @@ class ExerciceAction(BaseAction):
             return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
-            bodyParts = BodyPart.objects.filter(value__in=scheme.bodyParts)
-            equipments = Equipment.objects.filter(value__in=scheme.equipments)
-            category = Category.objects.get(value=scheme.exerciseType)
-            secondaryMuscles = Muscle.objects.filter(value__in=scheme.secondaryMuscles)
-            targetMuscles = Muscle.objects.filter(value__in=scheme.targetMuscles)
+            from loguru import logger
+            logger.debug(scheme.model_dump())
+            bodyParts = BodyPart.objects.filter(value__in=self.upper(scheme.bodyParts))
+            equipments = Equipment.objects.filter(value__in=self.upper(scheme.equipments))
+            category = Category.objects.get(value=self.upper(scheme.exerciseType))
+            secondaryMuscles = Muscle.objects.filter(value__in=self.upper(scheme.secondaryMuscles))
+            targetMuscles = Muscle.objects.filter(value__in=self.upper(scheme.targetMuscles))
 
             exercice = Exercice.objects.create(
                 image_url=scheme.imageUrl,

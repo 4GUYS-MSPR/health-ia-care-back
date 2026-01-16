@@ -1,3 +1,5 @@
+import csv
+import io
 import json
 
 from django.utils.module_loading import import_string
@@ -47,8 +49,11 @@ class DataImportViewSet(viewsets.ViewSet):
 
         if filename.endswith(".json"):
             return self._parse_json_file(uploaded_file, request)
+        
+        if filename.endswith(".csv"):
+            return self._parse_csv_file(uploaded_file, request)
 
-        raise ValueError("Unsupported file format (json only)")
+        raise ValueError("Unsupported file format (json or csv only)")
 
     def _parse_json_file(self, file, request):
         try:
@@ -58,5 +63,26 @@ class DataImportViewSet(viewsets.ViewSet):
 
         return {
             "classname": request.data.get("classname"),
+            "data": data,
+        }
+
+    def _parse_csv_file(self, file, request):
+        try:
+            decoded = file.read().decode("utf-8")
+            reader = csv.DictReader(io.StringIO(decoded))
+
+            classname = request.data.get("classname")
+            class_path = f"app.imports.actions.{classname}.{classname}"
+            try:
+                cls = import_string(class_path)
+            except ImportError:
+                return JsonResponse.response({"message": f"{classname} not found."}, 404)
+            action = cls()
+            data = [action.scheme().model_validate(row).model_dump() for row in reader]
+        except Exception as e:
+            raise ValueError(f"Invalid CSV file: {str(e)}") from e
+
+        return {
+            "classname": classname,
             "data": data,
         }

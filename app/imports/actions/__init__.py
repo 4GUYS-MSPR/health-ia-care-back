@@ -8,7 +8,7 @@ from app.utils.response import JsonResponse
 class BaseAction(ABC):
 
     def __init__(self, scheme: type[BaseModel]):
-        self.scheme = scheme
+        self._scheme = scheme
 
     @abstractmethod
     @transaction.atomic
@@ -20,7 +20,7 @@ class BaseAction(ABC):
         valid = []
         for _, item in enumerate(data):
             try:
-                scheme = self.scheme(**item)
+                scheme = self._scheme(**item)
                 valid.append(scheme)
             except ValidationError as e:
                 errors.append(e.json())
@@ -29,3 +29,11 @@ class BaseAction(ABC):
     @staticmethod
     def response(data: dict, code: int):
         return JsonResponse.response(data, code)
+
+    def scheme(self):
+        return self._scheme
+
+    def upper(self, value: str | list[str]):
+        if isinstance(value, list):
+            return [v.upper() for v in value]
+        return value.upper()
