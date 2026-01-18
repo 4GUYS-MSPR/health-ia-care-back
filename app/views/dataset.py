@@ -7,7 +7,7 @@ from django.utils.module_loading import import_string
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser, MultiPartParser
 
-from app.imports.request import ImportRequest
+from app.imports.request import ImportRequest, PartialImportRequest
 from app.utils.validation import validate_request
 from app.utils.response import JsonResponse
 
@@ -71,7 +71,9 @@ class DataImportViewSet(viewsets.ViewSet):
             decoded = file.read().decode("utf-8")
             reader = csv.DictReader(io.StringIO(decoded))
 
-            classname = request.data.get("classname")
+            validated = validate_request(PartialImportRequest, request)
+
+            classname = validated.classname
             class_path = f"app.imports.actions.{classname}.{classname}"
             try:
                 cls = import_string(class_path)

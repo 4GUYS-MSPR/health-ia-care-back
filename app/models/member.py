@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from pydantic import BaseModel, PositiveFloat, PositiveInt
+
 from .gender import Gender
 from .level import Level
 from .subscription import Subscription
@@ -24,3 +26,15 @@ class Member(models.Model):
 
     def __str__(self):
         return self.get_client_name()
+
+class MemberScheme(BaseModel):
+    bmi: PositiveFloat
+    fat_percentage: PositiveFloat
+    height: PositiveFloat
+    weight: PositiveFloat
+    workout_frequency: PositiveInt
+
+    client: PositiveInt
+    gender: str
+    level: str
+    subscription: str

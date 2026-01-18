@@ -7,3 +7,6 @@ class ActionEnum(str, Enum):
 class ImportRequest(BaseModel):
     classname: ActionEnum
     data: list[object]
+
+class PartialImportRequest(BaseModel):
+    classname: ActionEnum
