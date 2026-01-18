@@ -6,10 +6,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from app.views.users import UserViewSet
 from app.views.dataset import DataImportViewSet
+from app.views.members import MemberViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'import', DataImportViewSet, basename='import')
+router.register(r'members', MemberViewSet, basename='members')
 
 urlpatterns = [
     path('', include(router.urls)),
