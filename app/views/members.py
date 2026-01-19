@@ -10,6 +10,6 @@ class MemberViewSet(ModelViewSet):
 
     def get_queryset(self):
         current_user = self.request.user
-        if current_user.is_staff:
+        if current_user.is_superuser:
             return Member.objects.all()
-        return Member.objects.filter(active=True, client=current_user)
+        return Member.objects.filter(client=current_user)
