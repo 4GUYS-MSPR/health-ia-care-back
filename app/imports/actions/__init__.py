@@ -4,11 +4,13 @@ from pydantic import BaseModel, ValidationError
 from django.db import transaction
 
 from app.utils.response import JsonResponse
+from app.utils.types import AnyUser
 
 class BaseAction(ABC):
 
-    def __init__(self, scheme: type[BaseModel]):
+    def __init__(self, scheme: type[BaseModel], user: AnyUser):
         self._scheme = scheme
+        self.user = user
 
     @abstractmethod
     @transaction.atomic

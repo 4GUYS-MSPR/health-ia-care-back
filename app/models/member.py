@@ -16,7 +16,7 @@ class Member(models.Model):
     workout_frequency = models.IntegerField()
 
     client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    gender = models.ForeignKey(Gender, on_delete=models.SET_DEFAULT, default='NOT SPECIFIED', related_name='genders')
+    gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True, related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
 
@@ -34,7 +34,6 @@ class MemberScheme(BaseModel):
     weight: PositiveFloat
     workout_frequency: PositiveInt
 
-    client: PositiveInt
-    gender: str
-    level: str
-    subscription: str
+    gender: str = "NOT SPECIFIED"
+    level: int
+    subscription: str = "FREE"

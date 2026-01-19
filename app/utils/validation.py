@@ -1,4 +1,6 @@
-def validate_fields_fata(data_list, fields: list[dict]) -> dict:
+from pydantic import BaseModel
+
+def validate_fields_data(data_list: list[BaseModel], fields: list[dict]) -> dict:
     invalid = {}
     index = 1
     for f in fields:

@@ -1,8 +1,9 @@
+from datetime import time
+from typing import List
+
 from django.db import models
 
-from datetime import time
 from pydantic import BaseModel, PositiveFloat, PositiveInt
-from typing import List
 
 from .exercice import Exercice
 from .member import Member

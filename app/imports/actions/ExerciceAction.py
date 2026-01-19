@@ -4,15 +4,16 @@ from app.models.equipment import Equipment
 from app.models.exercice import Exercice, ExerciceScheme
 from app.models.muscle import Muscle
 
-from app.utils.validation import validate_fields_fata
 from app.utils.response import JsonResponse
+from app.utils.types import AnyUser
+from app.utils.validation import validate_fields_data
 
 from . import BaseAction
 
 class ExerciceAction(BaseAction):
 
-    def __init__(self):
-        super().__init__(ExerciceScheme)
+    def __init__(self, user: AnyUser):
+        super().__init__(ExerciceScheme, user)
 
     def handle(self, data: list[ExerciceScheme]):
         fields = [
@@ -22,13 +23,14 @@ class ExerciceAction(BaseAction):
             {"name": "bodyParts", "model": BodyPart, "is_list": True},
             {"name": "exerciseType", "model": Category, "is_list": False},
         ]
-        invalid_value = validate_fields_fata(data, fields)
+        invalid_value = validate_fields_data(data, fields)
         if invalid_value:
             return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
             from loguru import logger
             logger.debug(scheme.model_dump())
+
             bodyParts = BodyPart.objects.filter(value__in=self.upper(scheme.bodyParts))
             equipments = Equipment.objects.filter(value__in=self.upper(scheme.equipments))
             category = Category.objects.get(value=self.upper(scheme.exerciseType))

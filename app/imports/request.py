@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class ActionEnum(str, Enum):
     ExerciceAction = 'ExerciceAction'
+    MemberAction = 'MemberAction'
 
 class ImportRequest(BaseModel):
     classname: ActionEnum
