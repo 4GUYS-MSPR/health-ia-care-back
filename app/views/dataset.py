@@ -9,10 +9,11 @@ from django.utils.module_loading import import_string
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser, MultiPartParser
 
+from app.imports.actions import BaseAction
 from app.imports.request import ImportRequest, PartialImportRequest
+from app.logs.logger import logger
 from app.utils.validation import validate_request
 from app.utils.response import JsonResponse
-from app.imports.actions import BaseAction
 
 class DataImportViewSet(viewsets.ViewSet):
 
@@ -87,6 +88,7 @@ class DataImportViewSet(viewsets.ViewSet):
             action: BaseAction = cls(request.user)
             data = [action.scheme().model_validate(row).model_dump() for row in reader]
         except Exception as e:
+            logger.exception(f"Invalid CSV file")
             raise ValueError(f"Invalid CSV file: {str(e)}") from e
 
         return {
