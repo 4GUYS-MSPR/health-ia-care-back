@@ -16,10 +16,10 @@ router.register(r'members', MemberViewSet, basename='members')
 router.register(r'exercices', ExerciceViewSet, basename='exercices')
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('token/', views.obtain_auth_token),
+    path('api/', include(router.urls)),
+    path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/token/', views.obtain_auth_token),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui')
 ]
