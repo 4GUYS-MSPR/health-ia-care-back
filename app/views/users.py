@@ -9,7 +9,7 @@ from app.serializers.user import UserSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
     def get_permissions(self):
         if self.action in ["me"]:
             return [IsAuthenticated()]
