@@ -9,8 +9,18 @@ from app.models.setup import Setup
 class Command(BaseCommand):
     help = "Setup app"
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            type=bool,
+            help='Force setup',
+            default=False
+        )
+
     def handle(self, *args, **options):
-        if Setup.objects.count() == 0:
+        force = options.get('force')
+
+        if Setup.objects.count() == 0 or force:
             try:
                 logger.info("Seeding Database")
                 call_command("seed", logs=False)

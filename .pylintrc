@@ -14,3 +14,4 @@ disable=
     no-member,
     broad-exception-caught,
     too-many-ancestors,
+    duplicate-code,

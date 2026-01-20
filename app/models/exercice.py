@@ -38,3 +38,12 @@ class ExerciceScheme(BaseModel):
         if not (result.scheme and result.netloc):
             raise ValueError(f"{v} is not a valid URL")
         return v
+
+    @field_validator('equipments', 'bodyParts', 'targetMuscles', 'secondaryMuscles', mode='before')
+    @classmethod
+    def split_comma_string(cls, v):
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            return [item.strip() for item in v.split(';') if item.strip()]
+        return v

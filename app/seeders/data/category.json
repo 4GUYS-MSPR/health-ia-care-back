@@ -1,12 +1,18 @@
 [
     {
-        "value": "STRENGTH"
+        "value": "AEROBIC"
     },
     {
         "value": "CARDIO"
     },
     {
+        "value": "HIIT"
+    },
+    {
         "value": "PLYOMETRICS"
+    },
+    {
+        "value": "STRENGTH"
     },
     {
         "value": "STRETCHING"
@@ -16,8 +22,5 @@
     },
     {
         "value": "YOGA"
-    },
-    {
-        "value": "AEROBIC"
     }
 ]
