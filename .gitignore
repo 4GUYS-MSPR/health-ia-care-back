@@ -1,5 +1,9 @@
+# DEV
 .venv/
 __pycache__/
-.env
 .idea/
 .DS_Store
+
+# APP
+app/logs/
+.env

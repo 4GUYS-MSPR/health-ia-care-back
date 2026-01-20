@@ -1,7 +1,11 @@
 import os
+import logging
 
 from pathlib import Path
 from dotenv import load_dotenv
+
+from app.logs.handler import InterceptHandler
+
 load_dotenv('.env')
 
 ENV_NEEDS = [
@@ -80,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.logging.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'healthIA.urls'
@@ -126,6 +131,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+}
+
+logging.basicConfig(handlers=[InterceptHandler()], level=0)
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Paris'
