@@ -1,4 +1,4 @@
-age,gender,weight,height,Max_BPM,Avg_BPM,Resting_BPM,Session_Duration (hours),Calories_Burned,Workout_Type,fat_percentage,Water_Intake (liters),workout_frequency,level,bmi
+age,gender,weight,height,max_bpm,avg_bpm,resting_bpm,duration,calories_burned,workout_type,fat_percentage,water_intake,workout_frequency,level,bmi
 25.0,Female,64.3,1.65,183,169.0,67.0,1.28,1783.0,Cardio,20.0,3.2,2.0,3.0,20.59
 32.0,Male,72.4,1.74,189,127.0,60.0,1.4,1090.0,Yoga,16.9,1.6,2.0,1.0,17.68
 28.0,Male,62.4,1.56,193,141.0,55.0,2.0,861.0,Cardio,32.2,3.6,3.0,1.0,18.61
@@ -6,7 +6,7 @@ age,gender,weight,height,Max_BPM,Avg_BPM,Resting_BPM,Session_Duration (hours),Ca
 44.0,Female,45.0,1.53,199,158.0,50.0,0.7,930.0,Strength,21.9,3.6,4.0,1.0,27.74
 20.0,Female,103.4,1.53,180,166.0,56.0,1.28,631.0,HIIT,23.0,3.0,4.0,1.0,19.18
 51.0,Male,79.2,1.85,178,147.0,51.0,1.52,1355.0,Strength,23.2,2.0,4.0,1.0,18.95
-52.0,Female,40.0,1.84,\t182,156.0,56.0,1.2,1258.0,Cardio,25.0,2.0,4.0,2.0,12.32
+52.0,Female,40.0,1.84,182,156.0,56.0,1.2,1258.0,Cardio,25.0,2.0,4.0,2.0,12.32
 35.0,Male,75.7,1.61,192,147.0,52.0,0.92,1211.0,Strength,21.2,2.4,3.0,2.0,23.19
 21.0,Male,76.8,1.75,166,125.0,74.0,1.56,1152.0,Strength,25.1,2.7,3.0,1.0,16.66
 48.0,Female,112.6,1.69,160,162.0,63.0,0.89,1482.0,Cardio,22.6,2.5,4.0,2.0,12.32

@@ -37,7 +37,7 @@ class ExerciceAction(BaseAction):
             secondaryMuscles = Muscle.objects.filter(value__in=self.upper(scheme.secondaryMuscles))
             targetMuscles = Muscle.objects.filter(value__in=self.upper(scheme.targetMuscles))
 
-            exercice = Exercice.objects.create(
+            exercice, _ = Exercice.objects.get_or_create(
                 image_url=scheme.imageUrl,
                 category=category,
             )

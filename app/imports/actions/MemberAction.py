@@ -32,7 +32,8 @@ class MemberAction(BaseAction):
             level = Level.objects.get(pk=scheme.level)
             subscription = Subscription.objects.get(value=self.upper(scheme.subscription))
 
-            Member.objects.create(
+            Member.objects.get_or_create(
+                age=scheme.age,
                 bmi=scheme.bmi,
                 fat_percentage=scheme.fat_percentage,
                 height=scheme.height,

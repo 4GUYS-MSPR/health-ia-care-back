@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class ActionEnum(str, Enum):
     ExerciceAction = 'ExerciceAction'
     MemberAction = 'MemberAction'
+    SessionAction= 'SessionAction'
 
 class ImportRequest(BaseModel):
     classname: ActionEnum

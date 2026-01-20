@@ -2,14 +2,14 @@ from django.contrib import admin
 
 class MemberAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "get_client_name", "gender", "level", "subscription"]
+    list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription"]
     list_filter = ["gender", "level", "subscription"]
     search_fields = ["client__first_name", "client__last_name", "client__username"]
 
     readonly_fields = ["get_client_name"]
 
     fieldsets = [
-        (None, {"fields": ["client", "gender", "level", "subscription"]}),
+        (None, {"fields": ["client", "age", "gender", "level", "subscription"]}),
         ("Data", {"fields": ["bmi", "fat_percentage", "height", "weight", "workout_frequency"]}),
     ]
 

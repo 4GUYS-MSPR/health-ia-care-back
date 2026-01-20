@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from pydantic import BaseModel, PositiveFloat, PositiveInt
+from pydantic import BaseModel, field_validator, PositiveFloat, PositiveInt
 
 from .gender import Gender
 from .level import Level
@@ -9,6 +9,7 @@ from .subscription import Subscription
 
 class Member(models.Model):
 
+    age = models.PositiveIntegerField(null=True)
     bmi = models.FloatField()
     fat_percentage = models.FloatField()
     height = models.FloatField()
@@ -28,6 +29,7 @@ class Member(models.Model):
         return self.get_client_name()
 
 class MemberScheme(BaseModel):
+    age: PositiveInt
     bmi: PositiveFloat
     fat_percentage: PositiveFloat
     height: PositiveFloat
@@ -37,3 +39,8 @@ class MemberScheme(BaseModel):
     gender: str = "NOT SPECIFIED"
     level: int
     subscription: str = "FREE"
+
+    @field_validator("gender")
+    @classmethod
+    def check_gender(cls, v: str):
+        return v if v != "" else "NOT SPECIFIED"
