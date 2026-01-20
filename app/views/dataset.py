@@ -88,7 +88,7 @@ class DataImportViewSet(viewsets.ViewSet):
             action: BaseAction = cls(request.user)
             data = [action.scheme().model_validate(row).model_dump() for row in reader]
         except Exception as e:
-            logger.exception(f"Invalid CSV file")
+            logger.exception("Invalid CSV file")
             raise ValueError(f"Invalid CSV file: {str(e)}") from e
 
         return {
