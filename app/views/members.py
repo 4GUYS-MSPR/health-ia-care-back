@@ -6,7 +6,6 @@ from app.serializers.member import MemberSerializer
 
 class MemberViewSet(ModelViewSet):
     serializer_class = MemberSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         current_user = self.request.user
