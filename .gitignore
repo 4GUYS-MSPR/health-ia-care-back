@@ -5,5 +5,5 @@ __pycache__/
 .DS_Store
 
 # APP
-app/logs/
+app/logs/logs/
 .env
