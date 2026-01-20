@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import models
-from loguru import logger
+from app.logs.logger import logger
 
 from app.models.body_part import BodyPart
 from app.models.category import Category
@@ -67,4 +67,4 @@ class Command(BaseCommand):
                 elif len(ko) > 0:
                     logger.error(f"{len(ko)} errors on model: {seeder.model._meta.model_name}")
         except CommandError as e:
-            logger.error(e)
+            logger.exception(e)

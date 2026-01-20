@@ -2,7 +2,7 @@ import datetime
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from loguru import logger
+from app.logs.logger import logger
 
 from app.models.setup import Setup
 
@@ -30,4 +30,4 @@ class Command(BaseCommand):
                     admin.save()
                 Setup.objects.create(date=datetime.datetime.now())
             except CommandError as e:
-                logger.error(e)
+                logger.exception(e)
