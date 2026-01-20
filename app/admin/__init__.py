@@ -6,8 +6,11 @@ from app.models.session import Session
 from app.models.body_part import BodyPart
 from app.models.category import Category
 from app.models.equipment import Equipment
+from app.models.food import Food
+from app.models.food_category import FoodCategory
 from app.models.gender import Gender
 from app.models.level import Level
+from app.models.meet_type import MeetType
 from app.models.muscle import Muscle
 from app.models.subscription import Subscription
 
@@ -17,8 +20,11 @@ from app.admin.session import SessionAdmin
 from app.admin.body_part import BodyPartAdmin
 from app.admin.category import CategoryAdmin
 from app.admin.equipment import EquipmentAdmin
+from app.admin.food import FoodAdmin
+from app.admin.food_category import FoodCategoryAdmin
 from app.admin.gender import GenderAdmin
 from app.admin.level import LevelAdmin
+from app.admin.meet_type import MeetTypeAdmin
 from app.admin.muscle import MuscleAdmin
 from app.admin.subscription import SubscriptionAdmin
 
@@ -28,7 +34,10 @@ admin.site.register(Session, SessionAdmin)
 admin.site.register(BodyPart, BodyPartAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
+admin.site.register(Food, FoodAdmin)
+admin.site.register(FoodCategory, FoodCategoryAdmin)
 admin.site.register(Gender, GenderAdmin)
 admin.site.register(Level, LevelAdmin)
+admin.site.register(MeetType, MeetTypeAdmin)
 admin.site.register(Muscle, MuscleAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)

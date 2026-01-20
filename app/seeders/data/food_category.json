@@ -1,0 +1,95 @@
+[
+    {
+        "value": "Protein"
+    },
+    {
+        "value": "Dairy"
+    },
+    {
+        "value": "Grain"
+    },
+    {
+        "value": "Beverage"
+    },
+    {
+        "value": "Fruit"
+    },
+    {
+        "value": "Meal/Protein"
+    },
+    {
+        "value": "Protein/Fish"
+    },
+    {
+        "value": "Vegetable"
+    },
+    {
+        "value": "Meal/Vegetarian"
+    },
+    {
+        "value": "Meal/Processed"
+    },
+    {
+        "value": "Nut"
+    },
+    {
+        "value": "Meal/Pasta"
+    },
+    {
+        "value": "Supplement"
+    },
+    {
+        "value": "Grain/Processed"
+    },
+    {
+        "value": "Meal/Legume"
+    },
+    {
+        "value": "Meal/Fish"
+    },
+    {
+        "value": "Dairy/Dessert"
+    },
+    {
+        "value": "Vegetable/Processed"
+    },
+    {
+        "value": "Supplement/Processed"
+    },
+    {
+        "value": "Legume"
+    },
+    {
+        "value": "Vegetable/Condiment"
+    },
+    {
+        "value": "Meal/Seafood"
+    },
+    {
+        "value": "Condiment"
+    },
+    {
+        "value": "Beverage/Meal"
+    },
+    {
+        "value": "Protein/Meat"
+    },
+    {
+        "value": "Dairy-Alt"
+    },
+    {
+        "value": "Beverage/Dairy"
+    },
+    {
+        "value": "Beverage/Dairy-Alt"
+    },
+    {
+        "value": "Meal"
+    },
+    {
+        "value": "Dessert"
+    },
+    {
+        "value": "Condiment/Dairy"
+    }
+]

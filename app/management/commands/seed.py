@@ -8,8 +8,10 @@ from app.logs.logger import logger
 from app.models.body_part import BodyPart
 from app.models.category import Category
 from app.models.equipment import Equipment
+from app.models.food_category import FoodCategory
 from app.models.gender import Gender
 from app.models.level import Level
+from app.models.meet_type import MeetType
 from app.models.muscle import Muscle
 from app.models.subscription import Subscription
 
@@ -41,9 +43,11 @@ class Command(BaseCommand):
                 SeedFile(model=BodyPart, file='body_part.json'),
                 SeedFile(model=Category, file='category.json'),
                 SeedFile(model=Equipment, file='equipment.json'),
+                SeedFile(model=FoodCategory, file='food_category.json'),
                 SeedFile(model=Gender, file='gender.json'),
-                SeedFile(model=Muscle, file='muscle.json'),
+                SeedFile(model=MeetType, file='meet_type.json'),
                 SeedFile(model=Level, file='level.json'),
+                SeedFile(model=Muscle, file='muscle.json'),
                 SeedFile(model=Subscription, file='subscription.json'),
             ]
             for seeder in seeders:
@@ -53,6 +57,7 @@ class Command(BaseCommand):
                     logger.info(f"Processing {seeder.model._meta.model_name}:")
                 with open(seeder.file, 'r', encoding='utf-8') as data:
                     for row in json.load(data):
+                        row["value"] = row["value"].upper()
                         try:
                             seeder.model.objects.get_or_create(**row)
                             ok+=1
