@@ -1,5 +1,4 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
 from app.models import Member
 from app.serializers.member import MemberSerializer
 
