@@ -1,81 +1,6 @@
 [
     {
-        "value": "Protein"
-    },
-    {
-        "value": "Dairy"
-    },
-    {
-        "value": "Grain"
-    },
-    {
         "value": "Beverage"
-    },
-    {
-        "value": "Fruit"
-    },
-    {
-        "value": "Meal/Protein"
-    },
-    {
-        "value": "Protein/Fish"
-    },
-    {
-        "value": "Vegetable"
-    },
-    {
-        "value": "Meal/Vegetarian"
-    },
-    {
-        "value": "Meal/Processed"
-    },
-    {
-        "value": "Nut"
-    },
-    {
-        "value": "Meal/Pasta"
-    },
-    {
-        "value": "Supplement"
-    },
-    {
-        "value": "Grain/Processed"
-    },
-    {
-        "value": "Meal/Legume"
-    },
-    {
-        "value": "Meal/Fish"
-    },
-    {
-        "value": "Dairy/Dessert"
-    },
-    {
-        "value": "Vegetable/Processed"
-    },
-    {
-        "value": "Supplement/Processed"
-    },
-    {
-        "value": "Legume"
-    },
-    {
-        "value": "Vegetable/Condiment"
-    },
-    {
-        "value": "Meal/Seafood"
-    },
-    {
-        "value": "Condiment"
-    },
-    {
-        "value": "Beverage/Meal"
-    },
-    {
-        "value": "Protein/Meat"
-    },
-    {
-        "value": "Dairy-Alt"
     },
     {
         "value": "Beverage/Dairy"
@@ -84,12 +9,90 @@
         "value": "Beverage/Dairy-Alt"
     },
     {
-        "value": "Meal"
+        "value": "Beverage/Meal"
+    },
+    {
+        "value": "Condiment"
+    },
+    {
+        "value": "Condiment/Dairy"
+    },
+    {
+        "value": "Dairy"
+    },
+    {
+        "value": "Dairy-Alt"
+    },
+    {
+        "value": "Dairy/Dessert"
     },
     {
         "value": "Dessert"
     },
     {
-        "value": "Condiment/Dairy"
+        "value": "Fruit"
+    },
+    {
+        "value": "Grain"
+    },
+    {
+        "value": "Grain/Processed"
+    },
+    {
+        "value": "Legume"
+    },
+    {
+        "value": "Meal"
+    },
+    {
+        "value": "Meal/Fish"
+    },
+    {
+        "value": "Meal/Legume"
+    },
+    {
+        "value": "Meal/Pasta"
+    },
+    {
+        "value": "Meal/Processed"
+    },
+    {
+        "value": "Meal/Protein"
+    },
+    {
+        "value": "Meal/Seafood"
+    },
+    {
+        "value": "Meal/Vegetarian"
+    },
+    {
+        "value": "PROTEIN/DAIRY"
+    },
+    {
+        "value": "Nut"
+    },
+    {
+        "value": "Protein"
+    },
+    {
+        "value": "Protein/Fish"
+    },
+    {
+        "value": "Protein/Meat"
+    },
+    {
+        "value": "Supplement"
+    },
+    {
+        "value": "Supplement/Processed"
+    },
+    {
+        "value": "Vegetable"
+    },
+    {
+        "value": "Vegetable/Condiment"
+    },
+    {
+        "value": "Vegetable/Processed"
     }
 ]

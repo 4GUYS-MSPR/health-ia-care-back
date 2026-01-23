@@ -6,7 +6,7 @@ from .food import Food
 from .food_category import FoodCategory
 from .gender import Gender
 from .level import Level
-from .meet_type import MeetType
+from .meal_type import MealType
 from .member import Member
 from .muscle import Muscle
 from .session import Session

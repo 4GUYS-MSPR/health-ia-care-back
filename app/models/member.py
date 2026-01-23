@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from pydantic import BaseModel, field_validator, PositiveFloat, PositiveInt
+from pydantic import BaseModel, field_validator, NonNegativeFloat, NonNegativeInt
 
 from .gender import Gender
 from .level import Level
@@ -29,12 +29,12 @@ class Member(models.Model):
         return self.get_client_name()
 
 class MemberScheme(BaseModel):
-    age: PositiveInt
-    bmi: PositiveFloat
-    fat_percentage: PositiveFloat
-    height: PositiveFloat
-    weight: PositiveFloat
-    workout_frequency: PositiveInt
+    age: NonNegativeInt
+    bmi: NonNegativeFloat
+    fat_percentage: NonNegativeFloat
+    height: NonNegativeFloat
+    weight: NonNegativeFloat
+    workout_frequency: NonNegativeInt
 
     gender: str = "NOT SPECIFIED"
     level: int

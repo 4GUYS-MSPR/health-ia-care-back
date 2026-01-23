@@ -3,7 +3,7 @@ from typing import List
 
 from django.db import models
 
-from pydantic import field_validator, PositiveFloat, PositiveInt
+from pydantic import field_validator, NonNegativeFloat, NonNegativeInt
 
 from .exercice import Exercice
 from .member import Member, MemberScheme
@@ -24,13 +24,13 @@ class Session(models.Model):
         return f"Session {self.pk}"
 
 class SessionScheme(MemberScheme):
-    avg_bpm: PositiveInt
-    calories_burned: PositiveFloat
+    avg_bpm: NonNegativeInt
+    calories_burned: NonNegativeFloat
     duration: time
-    max_bpm: PositiveInt
-    resting_bpm: PositiveInt
-    water_intake: PositiveFloat
-    exercices: List[PositiveInt] = []
+    max_bpm: NonNegativeInt
+    resting_bpm: NonNegativeInt
+    water_intake: NonNegativeFloat
+    exercices: List[NonNegativeInt] = []
 
     @field_validator("duration", mode="before")
     @classmethod

@@ -11,7 +11,7 @@ from app.models.equipment import Equipment
 from app.models.food_category import FoodCategory
 from app.models.gender import Gender
 from app.models.level import Level
-from app.models.meet_type import MeetType
+from app.models.meal_type import MealType
 from app.models.muscle import Muscle
 from app.models.subscription import Subscription
 
@@ -35,21 +35,24 @@ class Command(BaseCommand):
             help='Display logs',
             default=True
         )
+    
+    def get_seeders(self):
+        return [
+            SeedFile(model=BodyPart, file='body_part.json'),
+            SeedFile(model=Category, file='category.json'),
+            SeedFile(model=Equipment, file='equipment.json'),
+            SeedFile(model=FoodCategory, file='food_category.json'),
+            SeedFile(model=Gender, file='gender.json'),
+            SeedFile(model=MealType, file='meal_type.json'),
+            SeedFile(model=Level, file='level.json'),
+            SeedFile(model=Muscle, file='muscle.json'),
+            SeedFile(model=Subscription, file='subscription.json'),
+        ]
 
     def handle(self, *args, **options):
         logs = options.get('logs')
         try:
-            seeders: list[SeedFile] = [
-                SeedFile(model=BodyPart, file='body_part.json'),
-                SeedFile(model=Category, file='category.json'),
-                SeedFile(model=Equipment, file='equipment.json'),
-                SeedFile(model=FoodCategory, file='food_category.json'),
-                SeedFile(model=Gender, file='gender.json'),
-                SeedFile(model=MeetType, file='meet_type.json'),
-                SeedFile(model=Level, file='level.json'),
-                SeedFile(model=Muscle, file='muscle.json'),
-                SeedFile(model=Subscription, file='subscription.json'),
-            ]
+            seeders: list[SeedFile] = self.get_seeders()
             for seeder in seeders:
                 ok = 0
                 ko = []

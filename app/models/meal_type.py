@@ -1,6 +1,6 @@
 from django.db import models
 
-class MeetType(models.Model):
+class MealType(models.Model):
 
     value = models.CharField(max_length=255, blank=False, null=False)
 
