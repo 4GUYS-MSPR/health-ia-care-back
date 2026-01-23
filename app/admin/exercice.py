@@ -8,12 +8,12 @@ from app.models.session import Session
 
 class ExerciceAdmin(admin.ModelAdmin):
 
-    list_display = ['pk', 'category', 'display_image']
-    list_filter = ['category']
+    list_display = ["pk", "category", "display_image"]
+    list_filter = ["category"]
 
-    readonly_fields = ['display_image', 'display_image_large']
+    readonly_fields = ["display_image", "display_image_large"]
 
-    search_fields = ['pk', 'category__value', 'image_url']
+    search_fields = ["pk", "category__value", "image_url"]
 
     fieldsets = [
         (None, {"fields": ["display_image_large", "category"]}),

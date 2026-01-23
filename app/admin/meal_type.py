@@ -4,8 +4,8 @@ from app.models.exercice import Exercice
 
 class MealTypeAdmin(admin.ModelAdmin):
 
-    list_display = ['pk','value']
-    search_fields = ['value']
+    list_display = ["pk", "value"]
+    search_fields = ["value"]
 
 class MealTypeInline(admin.TabularInline):
     model = Exercice.body_parts.through
