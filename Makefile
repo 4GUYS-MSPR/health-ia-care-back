@@ -3,8 +3,16 @@
 all: help
 
 up:
-	docker compose up -d
-	
+	docker compose up -d db
+	@if [ "$(dev)" = "1" ]; then \
+		pip install -r requirements.txt; \
+		POSTGRES_HOST=localhost python manage.py migrate; \
+		POSTGRES_HOST=localhost python manage.py setup; \
+		POSTGRES_HOST=localhost python manage.py runserver 0.0.0.0:5555; \
+	else \
+		docker compose up -d api; \
+	fi
+
 reload:
 	docker compose up -d --build
 	@if [ "$(logs)" = "1" ]; then \
