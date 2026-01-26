@@ -81,11 +81,12 @@ SPECTACULAR_SETTINGS = {
 }
 
 JAZZMIN_SETTINGS = {
-    "site_title": "HealthIA",
-    "site_header": "HealthIA",
+    "custom_css": "css/admin_custom.css",
     "site_brand": "HealthIA",
-    "welcome_sign": "Welcome to HealthIA !",
+    "site_header": "HealthIA",
     "site_logo": "/logo.webp",
+    "site_title": "HealthIA",
+    "welcome_sign": "Welcome to HealthIA !",
 }
 
 MIDDLEWARE = [
