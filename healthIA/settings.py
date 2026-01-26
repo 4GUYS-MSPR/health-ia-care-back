@@ -81,9 +81,11 @@ SPECTACULAR_SETTINGS = {
 }
 
 JAZZMIN_SETTINGS = {
-    "site_title": "HealthIA",
-    "site_header": "HealthIA",
+    "custom_css": "css/admin_custom.css",
     "site_brand": "HealthIA",
+    "site_header": "HealthIA",
+    "site_logo": "/logo.webp",
+    "site_title": "HealthIA",
     "welcome_sign": "Welcome to HealthIA !",
 }
 
@@ -105,10 +107,11 @@ ROOT_URLCONF = 'healthIA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
