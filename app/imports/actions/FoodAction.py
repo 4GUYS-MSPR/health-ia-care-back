@@ -45,4 +45,4 @@ class FoodAction(BaseAction):
                 meal_type=meal_type,
             )
 
-        return JsonResponse.success({"message": f"{len(data)} exercice{'s' if len(data) > 1 else ''} imported !"})
+        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})

@@ -47,4 +47,4 @@ class ExerciceAction(BaseAction):
             exercice.target_muscles.set(targetMuscles)
             exercice.save()
 
-        return JsonResponse.success({"message": f"{len(data)} exercice{'s' if len(data) > 1 else ''} imported !"})
+        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})

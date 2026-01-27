@@ -70,7 +70,7 @@ class DietRecommendationAction(BaseAction):
             diet_recommendation.dietary_restrictions.set(dietary_restrictions)
             diet_recommendation.save()
 
-        return JsonResponse.success({"message": f"{len(valid_scheme)} exercice{'s' if len(valid_scheme) > 1 else ''} imported !"})
+        return JsonResponse.success({"message": f"{len(valid_scheme)} row{'s' if len(valid_scheme) > 1 else ''} imported !"})
 
     def tryGetMember(self, data: list[DietRecommendationScheme]) -> tuple[list[ValidDietRecommendationScheme], list]:
         valid_scheme: list[ValidDietRecommendationScheme] = []
@@ -94,12 +94,12 @@ class DietRecommendationAction(BaseAction):
             members = Member.objects.filter(**member_data)
             match len(members):
                 case 0:
-                    errors.append({"message": "DoNotExist", "context": scheme.model_dump()})
+                    errors.append({"message": "Member DoNotExist", "context": scheme.model_dump()})
                 case 1:
                     tmp = scheme.model_dump()
                     tmp["member"] = members[0]
                     valid_scheme.append(ValidDietRecommendationScheme(**tmp))
                 case _:
-                    errors.append({"message": "MultipleObjectsReturned", "context": scheme.model_dump()})
+                    errors.append({"message": "Member MultipleObjectsReturned", "context": scheme.model_dump()})
 
         return valid_scheme, errors
