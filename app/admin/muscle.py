@@ -4,8 +4,8 @@ from app.models.exercice import Exercice
 
 class MuscleAdmin(admin.ModelAdmin):
 
-    list_display = ['pk','value']
-    search_fields = ['value']
+    list_display = ["pk", "value"]
+    search_fields = ["value"]
 
 class TargetMuscleInline(admin.TabularInline):
     model = Exercice.target_muscles.through

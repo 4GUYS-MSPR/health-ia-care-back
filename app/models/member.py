@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from pydantic import BaseModel, field_validator, PositiveFloat, PositiveInt
+from pydantic import BaseModel, field_validator, NonNegativeFloat, NonNegativeInt
 
 from .gender import Gender
 from .level import Level
@@ -29,12 +29,12 @@ class Member(models.Model):
         return self.get_client_name()
 
 class MemberScheme(BaseModel):
-    age: PositiveInt
-    bmi: PositiveFloat
-    fat_percentage: PositiveFloat
-    height: PositiveFloat
-    weight: PositiveFloat
-    workout_frequency: PositiveInt
+    age: NonNegativeInt
+    bmi: NonNegativeFloat
+    fat_percentage: NonNegativeFloat
+    height: NonNegativeFloat
+    weight: NonNegativeFloat
+    workout_frequency: NonNegativeInt
 
     gender: str = "NOT SPECIFIED"
     level: int
@@ -44,3 +44,28 @@ class MemberScheme(BaseModel):
     @classmethod
     def check_gender(cls, v: str):
         return v if v != "" else "NOT SPECIFIED"
+
+    @field_validator("height")
+    @classmethod
+    def normalize_height(cls, v: float) -> float:
+        if v > 10:
+            v = v / 100
+        if not 0.5 <= v <= 2.5:
+            raise ValueError("height must be between 0.5m and 2.5m")
+        return round(v, 2)
+
+class PartMemberScheme(BaseModel):
+    age: NonNegativeInt
+    height: NonNegativeFloat
+    weight: NonNegativeFloat
+
+    gender: str = "NOT SPECIFIED"
+
+    @field_validator("height")
+    @classmethod
+    def normalize_height(cls, v: float) -> float:
+        if v > 10:
+            v = v / 100
+        if not 0.5 <= v <= 2.5:
+            raise ValueError("height must be between 0.5m and 2.5m")
+        return round(v, 2)

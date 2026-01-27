@@ -19,6 +19,10 @@ class DataImportViewSet(viewsets.ViewSet):
 
     parser_classes = [JSONParser, MultiPartParser]
 
+    # =================================================================================
+    # | Faire un GET qui montre chaque import dispo avec un template de data attendu. |
+    # =================================================================================
+
     def create(self, request: HttpRequest):
 
         if request.content_type.startswith("application/json"):

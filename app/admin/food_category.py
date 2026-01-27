@@ -2,13 +2,13 @@ from django.contrib import admin
 
 from app.models.exercice import Exercice
 
-class BodyPartAdmin(admin.ModelAdmin):
+class FoodCategoryAdmin(admin.ModelAdmin):
 
     list_display = ["pk", "value"]
     search_fields = ["value"]
 
-class BodyPartInline(admin.TabularInline):
+class FoodCategoryInline(admin.TabularInline):
     model = Exercice.body_parts.through
-    verbose_name = "Body part"
-    verbose_name_plural = "Body parts"
+    verbose_name = "Food Category"
+    verbose_name_plural = "Food Categories"
     extra = 0
