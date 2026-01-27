@@ -4,9 +4,9 @@ from pydantic import BaseModel
 class ActionEnum(str, Enum):
     DietRecommendationAction = 'DietRecommendationAction'
     ExerciceAction = 'ExerciceAction'
-    FoodAction= 'FoodAction'
+    FoodAction = 'FoodAction'
     MemberAction = 'MemberAction'
-    SessionAction= 'SessionAction'
+    SessionAction = 'SessionAction'
 
 class ImportRequest(BaseModel):
     classname: ActionEnum
