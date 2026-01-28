@@ -1,8 +1,10 @@
 from app.models.body_part import BodyPart
 from app.models.category import Category
 from app.models.equipment import Equipment
-from app.models.exercice import Exercice, ExerciceScheme
+from app.models.exercice import Exercice
 from app.models.muscle import Muscle
+
+from app.schemas.exercice import ExerciceScheme
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser

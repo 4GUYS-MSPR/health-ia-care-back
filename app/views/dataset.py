@@ -25,7 +25,7 @@ class DataImportViewSet(viewsets.ViewSet):
 
     def create(self, request: HttpRequest):
 
-        if request.content_type.startswith("application/json"):
+        if request.content_type and request.content_type.startswith("application/json"):
             payload = json.loads(request.body.decode())
         elif request.FILES:
             payload = self._handle_file_upload(request)

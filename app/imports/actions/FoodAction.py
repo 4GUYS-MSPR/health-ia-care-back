@@ -1,6 +1,8 @@
 from app.models.food_category import FoodCategory
-from app.models.food import Food, FoodScheme
+from app.models.food import Food
 from app.models.meal_type import MealType
+
+from app.schemas.food import FoodScheme
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser

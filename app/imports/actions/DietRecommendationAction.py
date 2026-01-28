@@ -1,13 +1,16 @@
 from app.models.activity import Activity
 from app.models.allergie import Allergie
-from app.models.diet_recommendation import DietRecommendation, DietRecommendationScheme, ValidDietRecommendationScheme
+from app.models.diet_recommendation import DietRecommendation
 from app.models.dietary_restriction import DietaryRestriction
 from app.models.disease_type import DiseaseType
 from app.models.gender import Gender
-from app.models.member import Member, PartMemberScheme
+from app.models.member import Member
 from app.models.preferred_cuisine import PreferredCuisine
 from app.models.recommendation import Recommendation
 from app.models.severity import Severity
+
+from app.schemas.diet_recommendation import DietRecommendationScheme, ValidDietRecommendationScheme
+from app.schemas.member import PartMemberScheme
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser

@@ -1,7 +1,9 @@
 from app.models.gender import Gender
 from app.models.level import Level
-from app.models.member import Member, MemberScheme
+from app.models.member import Member
 from app.models.subscription import Subscription
+
+from app.schemas.member import MemberScheme
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser
