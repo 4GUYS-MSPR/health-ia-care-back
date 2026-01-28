@@ -23,14 +23,14 @@ from app.models.severity import Severity
 from app.models.subscription import Subscription
 
 class SeedFile:
-    model: models.Model
+    model: type[models.Model]
     file: str
 
-    def __init__(self, model: models.Model, file: str):
+    def __init__(self, model: type[models.Model], file: str):
         self.model = model
 
         BASE_APP_DIR = Path(__file__).resolve().parent
-        self.file = BASE_APP_DIR.parent.parent / 'seeders' / 'data' / file
+        self.file = str(BASE_APP_DIR.parent.parent / 'seeders' / 'data' / file)
 
 class Command(BaseCommand):
     help = "Seed database"

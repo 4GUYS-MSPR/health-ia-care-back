@@ -1,6 +1,10 @@
+from typing import TypeVar, List
+
 from pydantic import BaseModel
 
-def validate_fields_data(data_list: list[BaseModel], fields: list[dict]) -> dict:
+T = TypeVar('T', bound=BaseModel)
+
+def validate_fields_data(data_list: List[T], fields: List[dict]) -> dict:
     invalid = {}
     index = 1
     for f in fields:

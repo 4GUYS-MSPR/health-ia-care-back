@@ -1,7 +1,5 @@
 from django.db import models
 
-from pydantic import BaseModel, NonNegativeFloat, NonNegativeInt
-
 from .food_category import FoodCategory
 from .meal_type import MealType
 
@@ -22,18 +20,3 @@ class Food(models.Model):
 
     def __str__(self) -> str:
         return str(self.label)
-
-class FoodScheme(BaseModel):
-    label: str
-    calories: NonNegativeInt
-    protein: NonNegativeFloat
-    carbohydrates: NonNegativeFloat
-    fat: NonNegativeFloat
-    fiber: NonNegativeFloat
-    sugars: NonNegativeFloat
-    sodium: NonNegativeInt
-    cholesterol: NonNegativeInt
-    water_intake: NonNegativeInt
-
-    category: str
-    meal_type: str
