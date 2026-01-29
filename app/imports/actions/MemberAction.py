@@ -27,8 +27,6 @@ class MemberAction(BaseAction):
             return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             gender = Gender.objects.get(value=self.upper(scheme.gender))
             level = Level.objects.get(pk=scheme.level)
@@ -47,4 +45,4 @@ class MemberAction(BaseAction):
                 subscription=subscription
             )
 
-        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})
+        return self.success(len(data))

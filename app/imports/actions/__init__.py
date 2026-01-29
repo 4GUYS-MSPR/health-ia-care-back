@@ -6,6 +6,8 @@ from django.db import transaction
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser
 
+from logs.models import Log
+
 class BaseAction(ABC):
 
     def __init__(self, scheme: type[BaseModel], user: AnyUser):
@@ -39,3 +41,14 @@ class BaseAction(ABC):
         if isinstance(value, list):
             return [v.upper() for v in value]
         return value.upper()
+
+    def success(self, count):
+        Log.objects.create(
+            type = Log.LogType.SUCCESS,
+            message = f"{self.scheme().__name__} import success",
+            context = {
+                "model": self.scheme().__name__,
+                "rows": count
+            }
+        )
+        return JsonResponse.success({"message": f"{count} row{'s' if count > 1 else ''} imported."})

@@ -73,15 +73,13 @@ class DietRecommendationAction(BaseAction):
             diet_recommendation.dietary_restrictions.set(dietary_restrictions)
             diet_recommendation.save()
 
-        return JsonResponse.success({"message": f"{len(valid_scheme)} row{'s' if len(valid_scheme) > 1 else ''} imported !"})
+        return self.success(len(valid_scheme))
 
     def tryGetMember(self, data: list[DietRecommendationScheme]) -> tuple[list[ValidDietRecommendationScheme], list]:
         valid_scheme: list[ValidDietRecommendationScheme] = []
         errors = []
 
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             member_scheme = PartMemberScheme(**scheme.model_dump())
             fields = [

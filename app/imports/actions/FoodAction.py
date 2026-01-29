@@ -25,8 +25,6 @@ class FoodAction(BaseAction):
             return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             category = FoodCategory.objects.get(value=self.upper(scheme.category))
             meal_type = MealType.objects.get(value=self.upper(scheme.meal_type))
@@ -47,4 +45,4 @@ class FoodAction(BaseAction):
                 meal_type=meal_type,
             )
 
-        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})
+        return self.success(len(data))

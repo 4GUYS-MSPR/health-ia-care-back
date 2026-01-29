@@ -30,8 +30,6 @@ class ExerciceAction(BaseAction):
             return JsonResponse.errors({"fields": invalid_value})
 
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             bodyParts = BodyPart.objects.filter(value__in=self.upper(scheme.bodyParts))
             equipments = Equipment.objects.filter(value__in=self.upper(scheme.equipments))
@@ -49,4 +47,4 @@ class ExerciceAction(BaseAction):
             exercice.target_muscles.set(targetMuscles)
             exercice.save()
 
-        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})
+        return self.success(len(data))
