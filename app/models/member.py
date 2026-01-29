@@ -14,6 +14,8 @@ class Member(models.Model):
     weight = models.FloatField()
     workout_frequency = models.IntegerField()
 
+    objectives = models.JSONField(default=list)
+
     client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True, related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')

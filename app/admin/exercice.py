@@ -26,19 +26,17 @@ class ExerciceAdmin(admin.ModelAdmin):
         SecondaryMuscleInline,
     ]
 
+    @admin.display(description="Image")
     def display_image(self, obj):
         if obj.image_url:
             return format_html('<img src="{}" style="width: 50px; height: auto; border-radius: 2px;" />', obj.image_url)
         return "No image"
 
-    display_image.short_description = 'Image'
-
+    @admin.display(description="Image")
     def display_image_large(self, obj):
         if obj.image_url:
             return format_html('<img src="{}" style="width: 300px; height: auto; border-radius: 2px;" />', obj.image_url)
         return "No image"
-
-    display_image_large.short_description = 'Image'
 
 class ExerciceInline(admin.TabularInline):
     model = Session.exercices.through
@@ -49,16 +47,16 @@ class ExerciceInline(admin.TabularInline):
     fields = ['get_pk', 'get_category', 'get_image']
     readonly_fields = ['get_pk', 'get_category', 'get_image']
 
+    @admin.display(description="Pk")
     def get_pk(self, instance):
         return instance.exercice.pk
-    get_pk.short_description = 'Pk'
 
+    @admin.display(description="Category")
     def get_category(self, instance):
         return instance.exercice.category
-    get_category.short_description = 'Category'
 
+    @admin.display(description="Image")
     def get_image(self, instance):
         if instance.exercice.image_url:
             return format_html('<img src="{}" style="width: 50px; height: auto; border-radius: 2px;" />', instance.exercice.image_url)
         return "No image"
-    get_image.short_description = 'Image'
