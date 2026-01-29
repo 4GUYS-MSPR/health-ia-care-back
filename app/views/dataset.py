@@ -6,14 +6,18 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
 
+from pydantic import ValidationError
+
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser, MultiPartParser
 
 from app.imports.actions import BaseAction
 from app.imports.request import ImportRequest, PartialImportRequest
-from app.utils.validation import validate_request
+from app.utils.validation import validate_errors, validate_request
 from app.utils.response import JsonResponse
+from app.utils.validation import ValidationErrorItem
 
+from logs.models import Log
 from logs.logger import logger
 
 class DataImportViewSet(viewsets.ViewSet):
@@ -26,28 +30,31 @@ class DataImportViewSet(viewsets.ViewSet):
 
     def create(self, request: HttpRequest):
 
-        if request.content_type and request.content_type.startswith("application/json"):
-            payload = json.loads(request.body.decode())
-        elif request.FILES:
-            payload = self._handle_file_upload(request)
-        else:
-            return JsonResponse.errors("Unsupported content type")
-
-        validated = validate_request(ImportRequest, payload)
-
-        classname = validated.classname.value
-        class_path = f"app.imports.actions.{classname}.{classname}"
         try:
-            cls = import_string(class_path)
-        except ImportError:
-            return JsonResponse.response({"message": f"{classname} not found."}, 404)
+            if request.content_type and request.content_type.startswith("application/json"):
+                payload = json.loads(request.body.decode())
+            elif request.FILES:
+                payload = self._handle_file_upload(request)
+            else:
+                return JsonResponse.errors("Unsupported content type")
 
-        action: BaseAction = cls(request.user)
-        valid_data, errors = action.validate(validated.data)
+            validated = validate_request(ImportRequest, payload)
 
-        if errors:
-            return JsonResponse.errors(errors)
-        return action.handle(valid_data)
+            classname = validated.classname.value
+            class_path = f"app.imports.actions.{classname}.{classname}"
+            try:
+                cls = import_string(class_path)
+            except ImportError:
+                return JsonResponse.response({"message": f"{classname} not found."}, 404)
+
+            action: BaseAction = cls(request.user)
+            valid_data, errors = action.validate(validated.data)
+
+            if errors:
+                return self.logErrors(request, errors)
+            return action.handle(valid_data)
+        except ValidationError as error:
+            return self.logErrors(request, validate_errors(error.errors()))
 
     def _handle_file_upload(self, request: HttpRequest):
         if "data" not in request.FILES:
@@ -100,3 +107,15 @@ class DataImportViewSet(viewsets.ViewSet):
             "classname": classname,
             "data": data,
         }
+
+    def logErrors(self, request: HttpRequest, errors: list[ValidationErrorItem]):
+        Log.objects.create(
+            type = Log.LogType.ERROR,
+            message = "Import failed",
+            context = {
+                "count": len(errors),
+                "errors": errors,
+                "user": getattr(request.user, "get_full_name", lambda: "Anonymous")()
+            }
+        )
+        return JsonResponse.errors(errors, message="Import failed")

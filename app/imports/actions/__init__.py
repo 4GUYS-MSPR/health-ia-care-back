@@ -5,6 +5,7 @@ from django.db import transaction
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser
+from app.utils.validation import validate_errors
 
 from logs.models import Log
 
@@ -26,8 +27,8 @@ class BaseAction(ABC):
             try:
                 scheme = self._scheme(**item)
                 valid.append(scheme)
-            except ValidationError as e:
-                errors.append(e.json())
+            except ValidationError as err:
+                errors.extend(validate_errors(err.errors()))
         return valid, errors
 
     @staticmethod
