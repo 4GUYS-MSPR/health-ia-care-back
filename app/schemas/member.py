@@ -8,6 +8,8 @@ class MemberScheme(BaseModel):
     weight: NonNegativeFloat
     workout_frequency: NonNegativeInt
 
+    objectives: list = []
+
     gender: str = "NOT SPECIFIED"
     level: int
     subscription: str = "FREE"
