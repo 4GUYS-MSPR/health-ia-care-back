@@ -1,9 +1,9 @@
 import json
 
 from pathlib import Path
+
 from django.core.management.base import BaseCommand, CommandError
 from django.db import models
-from app.logs.logger import logger
 
 from app.models.activity import Activity
 from app.models.allergie import Allergie
@@ -21,6 +21,8 @@ from app.models.preferred_cuisine import PreferredCuisine
 from app.models.recommendation import Recommendation
 from app.models.severity import Severity
 from app.models.subscription import Subscription
+
+from logs.logger import logger
 
 class SeedFile:
     model: type[models.Model]

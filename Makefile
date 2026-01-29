@@ -23,7 +23,7 @@ down:
 	docker compose down
 
 migrations:
-	POSTGRES_HOST=localhost python manage.py makemigrations app
+	POSTGRES_HOST=localhost python manage.py makemigrations
 
 check:
 	pylint $$(git ls-files '*.py')

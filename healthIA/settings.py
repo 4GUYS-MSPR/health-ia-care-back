@@ -2,9 +2,11 @@ import os
 import logging
 
 from pathlib import Path
+from typing import cast
+
 from dotenv import load_dotenv
 
-from app.logs.handler import InterceptHandler
+from logs.handler import InterceptHandler
 
 load_dotenv('.env')
 
@@ -30,9 +32,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS').split(',')
+ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
+CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
+CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'drf_redesign',
     'app.apps.HealIaAppConfig',
+    'logs.apps.LogsConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -99,7 +102,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'app.middleware.logging.LoggingMiddleware',
+    'logs.middleware.logging.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'healthIA.urls'

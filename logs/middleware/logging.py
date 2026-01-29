@@ -1,5 +1,5 @@
 import time
-from app.logs.logger import logger
+from logs.logger import logger
 
 class LoggingMiddleware:
 

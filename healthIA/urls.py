@@ -10,11 +10,14 @@ from app.views.dataset import DataImportViewSet
 from app.views.members import MemberViewSet
 from app.views.exercices import ExerciceViewSet
 
+from logs.views import LogViewSet
+
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'exercices', ExerciceViewSet, basename='exercices')
 router.register(r'import', DataImportViewSet, basename='import')
 router.register(r'members', MemberViewSet, basename='members')
-router.register(r'exercices', ExerciceViewSet, basename='exercices')
+router.register(r'logs', LogViewSet, basename='logs')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

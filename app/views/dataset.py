@@ -11,9 +11,10 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 
 from app.imports.actions import BaseAction
 from app.imports.request import ImportRequest, PartialImportRequest
-from app.logs.logger import logger
 from app.utils.validation import validate_request
 from app.utils.response import JsonResponse
+
+from logs.logger import logger
 
 class DataImportViewSet(viewsets.ViewSet):
 

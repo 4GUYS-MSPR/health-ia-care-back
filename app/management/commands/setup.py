@@ -1,10 +1,12 @@
 import datetime
+
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from app.logs.logger import logger
 
 from app.models.setup import Setup
+
+from logs.logger import logger
 
 class Command(BaseCommand):
     help = "Setup app"
