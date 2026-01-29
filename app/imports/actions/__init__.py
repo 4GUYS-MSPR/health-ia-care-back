@@ -5,7 +5,7 @@ from django.db import transaction
 
 from app.utils.response import JsonResponse
 from app.utils.types import AnyUser
-from app.utils.validation import validate_errors
+from app.utils.validation import validate_errors, ValidationErrorItem
 
 from logs.models import Log
 
@@ -21,7 +21,7 @@ class BaseAction(ABC):
         return JsonResponse.not_implemented()
 
     def validate(self, data: list):
-        errors = []
+        errors: list[ValidationErrorItem] = []
         valid = []
         for _, item in enumerate(data):
             try:
