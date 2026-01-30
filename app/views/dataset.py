@@ -8,17 +8,15 @@ from django.utils.module_loading import import_string
 
 from pydantic import ValidationError
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser, MultiPartParser
 
 from app.imports.actions import BaseAction
 from app.imports.request import ImportRequest, PartialImportRequest
+from app.utils.logger import logger
 from app.utils.validation import validate_errors, validate_request
-from app.utils.response import JsonResponse
-from app.utils.validation import ValidationErrorItem
 
-from logs.models import Log
-from logs.logger import logger
+from logs.levels import LogLevel
 
 class DataImportViewSet(viewsets.ViewSet):
 
@@ -29,6 +27,8 @@ class DataImportViewSet(viewsets.ViewSet):
     # =================================================================================
 
     def create(self, request: HttpRequest):
+        fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
+        username = fullname if fullname != "" else str(request.user.username)
 
         try:
             if request.content_type and request.content_type.startswith("application/json"):
@@ -36,7 +36,16 @@ class DataImportViewSet(viewsets.ViewSet):
             elif request.FILES:
                 payload = self._handle_file_upload(request)
             else:
-                return JsonResponse.errors("Unsupported content type")
+                return logger.new(
+                    level = LogLevel.ERROR,
+                    message = "Unsupported content type",
+                    http_code = status.HTTP_400_BAD_REQUEST,
+                    context = {
+                        "user": username,
+                        "content-type": request.content_type,
+                        "files": request.FILES
+                    }
+                )
 
             validated = validate_request(ImportRequest, payload)
 
@@ -45,16 +54,34 @@ class DataImportViewSet(viewsets.ViewSet):
             try:
                 cls = import_string(class_path)
             except ImportError:
-                return JsonResponse.response({"message": f"{classname} not found."}, 404)
+                return logger.new(
+                    level = LogLevel.ERROR,
+                    message = "Classname not found",
+                    http_code = status.HTTP_400_BAD_REQUEST,
+                    context = {
+                        "user": username,
+                        "classname": classname
+                    }
+                )
 
             action: BaseAction = cls(request.user)
             valid_data, errors = action.validate(validated.data)
 
             if errors:
-                return self.logErrors(request, errors)
+                return logger.validationErrors(username, errors)
             return action.handle(valid_data)
         except ValidationError as error:
-            return self.logErrors(request, validate_errors(error.errors()))
+            return logger.validationErrors(username, validate_errors(error.errors()))
+        except ValueError as error:
+            return logger.new(
+                level = LogLevel.ERROR,
+                message = "Error during import",
+                http_code = status.HTTP_400_BAD_REQUEST,
+                context = {
+                    "type": type(error.__cause__).__name__,
+                    "message": str(error.__cause__)
+                }
+            )
 
     def _handle_file_upload(self, request: HttpRequest):
         if "data" not in request.FILES:
@@ -100,22 +127,9 @@ class DataImportViewSet(viewsets.ViewSet):
             action: BaseAction = cls(request.user)
             data = [action.scheme().model_validate(row).model_dump() for row in reader]
         except Exception as e:
-            logger.exception("Invalid CSV file")
-            raise ValueError(f"Invalid CSV file: {str(e)}") from e
+            raise ValueError(f"Invalid CSV file {str(e)}") from e
 
         return {
             "classname": classname,
             "data": data,
         }
-
-    def logErrors(self, request: HttpRequest, errors: list[ValidationErrorItem]):
-        Log.objects.create(
-            type = Log.LogType.ERROR,
-            message = "Import failed",
-            context = {
-                "count": len(errors),
-                "errors": errors,
-                "user": getattr(request.user, "get_full_name", lambda: "Anonymous")()
-            }
-        )
-        return JsonResponse.errors(errors, message="Import failed")

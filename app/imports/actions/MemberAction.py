@@ -5,7 +5,7 @@ from app.models.subscription import Subscription
 
 from app.schemas.member import MemberScheme
 
-from app.utils.response import JsonResponse
+from app.utils.logger import logger
 from app.utils.types import AnyUser
 from app.utils.validation import validate_fields_data
 
@@ -24,7 +24,7 @@ class MemberAction(BaseAction):
         ]
         invalid_value = validate_fields_data(data, fields)
         if invalid_value:
-            return JsonResponse.errors({"fields": invalid_value})
+            return logger.invalid_fields(invalid_value)
 
         for scheme in data:
 

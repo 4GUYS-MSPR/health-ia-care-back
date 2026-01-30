@@ -8,6 +8,7 @@ from app.utils.types import AnyUser
 from app.utils.validation import validate_errors, ValidationErrorItem
 
 from logs.models import Log
+from logs.levels import LogLevel
 
 class BaseAction(ABC):
 
@@ -45,7 +46,7 @@ class BaseAction(ABC):
 
     def success(self, count):
         Log.objects.create(
-            type = Log.LogType.SUCCESS,
+            type = LogLevel.SUCCESS,
             message = f"{self.scheme().__name__} import success",
             context = {
                 "model": self.scheme().__name__,

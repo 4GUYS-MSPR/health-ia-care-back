@@ -1,4 +1,5 @@
 import logging
+
 from .logger import logger
 
 class InterceptHandler(logging.Handler):

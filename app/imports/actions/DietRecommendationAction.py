@@ -1,3 +1,5 @@
+from rest_framework import status
+
 from app.models.activity import Activity
 from app.models.allergie import Allergie
 from app.models.diet_recommendation import DietRecommendation
@@ -12,9 +14,11 @@ from app.models.severity import Severity
 from app.schemas.diet_recommendation import DietRecommendationScheme, ValidDietRecommendationScheme
 from app.schemas.member import PartMemberScheme
 
-from app.utils.response import JsonResponse
+from app.utils.logger import logger
 from app.utils.types import AnyUser
 from app.utils.validation import validate_fields_data
+
+from logs.levels import LogLevel
 
 from . import BaseAction
 
@@ -35,12 +39,20 @@ class DietRecommendationAction(BaseAction):
         ]
         invalid_value = validate_fields_data(data, fields)
         if invalid_value:
-            return JsonResponse.errors({"fields": invalid_value})
+            return logger.invalid_fields(invalid_value)
 
         valid_scheme, errors = self.tryGetMember(data)
 
         if len(errors) > 0:
-            return JsonResponse.errors(errors, message="Some data are not valid", count=len(errors))
+            return logger.new(
+                level = LogLevel.ERROR,
+                message = "Some data are not valid, no member found",
+                context = {
+                    "count": len(errors),
+                    "rows": errors
+                },
+                http_code = status.HTTP_400_BAD_REQUEST
+            )
 
         for scheme in valid_scheme:
 
