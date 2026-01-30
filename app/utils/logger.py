@@ -29,7 +29,7 @@ class Logger():
     def invalid_fields(self, fileds: dict):
         return self.new(
             level = LogLevel.ERROR,
-            message = f"Invalid relational field{"s" if len(fileds) > 1 else ""}",
+            message = f"Invalid relational field{'s' if len(fileds) > 1 else ''}",
             context = {
                 "fields": fileds
             },
