@@ -4,14 +4,14 @@ from .objective import ObjectiveInline
 
 class MemberAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription"]
+    list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription", "create_at"]
     list_filter = ["gender", "level", "subscription"]
     search_fields = ["client__first_name", "client__last_name", "client__username"]
 
     readonly_fields = ["get_client_name"]
 
     fieldsets = [
-        (None, {"fields": ["client", "age", "gender", "level", "subscription"]}),
+        (None, {"fields": ["client", "age", "gender", "level", "subscription", "create_at"]}),
         ("Data", {"fields": ["bmi", "fat_percentage", "height", "weight", "workout_frequency"]}),
     ]
 

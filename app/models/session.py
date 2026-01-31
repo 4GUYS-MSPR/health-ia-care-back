@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 from .exercice import Exercice
 from .member import Member
@@ -14,6 +15,8 @@ class Session(models.Model):
 
     exercices = models.ManyToManyField(Exercice, blank=True)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
+
+    create_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Session {self.pk}"

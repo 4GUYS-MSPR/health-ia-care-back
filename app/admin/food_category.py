@@ -4,7 +4,7 @@ from app.models.exercice import Exercice
 
 class FoodCategoryAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "value"]
+    list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]
 
 class FoodCategoryInline(admin.TabularInline):

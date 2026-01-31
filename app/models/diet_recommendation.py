@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 from .activity import Activity
 from .allergie import Allergie
@@ -26,3 +27,5 @@ class DietRecommendation(models.Model):
     preferred_cuisine = models.ForeignKey(PreferredCuisine, on_delete=models.SET_NULL, null=True)
     recommendation = models.ForeignKey(Recommendation, on_delete=models.SET_NULL, null=True)
     severity = models.ForeignKey(Severity, on_delete=models.SET_NULL, null=True)
+
+    create_at = models.DateTimeField(default=now)

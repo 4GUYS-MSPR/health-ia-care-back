@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 from .body_part import BodyPart
 from .category import Category
@@ -14,6 +15,8 @@ class Exercice(models.Model):
     equipments = models.ManyToManyField(Equipment, blank=True, related_name='equipments')
     secondary_muscles = models.ManyToManyField(Muscle, blank=True, related_name='secondary_muscles')
     target_muscles = models.ManyToManyField(Muscle, blank=True, related_name='target_muscles')
+
+    create_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Exercice {self.pk}"

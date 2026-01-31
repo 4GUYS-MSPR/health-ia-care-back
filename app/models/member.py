@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 from .gender import Gender
 from .level import Level
@@ -20,6 +21,8 @@ class Member(models.Model):
     gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True, related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
+
+    create_at = models.DateTimeField(default=now)
 
     def get_client_name(self):
         if self.client is None:

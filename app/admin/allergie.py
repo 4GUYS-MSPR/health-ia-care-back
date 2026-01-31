@@ -4,7 +4,7 @@ from app.models.diet_recommendation import DietRecommendation
 
 class AllergieAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "value"]
+    list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]
 
 class AllergieInline(admin.TabularInline):
