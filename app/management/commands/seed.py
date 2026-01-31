@@ -21,8 +21,7 @@ from app.models.preferred_cuisine import PreferredCuisine
 from app.models.recommendation import Recommendation
 from app.models.severity import Severity
 from app.models.subscription import Subscription
-
-from logs.logger import logger
+from app.utils.logger import logger
 
 class SeedFile:
     model: type[models.Model]

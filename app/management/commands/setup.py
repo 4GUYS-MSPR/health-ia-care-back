@@ -5,8 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 
 from app.models.setup import Setup
-
-from logs.logger import logger
+from app.utils.logger import logger
 
 class Command(BaseCommand):
     help = "Setup app"
