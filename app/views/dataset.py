@@ -89,12 +89,12 @@ class DataImportViewSet(viewsets.ViewSet):
                     }
                 )
 
-            action: BaseAction = cls(request.user)
-            valid_data, errors = action.validate(validated.data)
+            class_action: BaseAction = cls(request.user)
+            valid_data, errors = class_action.validate(validated.data)
 
             if errors:
                 return logger.validationErrors(username, errors)
-            return action.handle(valid_data)
+            return class_action.handle(valid_data)
         except ValidationError as error:
             return logger.validationErrors(username, validate_errors(error.errors()))
         except ValueError as error:
