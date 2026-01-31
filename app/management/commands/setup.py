@@ -1,10 +1,12 @@
 import datetime
+
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from app.logs.logger import logger
 
 from app.models.setup import Setup
+
+from logs.logger import logger
 
 class Command(BaseCommand):
     help = "Setup app"
@@ -22,10 +24,10 @@ class Command(BaseCommand):
 
         if Setup.objects.count() == 0 or force:
             try:
-                logger.info("Seeding Database")
+                logger.log.info("Seeding Database")
                 call_command("seed", logs=False)
 
-                logger.info("Creating admin user")
+                logger.log.info("Creating admin user")
                 admin, created = User.objects.get_or_create(
                     username="admin",
                     defaults={
@@ -40,4 +42,4 @@ class Command(BaseCommand):
                     admin.save()
                 Setup.objects.create(date=datetime.datetime.now())
             except CommandError as e:
-                logger.exception(e)
+                logger.log.exception(e)

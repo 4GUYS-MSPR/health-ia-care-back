@@ -6,7 +6,7 @@ from app.models.muscle import Muscle
 
 from app.schemas.exercice import ExerciceScheme
 
-from app.utils.response import JsonResponse
+from app.utils.logger import logger
 from app.utils.types import AnyUser
 from app.utils.validation import validate_fields_data
 
@@ -27,11 +27,9 @@ class ExerciceAction(BaseAction):
         ]
         invalid_value = validate_fields_data(data, fields)
         if invalid_value:
-            return JsonResponse.errors({"fields": invalid_value})
+            return logger.invalid_fields(invalid_value)
 
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             bodyParts = BodyPart.objects.filter(value__in=self.upper(scheme.bodyParts))
             equipments = Equipment.objects.filter(value__in=self.upper(scheme.equipments))
@@ -49,4 +47,4 @@ class ExerciceAction(BaseAction):
             exercice.target_muscles.set(targetMuscles)
             exercice.save()
 
-        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})
+        return self.success(len(data))

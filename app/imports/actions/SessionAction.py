@@ -7,7 +7,6 @@ from app.models.subscription import Subscription
 from app.schemas.member import MemberScheme
 from app.schemas.session import SessionScheme
 
-from app.utils.response import JsonResponse
 from app.utils.types import AnyUser
 
 from . import BaseAction
@@ -19,8 +18,6 @@ class SessionAction(BaseAction):
 
     def handle(self, data: list[SessionScheme]):
         for scheme in data:
-            from loguru import logger
-            logger.debug(scheme.model_dump())
 
             member_scheme = MemberScheme(**scheme.model_dump())
             fields = [
@@ -49,4 +46,4 @@ class SessionAction(BaseAction):
             session.exercices.set(scheme.exercices)
             session.save()
 
-        return JsonResponse.success({"message": f"{len(data)} row{'s' if len(data) > 1 else ''} imported !"})
+        return self.success(len(data))

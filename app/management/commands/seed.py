@@ -1,9 +1,9 @@
 import json
 
 from pathlib import Path
+
 from django.core.management.base import BaseCommand, CommandError
 from django.db import models
-from app.logs.logger import logger
 
 from app.models.activity import Activity
 from app.models.allergie import Allergie
@@ -21,6 +21,8 @@ from app.models.preferred_cuisine import PreferredCuisine
 from app.models.recommendation import Recommendation
 from app.models.severity import Severity
 from app.models.subscription import Subscription
+
+from logs.logger import logger
 
 class SeedFile:
     model: type[models.Model]
@@ -71,7 +73,7 @@ class Command(BaseCommand):
                 ok = 0
                 ko = []
                 if logs:
-                    logger.info(f"Processing {seeder.model._meta.model_name}:")
+                    logger.log.info(f"Processing {seeder.model._meta.model_name}:")
                 with open(seeder.file, 'r', encoding='utf-8') as data:
                     for row in json.load(data):
                         row["value"] = row["value"].upper()
@@ -81,12 +83,12 @@ class Command(BaseCommand):
                         except Exception:
                             ko.append(row)
                 if logs:
-                    logger.success(f"    {ok} elements inserted")
+                    logger.log.success(f"    {ok} elements inserted")
                     if len(ko) > 0:
-                        logger.error(f"    {len(ko)} errors:")
+                        logger.log.error(f"    {len(ko)} errors:")
                         for error in ko:
-                            logger.error(f"     - {json.dumps(error)}")
+                            logger.log.error(f"     - {json.dumps(error)}")
                 elif len(ko) > 0:
-                    logger.error(f"{len(ko)} errors on model: {seeder.model._meta.model_name}")
+                    logger.log.error(f"{len(ko)} errors on model: {seeder.model._meta.model_name}")
         except CommandError as e:
-            logger.exception(e)
+            logger.log.exception(e)

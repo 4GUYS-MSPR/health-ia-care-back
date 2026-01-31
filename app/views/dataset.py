@@ -6,14 +6,17 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
 
-from rest_framework import viewsets
+from pydantic import ValidationError
+
+from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser, MultiPartParser
 
 from app.imports.actions import BaseAction
 from app.imports.request import ImportRequest, PartialImportRequest
-from app.logs.logger import logger
-from app.utils.validation import validate_request
-from app.utils.response import JsonResponse
+from app.utils.logger import logger
+from app.utils.validation import validate_errors, validate_request
+
+from logs.levels import LogLevel
 
 class DataImportViewSet(viewsets.ViewSet):
 
@@ -24,29 +27,61 @@ class DataImportViewSet(viewsets.ViewSet):
     # =================================================================================
 
     def create(self, request: HttpRequest):
+        fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
+        username = fullname if fullname != "" else str(request.user.username)
 
-        if request.content_type and request.content_type.startswith("application/json"):
-            payload = json.loads(request.body.decode())
-        elif request.FILES:
-            payload = self._handle_file_upload(request)
-        else:
-            return JsonResponse.errors("Unsupported content type")
-
-        validated = validate_request(ImportRequest, payload)
-
-        classname = validated.classname.value
-        class_path = f"app.imports.actions.{classname}.{classname}"
         try:
-            cls = import_string(class_path)
-        except ImportError:
-            return JsonResponse.response({"message": f"{classname} not found."}, 404)
+            if request.content_type and request.content_type.startswith("application/json"):
+                payload = json.loads(request.body.decode())
+            elif request.FILES:
+                payload = self._handle_file_upload(request)
+            else:
+                return logger.new(
+                    level = LogLevel.ERROR,
+                    message = "Unsupported content type",
+                    http_code = status.HTTP_400_BAD_REQUEST,
+                    context = {
+                        "user": username,
+                        "content-type": request.content_type,
+                        "files": request.FILES
+                    }
+                )
 
-        action: BaseAction = cls(request.user)
-        valid_data, errors = action.validate(validated.data)
+            validated = validate_request(ImportRequest, payload)
 
-        if errors:
-            return JsonResponse.errors(errors)
-        return action.handle(valid_data)
+            classname = validated.classname.value
+            class_path = f"app.imports.actions.{classname}.{classname}"
+            try:
+                cls = import_string(class_path)
+            except ImportError:
+                return logger.new(
+                    level = LogLevel.ERROR,
+                    message = "Classname not found",
+                    http_code = status.HTTP_400_BAD_REQUEST,
+                    context = {
+                        "user": username,
+                        "classname": classname
+                    }
+                )
+
+            action: BaseAction = cls(request.user)
+            valid_data, errors = action.validate(validated.data)
+
+            if errors:
+                return logger.validationErrors(username, errors)
+            return action.handle(valid_data)
+        except ValidationError as error:
+            return logger.validationErrors(username, validate_errors(error.errors()))
+        except ValueError as error:
+            return logger.new(
+                level = LogLevel.ERROR,
+                message = "Error during import",
+                http_code = status.HTTP_400_BAD_REQUEST,
+                context = {
+                    "type": type(error.__cause__).__name__,
+                    "message": str(error.__cause__)
+                }
+            )
 
     def _handle_file_upload(self, request: HttpRequest):
         if "data" not in request.FILES:
@@ -92,8 +127,7 @@ class DataImportViewSet(viewsets.ViewSet):
             action: BaseAction = cls(request.user)
             data = [action.scheme().model_validate(row).model_dump() for row in reader]
         except Exception as e:
-            logger.exception("Invalid CSV file")
-            raise ValueError(f"Invalid CSV file: {str(e)}") from e
+            raise ValueError(f"Invalid CSV file {str(e)}") from e
 
         return {
             "classname": classname,

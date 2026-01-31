@@ -1,6 +1,9 @@
 from typing import TypeVar, List
 
 from pydantic import BaseModel
+from pydantic_core import ErrorDetails
+
+from app.schemas.validation_error_item import ValidationErrorItem
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -36,3 +39,20 @@ def add_to_dict(d: dict, index: int, name: str, value):
 
 def validate_request(model, request):
     return model(**request)
+
+def validate_errors(errors: list[ErrorDetails]) -> list[ValidationErrorItem]:
+    validation_errors = []
+    for err in errors:
+        fields = [str(f) for f in err.get("loc", [])]
+        message = err.get("msg", "")
+        input_value = err.get("input", "")
+        expected = err.get("ctx", {}).get("expected", "")
+
+        item = ValidationErrorItem(
+            fields=fields,
+            message=message,
+            input=input_value,
+            expected=expected
+        )
+        validation_errors.append(item.model_dump())
+    return validation_errors
