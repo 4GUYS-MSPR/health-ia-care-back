@@ -9,11 +9,13 @@ from django.utils.module_loading import import_string
 from pydantic import ValidationError
 
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 
 from app.imports.actions import BaseAction
-from app.imports.request import ImportRequest, PartialImportRequest
+from app.imports.request import ActionEnum, ImportRequest, PartialImportRequest
 from app.utils.logger import logger
+from app.utils.response import JsonResponse
 from app.utils.validation import validate_errors, validate_request
 
 from logs.levels import LogLevel
@@ -22,9 +24,32 @@ class DataImportViewSet(viewsets.ViewSet):
 
     parser_classes = [JSONParser, MultiPartParser]
 
-    # =================================================================================
-    # | Faire un GET qui montre chaque import dispo avec un template de data attendu. |
-    # =================================================================================
+    def list(self, _):
+        return JsonResponse.success({
+            "classname": [a.value for a in ActionEnum],
+            "data": ["objects"]
+        })
+
+    # ====================================================
+    # | Changer les logs pour utiliser celle de la PR 46 |
+    # ====================================================
+    @action(detail=False, methods=['get'], url_path='(?P<classname>[^/.]+)')
+    def action_help(self, request: HttpRequest, classname = None):
+        if classname not in [a.value for a in ActionEnum]:
+            logger.error("Invalid classname")
+            return JsonResponse.errors({
+                "input": classname
+            }, message="Invalid classname")
+
+        class_path = f"app.imports.actions.{classname}.{classname}"
+        try:
+            cls = import_string(class_path)
+        except ImportError:
+            return JsonResponse.response({"message": f"{classname} not found."}, 404)
+
+        classname_action: BaseAction = cls(request.user)
+
+        return JsonResponse.success(classname_action.scheme().model_json_schema())
 
     def create(self, request: HttpRequest):
         fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
@@ -64,12 +89,12 @@ class DataImportViewSet(viewsets.ViewSet):
                     }
                 )
 
-            action: BaseAction = cls(request.user)
-            valid_data, errors = action.validate(validated.data)
+            class_action: BaseAction = cls(request.user)
+            valid_data, errors = class_action.validate(validated.data)
 
             if errors:
                 return logger.validationErrors(username, errors)
-            return action.handle(valid_data)
+            return class_action.handle(valid_data)
         except ValidationError as error:
             return logger.validationErrors(username, validate_errors(error.errors()))
         except ValueError as error:
@@ -124,8 +149,8 @@ class DataImportViewSet(viewsets.ViewSet):
                 cls = import_string(class_path)
             except ImportError as e:
                 raise ValueError(f"Invalid classname file: {str(e)}") from e
-            action: BaseAction = cls(request.user)
-            data = [action.scheme().model_validate(row).model_dump() for row in reader]
+            classname_action: BaseAction = cls(request.user)
+            data = [classname_action.scheme().model_validate(row).model_dump() for row in reader]
         except Exception as e:
             raise ValueError(f"Invalid CSV file {str(e)}") from e
 
