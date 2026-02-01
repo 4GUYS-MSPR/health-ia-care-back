@@ -1,8 +1,9 @@
 from django.contrib import admin
 
+from app.exports import ExportCsvMixin
 from app.models.diet_recommendation import DietRecommendation
 
-class DietaryRestrictionAdmin(admin.ModelAdmin):
+class DietaryRestrictionAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .allergie import AllergieInline
-from .dietary_restriction import DietaryRestrictionInline
+from app.admin.allergie import AllergieInline
+from app.admin.dietary_restriction import DietaryRestrictionInline
+from app.exports import ExportCsvMixin
 
-class DietRecommendationAdmin(admin.ModelAdmin):
+class DietRecommendationAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = ["pk", "member", "client", "create_at"]
     list_filter = [

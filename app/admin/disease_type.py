@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-class DiseaseTypeAdmin(admin.ModelAdmin):
+from app.exports import ExportCsvMixin
+
+class DiseaseTypeAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]
