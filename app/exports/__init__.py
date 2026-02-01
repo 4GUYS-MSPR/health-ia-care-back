@@ -26,7 +26,7 @@ class ExportCsvMixin(ExtraButtonsMixin):
 
             writer = csv.writer(response)
             queryset = self.model.objects.all()
-        
+
             fields = [field.name for field in self.model._meta.fields]
             writer.writerow(fields)
 
