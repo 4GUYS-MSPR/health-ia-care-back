@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 from admin_extra_buttons.mixins import ExtraButtonsMixin
 from admin_extra_buttons.decorators import button
@@ -6,9 +7,9 @@ from admin_extra_buttons.decorators import button
 class ExportCsvMixin(ExtraButtonsMixin):
 
     @button(
-        label="Exporter en CSV",
+        label = mark_safe('<style>li{list-style: none;}</style><i class="fas fa-file-csv"></i> Exporter'),
         html_attrs = {
-            "style": "background-color: green; color: white;"
+            "class": "btn btn-primary",
         }
     )
     def export_as_csv(self, request):
