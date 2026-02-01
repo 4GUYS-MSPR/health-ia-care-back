@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
@@ -17,6 +18,7 @@ class Food(models.Model):
     water_intake = models.IntegerField()
 
     category = models.ForeignKey(FoodCategory, null=True, on_delete=models.SET_NULL)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     meal_type = models.ForeignKey(MealType, null=True, on_delete=models.SET_NULL)
 
     create_at = models.DateTimeField(default=now)

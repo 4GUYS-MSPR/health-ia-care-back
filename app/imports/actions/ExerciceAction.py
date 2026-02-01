@@ -40,6 +40,7 @@ class ExerciceAction(BaseAction):
             exercice, _ = Exercice.objects.get_or_create(
                 image_url=scheme.imageUrl,
                 category=category,
+                client=self.user,
             )
             exercice.body_parts.set(bodyParts)
             exercice.equipments.set(equipments)

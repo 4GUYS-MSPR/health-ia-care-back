@@ -41,7 +41,8 @@ class SessionAction(BaseAction):
                 max_bpm=scheme.max_bpm,
                 resting_bpm=scheme.resting_bpm,
                 water_intake=scheme.water_intake,
-                member=member
+                client=self.user,
+                member=member,
             )
             session.exercices.set(scheme.exercices)
             session.save()

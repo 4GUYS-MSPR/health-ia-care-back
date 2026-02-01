@@ -8,15 +8,15 @@ from app.models.session import Session
 
 class ExerciceAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "category", "display_image", "create_at"]
-    list_filter = ["category"]
+    list_display = ["pk", "category", "display_image", "client", "create_at"]
+    list_filter = ["category", "client"]
 
     readonly_fields = ["display_image", "display_image_large"]
 
     search_fields = ["pk", "category__value", "image_url"]
 
     fieldsets = [
-        (None, {"fields": ["display_image_large", "category", "create_at"]}),
+        (None, {"fields": ["display_image_large", "category", "client", "create_at"]}),
     ]
 
     inlines = [

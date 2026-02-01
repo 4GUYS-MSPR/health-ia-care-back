@@ -1,6 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
+
 from app.models import Exercice
 from app.serializers.exercice import ExerciceSerializer
+from app.utils.query import getQueryALLForUser
 
 class ExerciceViewSet(ModelViewSet):
     serializer_class = ExerciceSerializer
@@ -15,7 +17,7 @@ class ExerciceViewSet(ModelViewSet):
     query_filter = {}
 
     def get_queryset(self):
-        queryset = Exercice.objects.all()
+        queryset = getQueryALLForUser(Exercice, self.request.user)
         for filter_name in self.filters:
             filter_value = self.request.GET.get(filter_name)
             if filter_value:
