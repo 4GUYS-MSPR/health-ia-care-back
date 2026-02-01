@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
@@ -21,6 +22,7 @@ class DietRecommendation(models.Model):
 
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
     allergies = models.ManyToManyField(Allergie, blank=True)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     dietary_restrictions = models.ManyToManyField(DietaryRestriction, blank=True)
     disease_type = models.ForeignKey(DiseaseType, on_delete=models.SET_NULL, null=True)
     member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)

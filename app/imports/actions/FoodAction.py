@@ -43,6 +43,8 @@ class FoodAction(BaseAction):
 
                 category=category,
                 meal_type=meal_type,
+
+                client=self.user,
             )
 
         return self.success(len(data))

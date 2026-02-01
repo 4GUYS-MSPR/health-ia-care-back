@@ -5,7 +5,7 @@ from .dietary_restriction import DietaryRestrictionInline
 
 class DietRecommendationAdmin(admin.ModelAdmin):
 
-    list_display = ["pk", "member", "create_at"]
+    list_display = ["pk", "member", "client", "create_at"]
     list_filter = [
         "member",
         "activity",
@@ -15,11 +15,13 @@ class DietRecommendationAdmin(admin.ModelAdmin):
         "preferred_cuisine",
         "recommendation",
         "severity",
-        "create_at"
+        "create_at",
+        "client"
     ]
 
     fieldsets = [
         (None, {"fields": [
+            "client",
             "member",
             "activity",
             "disease_type",

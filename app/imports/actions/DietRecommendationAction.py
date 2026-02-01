@@ -79,6 +79,7 @@ class DietRecommendationAction(BaseAction):
                 preferred_cuisine=preferred_cuisine,
                 recommendation=recommendation,
                 severity=severity,
+                client=self.user,
             )
 
             diet_recommendation.allergies.set(allergies)

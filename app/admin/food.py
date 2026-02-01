@@ -9,14 +9,15 @@ class FoodAdmin(admin.ModelAdmin):
         "label",
         "category",
         "meal_type",
-        "create_at"
+        "create_at",
+        "client"
     ]
-    list_filter = ["category", "meal_type"]
+    list_filter = ["category", "meal_type", "client"]
 
     search_fields = ["label"]
 
     fieldsets = [
-        (None, {"fields": ["label", "category", "meal_type", "create_at"]}),
+        (None, {"fields": ["label", "category", "meal_type", "client", "create_at"]}),
         ("Data", {"fields": [
             "calories",
             "protein",

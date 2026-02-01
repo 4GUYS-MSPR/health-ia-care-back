@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
@@ -13,6 +14,7 @@ class Session(models.Model):
     resting_bpm = models.IntegerField()
     water_intake = models.FloatField()
 
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     exercices = models.ManyToManyField(Exercice, blank=True)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
 

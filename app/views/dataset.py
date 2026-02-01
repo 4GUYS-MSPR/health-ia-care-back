@@ -26,8 +26,14 @@ class DataImportViewSet(viewsets.ViewSet):
 
     def list(self, _):
         return JsonResponse.success({
-            "classname": [a.value for a in ActionEnum],
-            "data": ["objects"]
+            "classname": {
+                "type": "string",
+                "values": [a.value for a in ActionEnum]
+            },
+            "data": {
+                "type": "array",
+                "items": "objects"
+            }
         })
 
     # ====================================================
