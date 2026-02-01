@@ -14,6 +14,7 @@ from .level import Level
 from .meal_type import MealType
 from .member import Member
 from .muscle import Muscle
+from .objective import Objective
 from .preferred_cuisine import PreferredCuisine
 from .recommendation import Recommendation
 from .session import Session
