@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from app.exports import ExportCsvMixin
+from app.admin.objective import ObjectiveInline
 
-from .objective import ObjectiveInline
+from core.exports import ExportCsvMixin
 
 class MemberAdmin(ExportCsvMixin, admin.ModelAdmin):
 

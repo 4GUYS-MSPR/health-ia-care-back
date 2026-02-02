@@ -4,8 +4,9 @@ from django.utils.html import format_html
 from app.admin.body_part import BodyPartInline
 from app.admin.equipment import EquipmentInline
 from app.admin.muscle import TargetMuscleInline, SecondaryMuscleInline
-from app.exports import ExportCsvMixin
 from app.models.session import Session
+
+from core.exports import ExportCsvMixin
 
 class ExerciceAdmin(ExportCsvMixin, admin.ModelAdmin):
 

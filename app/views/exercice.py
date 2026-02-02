@@ -2,7 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from app.models import Exercice
 from app.serializers.exercice import ExerciceSerializer
-from app.utils.query import getQueryALLForUser
+
+from core.utils.query import getQueryALLForUser
 
 class ExerciceViewSet(ModelViewSet):
     query_filter = {}

@@ -5,9 +5,13 @@ from rest_framework import routers
 from rest_framework.authtoken import views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from app.views import DataImportViewSet, DietRecommendationViewSet, FoodViewSet, ExerciceViewSet, MemberViewSet, SessionViewSet, UserViewSet
+from app.views import ExerciceViewSet, MemberViewSet, SessionViewSet
+
+from core.views import DataImportViewSet, UserViewSet
 
 from logs.views import LogViewSet
+
+from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
 router = routers.DefaultRouter()
 router.register(r'diet_recommendation', DietRecommendationViewSet, basename='diet_recommendation')

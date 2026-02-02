@@ -2,7 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from app.models import Session
 from app.serializers.session import SessionSerializer
-from app.utils.query import getQueryALLForUser
+
+from core.utils.query import getQueryALLForUser
 
 class SessionViewSet(ModelViewSet):
     serializer_class = SessionSerializer

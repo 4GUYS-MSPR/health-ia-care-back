@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from app.exports import ExportCsvMixin
 from app.models.exercice import Exercice
+
+from core.exports import ExportCsvMixin
 
 class EquipmentAdmin(ExportCsvMixin, admin.ModelAdmin):
 

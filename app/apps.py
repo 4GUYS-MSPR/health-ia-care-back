@@ -3,6 +3,3 @@ from django.apps import AppConfig
 class HealIaAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'app'
-
-    def ready(self):
-        import app.signals # pylint: disable=unused-import

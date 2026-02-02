@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from app.admin.exercice import ExerciceInline
-from app.exports import ExportCsvMixin
+
+from core.exports import ExportCsvMixin
 
 class SessionAdmin(ExportCsvMixin, admin.ModelAdmin):
 

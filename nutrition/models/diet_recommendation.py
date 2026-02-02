@@ -1,0 +1,37 @@
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils.timezone import now
+
+from nutrition.models.activity import Activity
+from nutrition.models.allergie import Allergie
+from nutrition.models.dietary_restriction import DietaryRestriction
+from nutrition.models.disease_type import DiseaseType
+from nutrition.models.preferred_cuisine import PreferredCuisine
+from nutrition.models.recommendation import Recommendation
+from nutrition.models.severity import Severity
+
+from app.models.member import Member
+
+class DietRecommendation(models.Model):
+    adherence_to_diet_plan = models.FloatField()
+    blood_pressure = models.IntegerField()
+    cholesterol = models.FloatField()
+    daily_caloric_intake = models.IntegerField()
+    dietary_nutrient_imbalance_score = models.FloatField()
+    glucose = models.FloatField()
+    weekly_exercise_hours = models.FloatField()
+
+    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
+    allergies = models.ManyToManyField(Allergie, blank=True)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    dietary_restrictions = models.ManyToManyField(DietaryRestriction, blank=True)
+    disease_type = models.ForeignKey(DiseaseType, on_delete=models.SET_NULL, null=True)
+    member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)
+    preferred_cuisine = models.ForeignKey(PreferredCuisine, on_delete=models.SET_NULL, null=True)
+    recommendation = models.ForeignKey(Recommendation, on_delete=models.SET_NULL, null=True)
+    severity = models.ForeignKey(Severity, on_delete=models.SET_NULL, null=True)
+
+    create_at = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"DietRecommendation {self.pk}"
