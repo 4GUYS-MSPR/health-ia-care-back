@@ -7,8 +7,13 @@ from app.serializers.meal_type import MealTypeSerializer
 
 class FoodSerializer(serializers.ModelSerializer):
 
-    category = FoodCategorySerializer(read_only=True)
-    meal_type = MealTypeSerializer(read_only=True)
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+
+        rep['category'] = FoodCategorySerializer(instance.category).data if instance.category else None
+        rep['meal_type'] = MealTypeSerializer(instance.meal_type).data if instance.meal_type else None
+
+        return rep
 
     class Meta:
         model = Food
@@ -28,3 +33,4 @@ class FoodSerializer(serializers.ModelSerializer):
             "meal_type",
             "create_at"
         ]
+        read_only_fields = ["client"]

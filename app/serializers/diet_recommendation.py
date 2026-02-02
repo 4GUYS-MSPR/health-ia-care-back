@@ -11,14 +11,19 @@ from app.serializers.recommendation import RecommendationSerializer
 from app.serializers.severity import SeveritySerializer
 
 class DietRecommendationSerializer(serializers.ModelSerializer):
+    
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
 
-    activity = ActivitySerializer(read_only=True)
-    allergies = AllergieSerializer(many=True, read_only=True)
-    dietary_restrictions = DietaryRestrictionSerializer(many=True, read_only=True)
-    disease_type = DiseaseTypeSerializer(read_only=True)
-    preferred_cuisine = PreferredCuisineSerializer(read_only=True)
-    recommendation = RecommendationSerializer(read_only=True)
-    severity = SeveritySerializer(read_only=True)
+        rep['activity'] = ActivitySerializer(instance.activity).data if instance.activity else None
+        rep['allergies'] = AllergieSerializer(instance.allergies, many=True).data if instance.allergies else []
+        rep['dietary_restrictions'] = DietaryRestrictionSerializer(instance.dietary_restrictions, many=True).data if instance.dietary_restrictions else []
+        rep['disease_type'] = DiseaseTypeSerializer(instance.disease_type).data if instance.disease_type else None
+        rep['preferred_cuisine'] = PreferredCuisineSerializer(instance.preferred_cuisine).data if instance.preferred_cuisine else None
+        rep['recommendation'] = RecommendationSerializer(instance.recommendation).data if instance.recommendation else None
+        rep['severity'] = SeveritySerializer(instance.severity).data if instance.severity else None
+
+        return rep
 
     class Meta:
         model = DietRecommendation
@@ -41,3 +46,4 @@ class DietRecommendationSerializer(serializers.ModelSerializer):
             "severity",
             "create_at"
         ]
+        read_only_fields = ["client"]

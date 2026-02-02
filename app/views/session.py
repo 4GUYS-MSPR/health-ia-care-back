@@ -7,5 +7,8 @@ from app.utils.query import getQueryALLForUser
 class SessionViewSet(ModelViewSet):
     serializer_class = SessionSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(client=self.request.user)
+
     def get_queryset(self):
         return getQueryALLForUser(Session, self.request.user)

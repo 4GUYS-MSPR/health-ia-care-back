@@ -9,10 +9,15 @@ from app.serializers.subscription import SubscriptionSerializer
 
 class MemberSerializer(serializers.ModelSerializer):
 
-    gender = GenderSerializer(read_only=True)
-    level = LevelSerializer(read_only=True)
-    objectives = ObjectiveSerializer(many=True, read_only=True)
-    subscription = SubscriptionSerializer(read_only=True)
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+
+        rep['gender'] = GenderSerializer(instance.gender).data if instance.gender else None
+        rep['level'] = LevelSerializer(instance.level).data if instance.level else None
+        rep['subscription'] = SubscriptionSerializer(instance.subscription).data if instance.subscription else None
+        rep['objectives'] = ObjectiveSerializer(instance.objectives, many=True).data if instance.objectives else []
+
+        return rep
 
     class Meta:
         model = Member
@@ -30,3 +35,4 @@ class MemberSerializer(serializers.ModelSerializer):
             "subscription",
             "create_at"
         ]
+        read_only_fields = ["client"]

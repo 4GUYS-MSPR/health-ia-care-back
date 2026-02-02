@@ -5,6 +5,7 @@ from app.serializers.exercice import ExerciceSerializer
 from app.utils.query import getQueryALLForUser
 
 class ExerciceViewSet(ModelViewSet):
+    query_filter = {}
     serializer_class = ExerciceSerializer
 
     filters = [
@@ -14,7 +15,8 @@ class ExerciceViewSet(ModelViewSet):
         "body_parts"
     ]
 
-    query_filter = {}
+    def perform_create(self, serializer):
+        serializer.save(client=self.request.user)
 
     def get_queryset(self):
         queryset = getQueryALLForUser(Exercice, self.request.user)

@@ -7,5 +7,8 @@ from app.utils.query import getQueryALLForUser
 class FoodViewSet(ModelViewSet):
     serializer_class = FoodSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(client=self.request.user)
+
     def get_queryset(self):
         return getQueryALLForUser(Food, self.request.user)
