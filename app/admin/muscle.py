@@ -1,8 +1,9 @@
 from django.contrib import admin
 
+from app.exports import ExportCsvMixin
 from app.models.exercice import Exercice
 
-class MuscleAdmin(admin.ModelAdmin):
+class MuscleAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

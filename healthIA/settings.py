@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_spectacular',
+    'admin_extra_buttons',
 ]
 
 REST_FRAMEWORK = {

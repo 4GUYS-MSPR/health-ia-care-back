@@ -1,8 +1,9 @@
 from django.contrib import admin
 
+from app.exports import ExportCsvMixin
 from app.models.exercice import Exercice
 
-class FoodAdmin(admin.ModelAdmin):
+class FoodAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = [
         "pk",

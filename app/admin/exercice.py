@@ -4,9 +4,10 @@ from django.utils.html import format_html
 from app.admin.body_part import BodyPartInline
 from app.admin.equipment import EquipmentInline
 from app.admin.muscle import TargetMuscleInline, SecondaryMuscleInline
+from app.exports import ExportCsvMixin
 from app.models.session import Session
 
-class ExerciceAdmin(admin.ModelAdmin):
+class ExerciceAdmin(ExportCsvMixin, admin.ModelAdmin):
 
     list_display = ["pk", "category", "display_image", "client", "create_at"]
     list_filter = ["category", "client"]

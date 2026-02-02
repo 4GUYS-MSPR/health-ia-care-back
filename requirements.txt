@@ -1,4 +1,5 @@
 django
+django-admin-extra-buttons
 django-cors-headers
 django-filter
 django-jazzmin
