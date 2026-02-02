@@ -3,6 +3,7 @@ from rest_framework import status
 from app.models import Gender, Member
 from app.schemas import PartMemberScheme
 
+from core.imports.actions import BaseAction
 from core.utils.logger import logger
 from core.utils.types import AnyUser
 from core.utils.validation import validate_fields_data
@@ -11,8 +12,6 @@ from logs.levels import LogLevel
 
 from nutrition.models import Activity, Allergie, DietRecommendation, DietaryRestriction, DiseaseType, PreferredCuisine, Recommendation, Severity
 from nutrition.schemas import DietRecommendationScheme, ValidDietRecommendationScheme
-
-from imports.actions import BaseAction
 
 class DietRecommendationAction(BaseAction):
 

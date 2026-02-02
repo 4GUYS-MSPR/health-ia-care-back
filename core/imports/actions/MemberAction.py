@@ -1,4 +1,4 @@
-from app.models.gender import Gender, Level, Member, Subscription
+from app.models import Gender, Level, Member, Subscription
 from app.schemas.member import MemberScheme
 
 from core.utils.logger import logger
