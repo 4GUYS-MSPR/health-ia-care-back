@@ -10,7 +10,7 @@ from nutrition.serializers.recommendation import RecommendationSerializer
 from nutrition.serializers.severity import SeveritySerializer
 
 class DietRecommendationSerializer(serializers.ModelSerializer):
-    
+
     def to_representation(self, instance):
         rep = super().to_representation(instance)
 
