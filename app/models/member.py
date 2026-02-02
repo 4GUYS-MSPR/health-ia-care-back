@@ -24,11 +24,5 @@ class Member(models.Model):
 
     create_at = models.DateTimeField(default=now)
 
-    def get_client_name(self):
-        if self.client is None:
-            return "Unknown"
-        fullname = self.client.get_full_name()
-        return fullname if fullname != "" else str(self.client.username)
-
     def __str__(self):
-        return self.get_client_name()
+        return f"Member {self.pk}"

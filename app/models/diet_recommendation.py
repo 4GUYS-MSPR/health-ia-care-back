@@ -31,3 +31,6 @@ class DietRecommendation(models.Model):
     severity = models.ForeignKey(Severity, on_delete=models.SET_NULL, null=True)
 
     create_at = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"DietRecommendation {self.pk}"
