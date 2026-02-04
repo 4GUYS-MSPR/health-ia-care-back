@@ -1,8 +1,5 @@
-import json
-
 from enum import Enum, EnumMeta
 
-from django.core import serializers
 from django.db.models import Model
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
@@ -41,7 +38,7 @@ class EnumViewSet(ViewSet):
         return JsonResponse.success([m.name for m in ModelEnum])
 
     @action(detail=False, methods=['get'], url_path='(?P<model>[^/.]+)')
-    def get_enum(self, request: HttpRequest, model = None):
+    def get_enum(self, _: HttpRequest, model = None):
         if model not in ModelEnum:
             logger.log.error("Invalid model")
             return JsonResponse.response({
@@ -53,7 +50,7 @@ class EnumViewSet(ViewSet):
             django_model: Model = import_string(ModelEnum[model])
         except ImportError:
             return JsonResponse.response({"message": f"{model} not found."}, 404)
-        
+
         data = [
             {
                 "id": obj.pk,
