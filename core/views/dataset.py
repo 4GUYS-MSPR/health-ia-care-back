@@ -42,10 +42,11 @@ class DataImportViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='(?P<classname>[^/.]+)')
     def action_help(self, request: HttpRequest, classname = None):
         if classname not in [a.value for a in ActionEnum]:
-            logger.error("Invalid classname")
-            return JsonResponse.errors({
+            logger.log.error("Invalid classname")
+            return JsonResponse.response({
+                "message": "Invalid classname",
                 "input": classname
-            }, message="Invalid classname")
+            }, 400)
 
         class_path = f"core.imports.actions.{classname}.{classname}"
         try:

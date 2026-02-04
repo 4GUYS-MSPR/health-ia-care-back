@@ -7,7 +7,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from app.views import ExerciceViewSet, MemberViewSet, SessionViewSet
 
-from core.views import DataImportViewSet, UserViewSet
+from core.views import DataImportViewSet, EnumViewSet, UserViewSet
 
 from logs.views import LogViewSet
 
@@ -15,6 +15,7 @@ from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
 router = routers.DefaultRouter()
 router.register(r'diet_recommendation', DietRecommendationViewSet, basename='diet_recommendation')
+router.register(r'enum', EnumViewSet, basename='enum')
 router.register(r'exercice', ExerciceViewSet, basename='exercice')
 router.register(r'food', FoodViewSet, basename='food')
 router.register(r'import', DataImportViewSet, basename='import')
