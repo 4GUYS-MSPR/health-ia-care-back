@@ -16,6 +16,7 @@ ENV_NEEDS = [
     'ALLOWED_HOSTS',
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
+    'PAGINATION',
     'POSTGRES_DB',
     'POSTGRES_USER',
     'POSTGRES_PASSWORD',
@@ -75,7 +76,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': int(os.getenv('PAGINATION')),
 }
 
 SPECTACULAR_SETTINGS = {
