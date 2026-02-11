@@ -12,5 +12,14 @@ class JsonResponse:
         return Response(data, status=code)
 
     @staticmethod
+    def paginated(count: int, next: int|None, previous: int|None, results: list):
+        return JsonResponse.success({
+            "count": count,
+            "next": next,
+            "previous": previous,
+            "results": results
+        })
+
+    @staticmethod
     def not_implemented():
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)

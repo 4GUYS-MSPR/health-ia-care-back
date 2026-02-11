@@ -60,4 +60,4 @@ class EnumViewSet(ViewSet):
             for obj in django_model.objects.all()
         ]
 
-        return JsonResponse.response(data, 200)
+        return JsonResponse.paginated(len(data), None, None, data)

@@ -52,11 +52,14 @@ class DataImportViewSet(viewsets.ViewSet):
         try:
             cls = import_string(class_path)
         except ImportError:
+            logger.log.error(f"{classname} not found.")
             return JsonResponse.response({"message": f"{classname} not found."}, 404)
 
         classname_action: BaseAction = cls(request.user)
 
-        return JsonResponse.success(classname_action.scheme().model_json_schema())
+        schema = classname_action.scheme().model_json_schema()
+        properties = schema["properties"]
+        return JsonResponse.paginated(len(properties), None, None, properties)
 
     def create(self, request: HttpRequest):
         fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
