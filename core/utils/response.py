@@ -12,11 +12,11 @@ class JsonResponse:
         return Response(data, status=code)
 
     @staticmethod
-    def paginated(count: int, next: int|None, previous: int|None, results: list):
+    def paginated(count: int, next_page: int|None, previous_page: int|None, results: list):
         return JsonResponse.success({
             "count": count,
-            "next": next,
-            "previous": previous,
+            "next": next_page,
+            "previous": previous_page,
             "results": results
         })
 
