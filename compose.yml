@@ -9,6 +9,11 @@ services:
       - .env
     depends_on:
       - db
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1 
+      - PYTHONUNBUFFERED=1
 
   db:
     image: postgres:16
