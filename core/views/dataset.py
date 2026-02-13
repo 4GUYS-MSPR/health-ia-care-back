@@ -6,6 +6,8 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+
 from pydantic import ValidationError
 
 from rest_framework import viewsets, status
@@ -61,6 +63,25 @@ class DataImportViewSet(viewsets.ViewSet):
         properties = schema["properties"]
         return JsonResponse.paginated(len(properties), None, None, properties)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='classname',
+                description='Model you want to import',
+                required=True,
+                type=str,
+                location=OpenApiParameter.QUERY
+            ),
+
+            OpenApiParameter(
+                name='data',
+                description='Data to import',
+                required=True,
+                type=str,
+                location=OpenApiParameter.QUERY
+            )
+        ]
+    )
     def create(self, request: HttpRequest):
         fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
         username = fullname if fullname != "" else str(request.user.username)
