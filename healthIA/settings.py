@@ -12,7 +12,7 @@ load_dotenv('.env')
 
 ENV_NEEDS = [
     'SECRET_KEY',
-    'DEBUG',
+    'DJANGO_DEBUG',
     'ALLOWED_HOSTS',
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
@@ -31,7 +31,7 @@ for x in ENV_NEEDS:
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
 ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
