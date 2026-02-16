@@ -1,13 +1,7 @@
-from django.urls import reverse_lazy
 from rest_framework.test import APITestCase
+from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
-
-from app.models.member import Member
-from app.models.gender import Gender
-from app.models.level import Level
-from app.models.subscription import Subscription
 from app.tests.utils.fake_member import create_member
-
 
 class TestMember(APITestCase):
     def setUp(self):
@@ -27,23 +21,13 @@ class TestMember(APITestCase):
         print("Le code de retour est bien 200")
         self.assertIsInstance(response.data["results"], list )
         print("L'api retourne un resultat sous forme de liste")
-        
-        
     def test_should_return_unauthorized_response_if_user_is_not_authentified(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 401)
         print("L'API retourne un code erreur 401")
-
-
     def test_should_return_only_member_of_logged_client(self):
         self.client.force_login(self.user_1)
         self.client.force_authenticate(user=self.user_1)
         response = self.client.get(self.url)
         self.assertEqual(len(response.data['results']),2)
         print("L'api retourne seulement les membres d'un client donné")
-
-
-
-
-
-

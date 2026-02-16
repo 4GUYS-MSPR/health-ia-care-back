@@ -1,8 +1,8 @@
+import datetime
 from app.models.member import Member
 from app.models.gender import Gender
 from app.models.level import Level
 from app.models.subscription import Subscription
-import datetime
 
 def create_member(client, **kwargs):
     """
@@ -29,4 +29,3 @@ def create_member(client, **kwargs):
 
     defaults.update(kwargs)
     return Member.objects.create(**defaults)
-        

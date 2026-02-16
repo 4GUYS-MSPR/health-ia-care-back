@@ -1,10 +1,9 @@
+import datetime
 from app.models.exercice import Exercice
 from app.models.category import Category
 from app.models.body_part import BodyPart
 from app.models.equipment import Equipment
 from app.models.muscle import Muscle
-
-import datetime
 
 
 def create_exercice(client, **kwargs):
