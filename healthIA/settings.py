@@ -142,6 +142,12 @@ DATABASES = {
     }
 }
 
+if os.getenv('DATABASE_URL') == "sqlite:///:memory:":
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
