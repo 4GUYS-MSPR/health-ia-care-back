@@ -41,7 +41,7 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST}}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-      run: 
+      run: |
         docker compose up -d
         docker compose exec db sh -c "until pg_isready -U $POSTGRES_USER -d $POSTGRES_DB; do sleep 1; done"
         docker compose run api pytest
