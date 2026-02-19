@@ -4,6 +4,7 @@ django-cors-headers
 django-filter
 django-jazzmin
 djangorestframework
+djangorestframework-simplejwt
 drf-redesign
 drf-spectacular
 gunicorn
