@@ -20,10 +20,10 @@ jobs:
         with: 
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ github.event.workflow_run.conclusion }}
-          username: "Release"
+          username: "Github"
           avatar_url: "https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fmodules%2Flogos_page%2FGitHub-Mark.png"
-          title: "Rapport de release"
+          title: "Rapport de CI"
           description: |
-            **Résultat de la CI** : ${{ github.event.workflow_run.conclusion == 'success' && '✅ Succès' || '❌ Échec' }}
+            **Résultat** : ${{ github.event.workflow_run.conclusion == 'success' && '✅ Succès' || '❌ Échec' }}
             **Lien vers le run** : [Voir les détails](${{ github.event.workflow_run.html_url }})
             **Déclenché par** : ${{ github.event.workflow_run.head_commit.author.name }}
