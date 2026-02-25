@@ -28,6 +28,9 @@ migrations:
 check:
 	pylint $$(git ls-files '*.py')
 
+test:
+	docker exec -it health-ia-api python manage.py test  
+
 run:
 ifndef cmd
 	$(error cmd must be set, make run cmd=cmd.gx)
@@ -44,5 +47,6 @@ help:
 	echo "    migrate    Run Django migrations inside container"
 	echo "    check      Run pylint"
 	echo "    run        Run arbitrary Django manage.py command (ex: make run cmd=createsuperuser)"
+	echo "    test		 Run all tests directly in docker container"
 	echo "    help       Show this help message"
 	echo ""

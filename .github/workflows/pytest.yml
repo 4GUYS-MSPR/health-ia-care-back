@@ -1,0 +1,46 @@
+name: Pytest
+ 
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+ 
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            python-version: [3.11]
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+      CSRF_TRUSTED_ORIGINS: ${{ secrets.CSRF_TRUSTED_ORIGINS }}
+      CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+      PAGINATION: ${{ secrets.PAGINATION }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST}}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      DATABASE_URL: "sqlite:///:memory:"
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+ 
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+ 
+    - name: Install Dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+ 
+    - name: Run Tests with Pytest
+      run: pytest
+ 

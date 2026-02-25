@@ -13,5 +13,8 @@ markdown
 psycopg2-binary
 pydantic
 pylint
+pytest
+pytest-django
 python-dotenv
 whitenoise
+
