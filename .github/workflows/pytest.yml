@@ -1,30 +1,35 @@
 name: pytest
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
 
 jobs:
-  pytest:
-    runs-on : ubuntu-latest
+  coverage:
+    runs-on: ubuntu-latest
     strategy:
-      matrix :
-        python-version: ["3.11"] 
-    
+      matrix:
+        python-version: ['3.11']
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Installation de Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      
+
       - name: Install Dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-      
-      - name: Run Tests with Pytest
+
+      - name: Run Tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
@@ -37,4 +42,10 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.TEST_POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.TEST_POSTGRES_PORT }}
-        run: pytest
+        run: coverage run -m pytest; coverage xml
+      
+      - name: Get Coverage - change
+        uses: orgoro/coverage@v3.1
+        with:
+          coverageFile: coverage.xml
+          token: ${{secrets.GITHUB_TOKEN}}
