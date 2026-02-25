@@ -17,4 +17,3 @@ pytest
 pytest-django
 python-dotenv
 whitenoise
-
