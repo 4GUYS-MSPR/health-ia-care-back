@@ -1,8 +1,7 @@
 name: pytest
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
 
 permissions:
   pull-requests: write
@@ -42,10 +41,4 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.TEST_POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.TEST_POSTGRES_PORT }}
-        run: coverage run -m pytest; coverage xml
-      
-      - name: Get Coverage - change
-        uses: orgoro/coverage@v3.1
-        with:
-          coverageFile: coverage.xml
-          token: ${{secrets.GITHUB_TOKEN}}
+        run: pytest

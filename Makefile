@@ -25,8 +25,11 @@ down:
 migrations:
 	POSTGRES_HOST=localhost python manage.py makemigrations
 
-check:
+check: check-lint check-test
+check-lint:
 	pylint $$(git ls-files '*.py')
+check-test:
+	POSTGRES_HOST=localhost pytest
 
 test:
 	docker exec -it health-ia-api python manage.py test  
