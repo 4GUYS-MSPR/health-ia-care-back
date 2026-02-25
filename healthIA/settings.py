@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 
 from datetime import timedelta
 from pathlib import Path
@@ -24,6 +24,7 @@ ENV_NEEDS = [
     'POSTGRES_PORT',
     'POSTGRES_HOST'
 ]
+
 for x in ENV_NEEDS:
     ENV = os.getenv(x)
     if not ENV:
