@@ -1,4 +1,4 @@
-name: Tests & Coverage
+name: coverage
 
 on:
   pull_request:
@@ -30,6 +30,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          CSRF_TRUSTED_ORIGINS: ${{ secrets.CSRF_TRUSTED_ORIGINS }}
+          CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+          PAGINATION: ${{ secrets.PAGINATION }}
+          POSTGRES_DB: ${{ secrets.TEST_POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.TEST_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
+          POSTGRES_HOST: ${{ secrets.TEST_POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.TEST_POSTGRES_PORT }}
         run: coverage run -m pytest; coverage xml
       
       - name: Get Coverage - change
