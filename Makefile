@@ -13,12 +13,6 @@ up:
 		docker compose up -d api; \
 	fi
 
-reload:
-	docker compose up -d --build
-	@if [ "$(logs)" = "1" ]; then \
-		docker logs -f health-ia-api; \
-	fi
-
 down:
 	docker compose down
 
@@ -31,9 +25,6 @@ check-lint:
 check-test:
 	POSTGRES_HOST=localhost pytest
 
-test:
-	docker exec -it health-ia-api python manage.py test  
-
 run:
 ifndef cmd
 	$(error cmd must be set, make run cmd=cmd.gx)
@@ -42,14 +33,14 @@ else
 endif
 
 help:
-	echo "Usage: make <target>"
+	echo "Usage: make <command>"
 	echo ""
 	echo "    up         Start docker-compose in detached mode"
-	echo "    reload     Rebuild docker-compose in detached mode"
 	echo "    down       Stop docker-compose"
-	echo "    migrate    Run Django migrations inside container"
-	echo "    check      Run pylint"
-	echo "    run        Run arbitrary Django manage.py command (ex: make run cmd=createsuperuser)"
-	echo "    test		 Run all tests directly in docker container"
+	echo "    migrations Run Django app migrations"
+	echo "    check      Run pylint & pytest"
+	echo "    check-lint Run pylint"
+	echo "    check-test Run pytest"
+	echo "    run        Run arbitrary Django manage.py command (ex: make run cmd=\"createsuperuser\")"
 	echo "    help       Show this help message"
 	echo ""
