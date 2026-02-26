@@ -3,10 +3,6 @@ name: pytest
 on:
   push:
 
-permissions:
-  pull-requests: write
-  contents: read
-
 jobs:
   coverage:
     runs-on: ubuntu-latest
