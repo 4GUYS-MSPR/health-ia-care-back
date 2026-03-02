@@ -3,7 +3,7 @@ django
 django-admin-extra-buttons
 django-cors-headers
 django-filter
-django-jazzmin
+django-jazzmin==3.0.1
 djangorestframework
 djangorestframework-simplejwt
 drf-redesign
