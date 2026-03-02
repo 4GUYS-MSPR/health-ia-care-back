@@ -7,7 +7,6 @@ from app.models.session import Session
 from app.tests.utils.fake_member import create_member
 from app.tests.utils.fake_exercice import create_exercice
 
-
 class TestSession(APITestCase):
     def setUp(self):
         User = get_user_model()
