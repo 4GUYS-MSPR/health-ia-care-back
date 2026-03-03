@@ -39,6 +39,11 @@ ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
 CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
 
+# Allow preview site
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"https://preview-healthia-frontend-j5lltg-.*\.host-dcode\.fr"
+]
+
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
