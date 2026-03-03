@@ -47,6 +47,14 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     if reg.strip()
 ]
 
+import re
+# Test manuel au démarrage du serveur
+test_origin = "https://preview-healthia-frontend-j5lltg-pswpi7.host-dcode.fr"
+if any(re.match(pattern, test_origin) for pattern in CORS_ALLOWED_ORIGIN_REGEXES):
+    print("✅ MATCH : Django autorisera localhost:8080")
+else:
+    print("❌ NO MATCH : Le regex ne correspond pas à l'origine")
+
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
