@@ -112,12 +112,3 @@ class TestSession(APITestCase):
         self.assertIsInstance(data['resting_bpm'], int)
         self.assertIsInstance(data['water_intake'], float)
         self.assertIsInstance(data['member'], int)
-
-
-
-
-
-
-
-
-

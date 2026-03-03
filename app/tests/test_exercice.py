@@ -1,12 +1,9 @@
-import datetime
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from app.tests.utils.fake_exercice import create_exercice
 from app.serializers.exercice import ExerciceSerializer
-
 class TestExercice(APITestCase):
-    
     def setUp(self):
         User = get_user_model()
         self.user_3 = User.objects.create_user(username="user_three", password="userThreePassword")
@@ -29,7 +26,7 @@ class TestExercice(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         print("Le code de retour est bien 200")
-    
+
     def test_should_return_a_list_of_exercices(self):
         self.force_auth()
         response = self.client.get(self.url)
@@ -57,7 +54,7 @@ class TestExercice(APITestCase):
         self.assertEqual(data["equipments"][0]["value"], "STICK")
         self.assertEqual(data["secondary_muscles"][0]["value"], "SPLENIUS")
         self.assertEqual(data["target_muscles"][0]["value"], "SPLENIUS")
-        
+
     def test_response_should_match_with_serializer_type(self):
         data = self.serializer.data
         self.assertIsInstance(data["id"], int)
@@ -68,13 +65,3 @@ class TestExercice(APITestCase):
         self.assertIsInstance(data["equipments"][0]["value"], str)
         self.assertIsInstance(data["secondary_muscles"][0]["value"], str)
         self.assertIsInstance(data["target_muscles"][0]["value"], str)
-
-
-
-
-
-
-
-        
-
-        
