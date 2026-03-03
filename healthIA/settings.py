@@ -17,6 +17,7 @@ ENV_NEEDS = [
     'ALLOWED_HOSTS',
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
+    'CORS_ALLOWED_ORIGIN_REGEXES',
     'PAGINATION',
     'POSTGRES_DB',
     'POSTGRES_USER',
@@ -39,9 +40,11 @@ ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
 CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
 
-# Allow preview site
-CORS_ORIGIN_REGEX_WHITELIST = [
-    r"https://preview-healthia-frontend-j5lltg-.*\.host-dcode\.fr"
+raw_whitelist = os.getenv('CORS_ALLOWED_ORIGIN_REGEXES', '')
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"{}".format(reg.strip()) 
+    for reg in raw_whitelist.split(',') 
+    if reg.strip()
 ]
 
 CORS_ALLOW_METHODS = [
