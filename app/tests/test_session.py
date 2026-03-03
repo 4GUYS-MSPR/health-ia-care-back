@@ -68,19 +68,7 @@ class TestSession(APITestCase):
         session_3.exercices.set([self.exercice_1])
         self.session_4.exercices.set([self.exercice_1])
 
-
         self.serializer = SessionSerializer(instance=self.session_4)
-        self.expected_data = {
-            "id": self.session_4.id,
-            "avg_bpm": 12,
-            "calories_burned": 20.5,
-            "duration": "01:30:00",
-            "max_bpm": 180,
-            "resting_bpm": 60,
-            "water_intake": 1.5,
-            "member": self.member_1.id, 
-            "exercices": [self.exercice_1.id],
-        }
 
     def test_should_return_a_list_of_session(self):
         self.client.force_login(self.user_1)
