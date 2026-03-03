@@ -18,7 +18,6 @@ ENV_NEEDS = [
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
     'CORS_ALLOWED_ORIGIN_REGEXES',
-    'CORS_ALLOW_CREDENTIALS',
     'PAGINATION',
     'POSTGRES_DB',
     'POSTGRES_USER',
@@ -47,7 +46,6 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     for reg in raw_whitelist.split(',') 
     if reg.strip()
 ]
-CORS_ALLOW_CREDENTIALS = os.getenv('CORS_ALLOW_CREDENTIALS') == 'True'
 
 CORS_ALLOW_METHODS = [
     "DELETE",
