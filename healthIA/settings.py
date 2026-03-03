@@ -40,7 +40,7 @@ CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
 CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
 
 # Allow preview site
-CORS_ALLOWED_ORIGIN_REGEXES = [
+CORS_ORIGIN_REGEX_WHITELIST = [
     r"https://preview-healthia-frontend-j5lltg-.*\.host-dcode\.fr"
 ]
 
