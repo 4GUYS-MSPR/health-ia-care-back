@@ -39,7 +39,13 @@ DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
 CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
-CORS_ORIGIN_REGEX_WHITELIST = cast(str, os.getenv('CORS_ORIGIN_REGEX_WHITELIST')).split(',')
+
+raw_whitelist = os.getenv('CORS_ORIGIN_REGEX_WHITELIST', '')
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"{}".format(reg.strip()) 
+    for reg in raw_whitelist.split(',') 
+    if reg.strip()
+]
 
 CORS_ALLOW_METHODS = [
     "DELETE",
