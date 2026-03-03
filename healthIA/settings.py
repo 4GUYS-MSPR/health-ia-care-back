@@ -17,7 +17,6 @@ ENV_NEEDS = [
     'ALLOWED_HOSTS',
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
-    'CORS_ALLOWED_ORIGIN_REGEXES',
     'PAGINATION',
     'POSTGRES_DB',
     'POSTGRES_USER',
@@ -39,21 +38,6 @@ DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
 CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
-
-raw_whitelist = os.getenv('CORS_ALLOWED_ORIGIN_REGEXES', '')
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"{}".format(reg.strip()) 
-    for reg in raw_whitelist.split(',') 
-    if reg.strip()
-]
-
-import re
-# Test manuel au démarrage du serveur
-test_origin = "https://preview-healthia-frontend-j5lltg-pswpi7.host-dcode.fr"
-if any(re.match(pattern, test_origin) for pattern in CORS_ALLOWED_ORIGIN_REGEXES):
-    print("✅ MATCH : Django autorisera localhost:8080")
-else:
-    print("❌ NO MATCH : Le regex ne correspond pas à l'origine")
 
 CORS_ALLOW_METHODS = [
     "DELETE",
