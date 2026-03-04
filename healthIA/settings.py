@@ -42,8 +42,8 @@ CORS_ALLOWED_ORIGINS = cast(str, os.getenv('CORS_ALLOWED_ORIGINS')).split(',')
 
 raw_whitelist = os.getenv('CORS_ALLOWED_ORIGIN_REGEXES', '')
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"{}".format(reg.strip()) 
-    for reg in raw_whitelist.split(',') 
+    r"{}".format(reg.strip()) # pylint: disable=consider-using-f-string
+    for reg in raw_whitelist.split(',')
     if reg.strip()
 ]
 
