@@ -48,8 +48,8 @@ Then, juste run `up` command bellow.
 | Username   | `admin` |
 | password   | `admin` |
 
-<span style="color: #C2BC23">WARNING</span> : <span style="color: #A1A1A1"> **Don't forget to change admin password !**</span><br>
-<span style="color: #C2BC23">WARNING</span> : <span style="color: #A1A1A1"> *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*</span>
+⚠️ **Don't forget to change admin password !**<br>
+⚠️ *Don't use directly `python manage.py ...`, you are going to have invalid database host error !*
 
 ## Commands
 
