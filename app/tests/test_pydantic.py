@@ -10,7 +10,6 @@ class TestImportValidation(SimpleTestCase):
             "classname": "ActionNone", 
             "data": [{"some": "data"}]
         }
-        
         with self.assertRaises(ValidationError):
             ImportRequest(classname=payload["classname"], data=payload["data"])
 
@@ -19,10 +18,9 @@ class TestImportValidation(SimpleTestCase):
             "classname": "MemberAction",
             "data": "Not a list"
         }
-        
         with self.assertRaises(ValidationError):
             ImportRequest(classname=payload["classname"], data=payload["data"])
-    
+
     def test_memeber_scheme_should_verify_datas(self):
         data = {
             "age" : 25,
@@ -38,4 +36,3 @@ class TestImportValidation(SimpleTestCase):
 
         self.assertEqual(member.height, 1.85)
         self.assertIsNot(member.age, float)
-   
