@@ -3,10 +3,13 @@ from enum import Enum, EnumMeta
 from django.db.models import Model
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 
+from rest_framework import serializers
 from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 
+from core.serializers import EnumItemSerializer
 from core.utils.logger import logger
 from core.utils.response import JsonResponse
 
@@ -34,11 +37,31 @@ class ModelEnum(str, Enum, metaclass=ModelMeta):
 
 class EnumViewSet(ViewSet):
 
+    @extend_schema(
+        summary="Enum list",
+        responses=serializers.ListSerializer(
+            child=serializers.CharField()
+        )
+    )
     def list(self, _):
         return JsonResponse.success([m.name for m in ModelEnum])
 
-    @action(detail=False, methods=['get'], url_path='(?P<model>[^/.]+)')
-    def get_enum(self, _: HttpRequest, model = None):
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="model",
+                location=OpenApiParameter.PATH,
+                type=str,
+                description="Name of enum model"
+            )
+        ],
+        responses=OpenApiResponse(
+            response=EnumItemSerializer(many=True)
+        ),
+        summary="Enum values",
+    )
+    @action(detail=False, methods=["get"], url_path="(?P<model>[^/.]+)")
+    def get_enum(self, _: HttpRequest, model: str|None = None):
         if model not in ModelEnum:
             logger.log.error("Invalid model")
             return JsonResponse.response({

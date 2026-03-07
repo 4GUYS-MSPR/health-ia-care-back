@@ -6,11 +6,12 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest
 from django.utils.module_loading import import_string
 
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+from drf_spectacular.types import OpenApiTypes
 
 from pydantic import ValidationError
 
-from rest_framework import viewsets, status
+from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 
@@ -26,6 +27,10 @@ class DataImportViewSet(viewsets.ViewSet):
 
     parser_classes = [JSONParser, MultiPartParser]
 
+    @extend_schema(
+        summary="Action list",
+        responses=OpenApiResponse(response=OpenApiTypes.OBJECT)
+    )
     def list(self, _):
         return JsonResponse.success({
             "classname": {
@@ -38,9 +43,22 @@ class DataImportViewSet(viewsets.ViewSet):
             }
         })
 
-    # ====================================================
-    # | Changer les logs pour utiliser celle de la PR 46 |
-    # ====================================================
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="classname",
+                location=OpenApiParameter.PATH,
+                type=str,
+                description="Action"
+            )
+        ],
+        responses=OpenApiResponse(
+            response=serializers.ListSerializer(
+                child=serializers.DictField()
+            )
+        ),
+        summary="Action data scheme",
+    )
     @action(detail=False, methods=['get'], url_path='(?P<classname>[^/.]+)')
     def action_help(self, request: HttpRequest, classname = None):
         if classname not in [a.value for a in ActionEnum]:
@@ -80,7 +98,11 @@ class DataImportViewSet(viewsets.ViewSet):
                 type=str,
                 location=OpenApiParameter.QUERY
             )
-        ]
+        ],
+        responses=OpenApiResponse(
+            response=OpenApiTypes.STR
+        ),
+        summary="Import data",
     )
     def create(self, request: HttpRequest):
         fullname = getattr(request.user, "get_full_name", lambda: "Anonymous")()
