@@ -11,10 +11,12 @@ class TestToken(APITestCase):
         data = {"username": "Test", "password": "Password"}
         response = self.client.post(self.url, data, format="json")
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.data["token"], str)
-        self.assertIn("token", response.data)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+        self.assertIsInstance(response.data["access"], str)
+        self.assertIsInstance(response.data["refresh"], str)
 
     def test_should_return_an_error_if_password_doesnt_match(self):
         data = {"username": "Test", "password": "Password2"}
         response = self.client.post(self.url, data, format="json")
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
