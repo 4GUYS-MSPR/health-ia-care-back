@@ -51,7 +51,7 @@ def create_expected_member(client, **kwargs):
     gender = create_gender()
     level = create_level()
     subscription = create_subscription()
-    
+
     objectives = [] if "objectives" not in dict.keys(kwargs) else kwargs["objectives"]
 
     defaults = {
