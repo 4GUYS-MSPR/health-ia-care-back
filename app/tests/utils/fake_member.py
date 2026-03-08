@@ -1,9 +1,5 @@
 import datetime
-from app.models.member import Member
-from app.models.gender import Gender
-from app.models.level import Level
-from app.models.subscription import Subscription
-
+from app.models import Gender, Level, Member, Objective, Subscription
 
 def create_gender():
     gender = Gender.objects.create(value = "FEMALE", create_at = datetime.datetime.now())
@@ -26,6 +22,8 @@ def create_member(client, **kwargs):
     level = create_level()
     subscription = create_subscription()
 
+    objectives = [] if "objectives" not in dict.keys(kwargs) else kwargs["objectives"]
+
     defaults = {
             "age" : 18,
             "bmi" : 10.5,
@@ -33,7 +31,6 @@ def create_member(client, **kwargs):
             "height" : 180.2,
             "weight" : 80.5,
             "workout_frequency" : 3,
-            "objectives" : [],
             "client" : client,
             "gender" : gender,
             "level" : level,
@@ -42,7 +39,10 @@ def create_member(client, **kwargs):
     }
 
     defaults.update(kwargs)
-    return Member.objects.create(**defaults)
+    member = Member.objects.create(**defaults)
+    for objective in objectives:
+        Objective.objects.create(member=member, value=objective)
+    return member
 
 def create_expected_member(client, **kwargs):
     """
@@ -51,6 +51,8 @@ def create_expected_member(client, **kwargs):
     gender = create_gender()
     level = create_level()
     subscription = create_subscription()
+    
+    objectives = [] if "objectives" not in dict.keys(kwargs) else kwargs["objectives"]
 
     defaults = {
             "id": 4,
@@ -60,7 +62,6 @@ def create_expected_member(client, **kwargs):
             "height" : 180,
             "weight" : 80.5,
             "workout_frequency" : 3,
-            "objectives" : [],
             "client" : client,
             "gender" : gender,
             "level" : level,
@@ -69,4 +70,7 @@ def create_expected_member(client, **kwargs):
     }
 
     defaults.update(kwargs)
-    return Member.objects.create(**defaults)
+    member = Member.objects.create(**defaults)
+    for objective in objectives:
+        Objective.objects.create(member=member, value=objective)
+    return member
