@@ -26,6 +26,7 @@ from logs.levels import LogLevel
 class DataImportViewSet(viewsets.ViewSet):
 
     parser_classes = [JSONParser, MultiPartParser]
+    path = "core.imports.actions"
 
     @extend_schema(
         summary="Action list",
@@ -128,7 +129,7 @@ class DataImportViewSet(viewsets.ViewSet):
             validated = validate_request(ImportRequest, payload)
 
             classname = validated.classname.value
-            class_path = f"app.imports.actions.{classname}.{classname}"
+            class_path = f"{self.path}.{classname}.{classname}"
             try:
                 cls = import_string(class_path)
             except ImportError:
@@ -197,7 +198,7 @@ class DataImportViewSet(viewsets.ViewSet):
             validated = validate_request(PartialImportRequest, body)
 
             classname = validated.classname.value
-            class_path = f"app.imports.actions.{classname}.{classname}"
+            class_path = f"{self.path}.{classname}.{classname}"
             try:
                 cls = import_string(class_path)
             except ImportError as e:
