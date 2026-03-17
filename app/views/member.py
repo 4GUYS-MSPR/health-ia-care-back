@@ -1,15 +1,27 @@
 from rest_framework.viewsets import ModelViewSet
 
-from app.models import Member
+from app.models import Member, Objective
 from app.serializers.member import MemberSerializer
 
 from core.utils.query import getQueryALLForUser
 
+import json
+from core.utils.logger import logger
+
 class MemberViewSet(ModelViewSet):
     serializer_class = MemberSerializer
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: MemberSerializer):
         serializer.save(client=self.request.user)
+
+    def perform_update(self, serializer: MemberSerializer):
+        old: Member = serializer.instance
+        data = serializer.validated_data
+        objectives = data.get('objectives')
+        for obj in Objective.objects.filter(member = old):
+            if obj not in objectives:
+                obj.delete()
+        serializer.save()
 
     def get_queryset(self):
         return getQueryALLForUser(Member, self.request.user)
