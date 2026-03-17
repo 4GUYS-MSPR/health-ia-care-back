@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from app.models import Exercice
 from app.serializers.exercice import ExerciceSerializer
 
-from core.utils.query import getQueryALLForUser
+from core.utils.query import get_query_all_for_user
 
 class ExerciceViewSet(ModelViewSet):
     query_filter = {}
@@ -20,7 +20,7 @@ class ExerciceViewSet(ModelViewSet):
         serializer.save(client=self.request.user)
 
     def get_queryset(self):
-        queryset = getQueryALLForUser(Exercice, self.request.user)
+        queryset = get_query_all_for_user(Exercice, self.request.user)
         for filter_name in self.filters:
             filter_value = self.request.GET.get(filter_name)
             if filter_value:

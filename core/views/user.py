@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from core.serializers import UserSerializer
-from core.utils.query import getQueryALLForUser
+from core.utils.query import get_query_all_for_user
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -18,7 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return [IsAdminUser()]
 
     def get_queryset(self):
-        return getQueryALLForUser(User, self.request.user).order_by('id')
+        return get_query_all_for_user(User, self.request.user).order_by('id')
 
     @action(detail=False, methods=['get'])
     def me(self, request):

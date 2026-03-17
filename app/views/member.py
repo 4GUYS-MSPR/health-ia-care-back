@@ -3,10 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from app.models import Member, Objective
 from app.serializers.member import MemberSerializer
 
-from core.utils.query import getQueryALLForUser
-
-import json
-from core.utils.logger import logger
+from core.utils.query import get_query_all_for_user
 
 class MemberViewSet(ModelViewSet):
     serializer_class = MemberSerializer
@@ -24,4 +21,4 @@ class MemberViewSet(ModelViewSet):
         serializer.save()
 
     def get_queryset(self):
-        return getQueryALLForUser(Member, self.request.user)
+        return get_query_all_for_user(Member, self.request.user)
