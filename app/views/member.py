@@ -17,19 +17,31 @@ class MemberViewSet(ModelViewSet):
         for obj in objectives:
             Objective.objects.create(
                 member=member,
-                value=obj.value,
+                value=obj.get('value'),
                 create_at=timezone.now()
             )
 
     def perform_update(self, serializer: MemberSerializer):
         old: Member = serializer.instance
         data = serializer.validated_data
-        objectives = data.get('objectives')
-        print(objectives)
-        for obj in Objective.objects.filter(member = old):
+        objectives = data.pop('objectives')
+        avalaible = Objective.objects.filter(member = old)
+        serializer.save()
+        for obj in objectives:
+            if obj not in avalaible:
+                Objective.objects.create(
+                    member=old,
+                    value=obj.get('value'),
+                    create_at=timezone.now()
+                )
+            else:
+                model = avalaible.get(id=obj.get('id'))
+                model.value = obj.get('value')
+                model.save()
+        
+        for obj in avalaible:
             if obj not in objectives:
                 obj.delete()
-        serializer.save()
 
     def get_queryset(self):
         return get_query_all_for_user(Member, self.request.user)
