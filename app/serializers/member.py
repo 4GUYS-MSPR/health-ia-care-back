@@ -9,6 +9,8 @@ from app.serializers.subscription import SubscriptionSerializer
 
 class MemberSerializer(serializers.ModelSerializer):
 
+    objectives = ObjectiveSerializer(many=True, required=False)
+
     def to_representation(self, instance):
         rep = super().to_representation(instance)
 
