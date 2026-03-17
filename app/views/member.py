@@ -10,9 +10,10 @@ class MemberViewSet(ModelViewSet):
 
     def perform_create(self, serializer: MemberSerializer):
         data = serializer.validated_data
-        objectives = data.get('objectives')
-        print(objectives)
+        objectives = data.pop('objectives')
         serializer.save(client=self.request.user)
+        for obj in objectives:
+            Objective.objects.create()
 
     def perform_update(self, serializer: MemberSerializer):
         old: Member = serializer.instance
