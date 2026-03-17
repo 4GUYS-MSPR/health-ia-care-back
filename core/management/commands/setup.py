@@ -14,9 +14,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--force',
-            type=bool,
-            help='Force setup',
-            default=False
+            action='store_true',
+            help='Force setup'
         )
 
     def handle(self, *args, **options):

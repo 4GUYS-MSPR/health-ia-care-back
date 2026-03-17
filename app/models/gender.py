@@ -8,3 +8,11 @@ class Gender(models.Model):
 
     def __str__(self):
         return str(self.value)
+
+    @staticmethod
+    def get_factory_values():
+        return [
+            "FEMALE",
+            "MALE",
+            "NOT SPECIFIED",
+        ]
