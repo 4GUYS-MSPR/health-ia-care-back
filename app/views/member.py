@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from rest_framework.viewsets import ModelViewSet
 
 from app.models import Member, Objective
@@ -11,9 +13,13 @@ class MemberViewSet(ModelViewSet):
     def perform_create(self, serializer: MemberSerializer):
         data = serializer.validated_data
         objectives = data.pop('objectives')
-        serializer.save(client=self.request.user)
+        member = serializer.save(client=self.request.user)
         for obj in objectives:
-            Objective.objects.create()
+            Objective.objects.create(
+                member=member,
+                value=obj.value,
+                create_at=timezone.now()
+            )
 
     def perform_update(self, serializer: MemberSerializer):
         old: Member = serializer.instance
