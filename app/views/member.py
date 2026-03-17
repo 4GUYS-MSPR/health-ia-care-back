@@ -18,6 +18,7 @@ class MemberViewSet(ModelViewSet):
         old: Member = serializer.instance
         data = serializer.validated_data
         objectives = data.get('objectives')
+        print(objectives)
         for obj in Objective.objects.filter(member = old):
             if obj not in objectives:
                 obj.delete()
