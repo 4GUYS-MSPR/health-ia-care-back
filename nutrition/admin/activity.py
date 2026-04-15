@@ -1,8 +1,8 @@
-from django.contrib import admin
+from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
-class ActivityAdmin(ExportCsvMixin, admin.ModelAdmin):
+class ActivityAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

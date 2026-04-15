@@ -7,13 +7,15 @@ from typing import cast
 
 from dotenv import load_dotenv
 
+from django.urls import reverse_lazy
+
 from logs.handler import InterceptHandler
 
 load_dotenv('.env')
 
 ENV_NEEDS = [
     'SECRET_KEY',
-    'DJANGO_DEBUG',
+    'DEBUG',
     'ALLOWED_HOSTS',
     'CSRF_TRUSTED_ORIGINS',
     'CORS_ALLOWED_ORIGINS',
@@ -34,7 +36,7 @@ for x in ENV_NEEDS:
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = cast(str, os.getenv('ALLOWED_HOSTS')).split(',')
 CSRF_TRUSTED_ORIGINS = cast(str, os.getenv('CSRF_TRUSTED_ORIGINS')).split(',')
@@ -57,7 +59,10 @@ CORS_ALLOW_METHODS = [
 ] # À définir
 
 INSTALLED_APPS = [
-    'jazzmin',
+    'unfold',
+    'unfold.contrib.filters',
+    'unfold.contrib.forms',
+    'unfold.contrib.inlines',
     'drf_redesign',
     'app.apps.HealIaAppConfig',
     'core.apps.CoreConfig',
@@ -105,13 +110,176 @@ SPECTACULAR_SETTINGS = {
     ],
 }
 
-JAZZMIN_SETTINGS = {
-    "custom_css": "css/admin_custom.css",
-    "site_brand": "HealthIA",
-    "site_header": "HealthIA",
-    "site_logo": "/logo.webp",
-    "site_title": "HealthIA",
-    "welcome_sign": "Welcome to HealthIA !",
+UNFOLD = {
+    'SITE_TITLE': 'HealthIA',
+    'SITE_HEADER': 'HealthIA',
+    'SITE_SYMBOL': 'speed',
+    'SITE_ICON': {
+        'light': '/static/logo.webp',
+        'dark': '/static/logo.webp',
+    },
+    'COLORS': {
+        'primary': {
+            '50': '#d1fae5',
+            '100': '#a7f3d0',
+            '200': '#6ee7b7',
+            '300': '#34d399',
+            '400': '#10b981',
+            '500': '#059669',
+            '600': '#047857',
+            '700': '#065f46',
+            '800': '#064e3b',
+            '900': '#022c22',
+            '950': "#011f18",
+        },
+    },
+    'SITE_FAVICONS': [
+        {
+            'rel': 'icon',
+            'sizes': '32x32',
+            'type': 'image/webp',
+            'href': '/static/logo.webp',
+        },
+    ],
+    'BORDER_RADIUS': '10px',
+    'SIDEBAR': {
+        'show_search': True,
+        'command_search': True,
+        'show_all_applications': True,
+        'navigation': [
+            {
+                'title': 'HealthIA',
+                'items': [
+                    {
+                        'title': 'Diet recommendations',
+                        'icon': 'verified',
+                        'link': reverse_lazy('admin:nutrition_dietrecommendation_changelist'),
+                    },
+                    {
+                        'title': 'Exercices',
+                        'icon': 'hiking',
+                        'link': reverse_lazy('admin:app_exercice_changelist'),
+                    },
+                    {
+                        'title': 'Foods',
+                        'icon': 'nutrition',
+                        'link': reverse_lazy('admin:nutrition_food_changelist'),
+                    },
+                    {
+                        'title': 'Members',
+                        'icon': 'group',
+                        'link': reverse_lazy('admin:app_member_changelist'),
+                    },
+                    {
+                        'title': 'Sessions',
+                        'icon': 'timer',
+                        'link': reverse_lazy('admin:app_session_changelist'),
+                    },
+                ],
+            },
+            {
+                'title': 'Authentication',
+                'items': [
+                    {
+                        'title': 'Users',
+                        'icon': 'group',
+                        'link': reverse_lazy('admin:auth_user_changelist'),
+                    },
+                    {
+                        'title': 'Groups',
+                        'icon': 'hub',
+                        'link': reverse_lazy('admin:auth_group_changelist'),
+                    },
+                ],
+            },
+            {
+                'title': 'Enums',
+                'collapsible': True,
+                'items': [
+                    {
+                        'title': 'Activities',
+                        'icon': 'directions_run',
+                        'link': reverse_lazy('admin:nutrition_activity_changelist'),
+                    },
+                    {
+                        'title': 'Allergies',
+                        'icon': 'medical_services',
+                        'link': reverse_lazy('admin:nutrition_allergie_changelist'),
+                    },
+                    {
+                        'title': 'Body parts',
+                        'icon': 'neurology',
+                        'link': reverse_lazy('admin:app_bodypart_changelist'),
+                    },
+                    {
+                        'title': 'Categories',
+                        'icon': 'category',
+                        'link': reverse_lazy('admin:app_category_changelist'),
+                    },
+                    {
+                        'title': 'Dietary restrictions',
+                        'icon': 'no_meals',
+                        'link': reverse_lazy('admin:nutrition_dietaryrestriction_changelist'),
+                    },
+                    {
+                        'title': 'Disease types',
+                        'icon': 'fastfood',
+                        'link': reverse_lazy('admin:nutrition_diseasetype_changelist'),
+                    },
+                    {
+                        'title': 'Equipments',
+                        'icon': 'exercise',
+                        'link': reverse_lazy('admin:app_equipment_changelist'),
+                    },
+                    {
+                        'title': 'Food categories',
+                        'icon': 'flatware',
+                        'link': reverse_lazy('admin:nutrition_category_changelist'),
+                    },
+                    {
+                        'title': 'Genders',
+                        'icon': 'transgender',
+                        'link': reverse_lazy('admin:app_gender_changelist'),
+                    },
+                    {
+                        'title': 'Levels',
+                        'icon': 'bar_chart',
+                        'link': reverse_lazy('admin:app_level_changelist'),
+                    },
+                    {
+                        'title': 'Meal types',
+                        'icon': 'room_service',
+                        'link': reverse_lazy('admin:nutrition_mealtype_changelist'),
+                    },
+                    {
+                        'title': 'Muscles',
+                        'icon': 'weight',
+                        'link': reverse_lazy('admin:app_muscle_changelist'),
+                    },
+                    {
+                        'title': 'Preferred cuisines',
+                        'icon': 'kitchen',
+                        'link': reverse_lazy('admin:nutrition_preferredcuisine_changelist'),
+                    },
+                    {
+                        'title': 'Recommendations',
+                        'icon': 'verified',
+                        'link': reverse_lazy('admin:nutrition_recommendation_changelist'),
+                    },
+                    {
+                        'title': 'Severities',
+                        'icon': 'device_thermostat',
+                        'link': reverse_lazy('admin:nutrition_severity_changelist'),
+                    },
+                    {
+                        'title': 'Subscriptions',
+                        'icon': 'attach_money',
+                        'link': reverse_lazy('admin:app_subscription_changelist'),
+                    },
+                ],
+            },
+        ],
+    },
 }
 
 MIDDLEWARE = [

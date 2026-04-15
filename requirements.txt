@@ -1,9 +1,11 @@
+channels[daphne]
 coverage
 django
 django-admin-extra-buttons
 django-cors-headers
 django-filter
-django-jazzmin==3.0.1
+django-storages
+django-unfold
 djangorestframework
 djangorestframework-simplejwt
 drf-redesign

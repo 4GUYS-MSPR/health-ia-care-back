@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
+from unfold.admin import ModelAdmin, TabularInline
+
 from app.admin.body_part import BodyPartInline
 from app.admin.equipment import EquipmentInline
 from app.admin.muscle import TargetMuscleInline, SecondaryMuscleInline
@@ -8,7 +10,7 @@ from app.models.session import Session
 
 from core.exports import ExportCsvMixin
 
-class ExerciceAdmin(ExportCsvMixin, admin.ModelAdmin):
+class ExerciceAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = ["pk", "category", "display_image", "client", "create_at"]
     list_filter = ["category", "client"]
@@ -40,7 +42,7 @@ class ExerciceAdmin(ExportCsvMixin, admin.ModelAdmin):
             return format_html('<img src="{}" style="width: 300px; height: auto; border-radius: 2px;" />', obj.image_url)
         return "No image"
 
-class ExerciceInline(admin.TabularInline):
+class ExerciceInline(TabularInline):
     model = Session.exercices.through
     verbose_name = 'Exercice'
     verbose_name_plural = 'Exercices'
