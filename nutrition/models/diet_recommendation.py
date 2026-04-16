@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
@@ -11,6 +10,8 @@ from nutrition.models.recommendation import Recommendation
 from nutrition.models.severity import Severity
 
 from app.models.member import Member
+
+from core.utils.user import User
 
 class DietRecommendation(models.Model):
     adherence_to_diet_plan = models.FloatField()

@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
+
+from core.utils.user import User
 
 from .exercice import Exercice
 from .member import Member

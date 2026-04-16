@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
 from nutrition.models.category import Category
 from nutrition.models.meal_type import MealType
+
+from core.utils.user import User
 
 class Food(models.Model):
     label = models.CharField(max_length=50)

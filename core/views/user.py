@@ -1,5 +1,3 @@
-from django.contrib.auth.models import User
-
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -7,6 +5,7 @@ from rest_framework.response import Response
 
 from core.serializers import UserSerializer
 from core.utils.query import get_query_all_for_user
+from core.utils.user import User
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

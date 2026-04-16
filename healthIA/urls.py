@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
@@ -17,7 +19,10 @@ from logs.views import LogViewSet
 
 from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
+from social_network.views import CommentViewSet, PublicationViewSet
+
 router = routers.DefaultRouter()
+router.register(r'comment', CommentViewSet)
 router.register(r'diet_recommendation', DietRecommendationViewSet, basename='diet_recommendation')
 router.register(r'enum', EnumViewSet, basename='enum')
 router.register(r'exercice', ExerciceViewSet, basename='exercice')
@@ -25,6 +30,7 @@ router.register(r'food', FoodViewSet, basename='food')
 router.register(r'import', DataImportViewSet, basename='import')
 router.register(r'log', LogViewSet, basename='log')
 router.register(r'member', MemberViewSet, basename='member')
+router.register(r'publication', PublicationViewSet)
 router.register(r'session', SessionViewSet, basename='session')
 router.register(r'user', UserViewSet)
 
@@ -35,5 +41,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui')
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    re_path(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT,
+    }),
 ]

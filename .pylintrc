@@ -1,17 +1,20 @@
 [MASTER]
 ignore=migrations
+ignore-paths=^.*/migrations/.*$
+load-plugins=pylint_django
 
 [MESSAGES CONTROL]
 disable=
-    missing-module-docstring,
-    missing-class-docstring,
-    missing-function-docstring,
-    R0903,
     C0415,
+    R0903,
     W0212,
+    broad-exception-caught,
+    django-not-configured,
+    duplicate-code,
     invalid-name,
     line-too-long,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
     no-member,
-    broad-exception-caught,
     too-many-ancestors,
-    duplicate-code,

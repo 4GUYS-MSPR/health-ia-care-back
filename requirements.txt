@@ -2,6 +2,7 @@ channels[daphne]
 coverage
 django
 django-admin-extra-buttons
+django_cleanup
 django-cors-headers
 django-filter
 django-storages
@@ -13,9 +14,11 @@ drf-spectacular
 gunicorn
 loguru
 markdown
+pillow
 psycopg2-binary
 pydantic
 pylint
+pylint-django
 pytest
 pytest-django
 python-dotenv
