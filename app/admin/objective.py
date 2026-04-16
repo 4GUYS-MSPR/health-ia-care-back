@@ -1,8 +1,8 @@
-from django.contrib import admin
+from unfold.admin import TabularInline
 
 from app.models.objective import Objective
 
-class ObjectiveInline(admin.TabularInline):
+class ObjectiveInline(TabularInline):
     model = Objective
     verbose_name = "Objective"
     verbose_name_plural = "Objectives"

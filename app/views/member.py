@@ -38,7 +38,7 @@ class MemberViewSet(ModelViewSet):
                 model = avalaible.get(id=obj.get('id'))
                 model.value = obj.get('value')
                 model.save()
-        
+
         for obj in avalaible:
             if obj not in objectives:
                 obj.delete()

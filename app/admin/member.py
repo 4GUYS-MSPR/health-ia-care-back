@@ -1,10 +1,12 @@
 from django.contrib import admin
 
+from unfold.admin import ModelAdmin
+
 from app.admin.objective import ObjectiveInline
 
 from core.exports import ExportCsvMixin
 
-class MemberAdmin(ExportCsvMixin, admin.ModelAdmin):
+class MemberAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription", "create_at"]
     list_filter = ["gender", "level", "subscription", "client"]

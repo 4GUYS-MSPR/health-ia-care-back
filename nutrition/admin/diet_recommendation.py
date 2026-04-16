@@ -1,11 +1,11 @@
-from django.contrib import admin
+from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
 from nutrition.admin.allergie import AllergieInline
 from nutrition.admin.dietary_restriction import DietaryRestrictionInline
 
-class DietRecommendationAdmin(ExportCsvMixin, admin.ModelAdmin):
+class DietRecommendationAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = ["pk", "member", "client", "create_at"]
     list_filter = [

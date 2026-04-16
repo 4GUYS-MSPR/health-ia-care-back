@@ -1,8 +1,8 @@
-from django.contrib import admin
+from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
-class SeverityAdmin(ExportCsvMixin, admin.ModelAdmin):
+class SeverityAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

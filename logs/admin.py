@@ -2,11 +2,13 @@ import json
 
 from django.contrib import admin
 
+from unfold.admin import ModelAdmin
+
 from core.exports import ExportCsvMixin
 
 from logs.models import Log
 
-class LogAdmin(ExportCsvMixin, admin.ModelAdmin):
+class LogAdmin(ExportCsvMixin, ModelAdmin):
 
     search_fields = ["message"]
     list_display = ["create_at", "type", "message"]

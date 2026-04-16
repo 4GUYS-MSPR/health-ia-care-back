@@ -1,8 +1,8 @@
-from django.contrib import admin
+from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
-class FoodAdmin(ExportCsvMixin, admin.ModelAdmin):
+class FoodAdmin(ExportCsvMixin, ModelAdmin):
 
     list_display = [
         "pk",
