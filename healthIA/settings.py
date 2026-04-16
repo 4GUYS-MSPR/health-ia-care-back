@@ -59,27 +59,31 @@ CORS_ALLOW_METHODS = [
 ] # À définir
 
 INSTALLED_APPS = [
-    'unfold',
-    'unfold.contrib.filters',
-    'unfold.contrib.forms',
-    'unfold.contrib.inlines',
-    'drf_redesign',
-    'app.apps.HealIaAppConfig',
-    'core.apps.CoreConfig',
-    'logs.apps.LogsConfig',
-    'nutrition.apps.NutritionConfig',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'drf_spectacular',
-    'admin_extra_buttons',
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "drf_redesign",
+    "app.apps.HealIaAppConfig",
+    "core.apps.CoreConfig",
+    "nutrition.apps.NutritionConfig",
+    "social_network.apps.SocialNetworkConfig",
+    "logs.apps.LogsConfig",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders",
+    "django_cleanup.apps.CleanupConfig",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "drf_spectacular",
+    "admin_extra_buttons",
 ]
+
+PAGINATION = str(os.getenv('PAGINATION')) if os.getenv('PAGINATION') is not None else '100'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -91,7 +95,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': int(os.getenv('PAGINATION')),
+    'PAGE_SIZE': int(PAGINATION),
 }
 
 SIMPLE_JWT = {
@@ -151,6 +155,11 @@ UNFOLD = {
                 'title': 'HealthIA',
                 'items': [
                     {
+                        'title': 'Comment',
+                        'icon': 'chat',
+                        'link': reverse_lazy('admin:social_network_comment_changelist'),
+                    },
+                    {
                         'title': 'Diet recommendations',
                         'icon': 'verified',
                         'link': reverse_lazy('admin:nutrition_dietrecommendation_changelist'),
@@ -169,6 +178,11 @@ UNFOLD = {
                         'title': 'Members',
                         'icon': 'group',
                         'link': reverse_lazy('admin:app_member_changelist'),
+                    },
+                    {
+                        'title': 'Publications',
+                        'icon': 'image',
+                        'link': reverse_lazy('admin:social_network_publication_changelist'),
                     },
                     {
                         'title': 'Sessions',
@@ -358,6 +372,9 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Paris'
 USE_I18N = True
 USE_TZ = False
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'core', 'media')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
