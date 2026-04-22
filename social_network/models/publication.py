@@ -10,6 +10,8 @@ class Publication(models.Model):
         IMAGE = 1, 'Image'
         VIDEO = 2, 'Vidéo'
 
+    description = models.TextField(max_length=1000, default="")
+
     type = models.PositiveSmallIntegerField(
         choices=Type
     )

@@ -11,18 +11,24 @@ from core.utils.display import display_video
 class PublicationAdmin(ModelAdmin):
     form = PublicationForm
 
-    list_display = ["pk", "type", "display_image", "display_small_video", "created_at"]
+    list_display = ["pk", "display_description", "type", "display_image", "display_small_video", "created_at"]
     list_filter = ["type"]
     search_fields = ["pk", "created_at"]
 
     def get_fields(self, request, obj=None):
-        fields = ("type", "image", "video", "created_at")
+        fields = ("description", "type", "image", "video", "created_at")
         if obj:
             fields += ("display_large_video",)
         return fields
 
-    readonly_fields = ["display_image", "display_small_video", "display_large_video"]
+    readonly_fields = ["display_description", "display_image", "display_small_video", "display_large_video"]
     inlines = [CommentInline]
+
+    @admin.display(description="Description")
+    def display_description(self, obj: Publication):
+        if len(obj.description) > 100:
+            return obj.description[:97] + "..."
+        return obj.description
 
     @admin.display(description="Image")
     def display_image(self, obj: Publication):

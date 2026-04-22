@@ -11,7 +11,7 @@ class PublicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Publication
-        fields = ["id", "type", "image", "video", "created_at", "comments"]
+        fields = ["id", "description", "type", "image", "video", "created_at", "comments"]
 
     def get_comments(self, obj: Publication):
         return CommentSerializer(Comment.objects.filter(publication_id=obj.pk), many=True).data
