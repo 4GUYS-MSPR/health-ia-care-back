@@ -59,16 +59,16 @@ CORS_ALLOW_METHODS = [
 ] # À définir
 
 INSTALLED_APPS = [
-    "unfold",
-    "unfold.contrib.filters",
-    "unfold.contrib.forms",
-    "unfold.contrib.inlines",
-    "drf_redesign",
     "app.apps.HealIaAppConfig",
     "core.apps.CoreConfig",
     "nutrition.apps.NutritionConfig",
     "social_network.apps.SocialNetworkConfig",
     "logs.apps.LogsConfig",
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "drf_redesign",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
@@ -146,10 +146,10 @@ UNFOLD = {
         },
     ],
     'BORDER_RADIUS': '10px',
+    'DASHBOARD_CALLBACK': 'core.views.dashboard_callback',
     'SIDEBAR': {
         'show_search': True,
         'command_search': True,
-        'show_all_applications': True,
         'navigation': [
             {
                 'title': 'HealthIA',

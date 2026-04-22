@@ -1,0 +1,13 @@
+{% extends 'admin/base_site.html' %}
+
+{% load i18n unfold %}
+
+{% block content %}
+    <div class="grid grid-cols-3 gap-4">
+        {% for kpi in kpis %}
+            {% component "unfold/components/card.html" with title=kpi.title %}
+                <p class="text-2xl font-bold">{{ kpi.metric }}</p>
+            {% endcomponent %}
+        {% endfor %}
+    </div>
+{% endblock %}
