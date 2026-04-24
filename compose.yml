@@ -2,7 +2,6 @@ services:
   api:
     build: .
     container_name: health-ia-api
-    restart: unless-stopped
     ports:
       - "5555:5555"
     env_file:
@@ -14,7 +13,6 @@ services:
     image: postgres:16
     container_name: health-ia-db
     command: postgres -p ${POSTGRES_PORT}
-    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}

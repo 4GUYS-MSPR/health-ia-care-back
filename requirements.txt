@@ -5,6 +5,7 @@ django-admin-extra-buttons
 django_cleanup
 django-cors-headers
 django-filter
+django-prometheus
 django-storages
 django-unfold
 djangorestframework
