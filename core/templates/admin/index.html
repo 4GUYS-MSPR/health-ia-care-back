@@ -12,37 +12,75 @@
         {% endfor %}
     </div>
 
-    {% component "unfold/components/card.html" with title="Logs" %}
-        {% component "unfold/components/table.html" with table=logs card_included=1 %}{% endcomponent %}
+    {% component "unfold/components/card.html" with title="Activity Logs" %}
+        <div id="logs-table-container">No logs</div>
     {% endcomponent %}
 
     <script>
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
         const socketUrl = protocol + window.location.host + '/api/ws/logs/';
 
+        let firstLog = true;
+
         const logSocket = new WebSocket(socketUrl);
 
-        let logs_amount = Number(document.getElementById("kpi-requests-data").innerText);
-        let logs_metrics_display = document.getElementById("kpi-requests-display");
-
         logSocket.onopen = function (e) {
-            console.log("Connecté au Dashboard temps réel !");
+            console.log("connected");
         };
 
         logSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log("Nouveau log reçu :", data);
-            logs_amount++;
-            updateLogs();
+            updateLogs(data);
         };
 
         logSocket.onclose = function (e) {
-            console.error("La connexion s'est coupée. Tentative de reconnexion...");
+            console.error("disconnected");
         };
 
-        function updateLogs() {
-            logs_metrics_display.innerText = logs_amount;
-            // {{ user.get_full_name|default:"Anonymous"|capfirst }}
+        function updateLogs(data) {
+            console.log(data);
+            const tbody = document.querySelector("#logs-table-container");
+
+            const row = document.createElement('div');
+
+            let colors = {
+                "ERROR": "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400",
+                "WARNING": "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400",
+                "INFO": "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400",
+                "border": "border-primary-500"
+            }
+
+            row.className = "w-full flex justify-start items-center animate-pulse";
+
+            row.innerHTML = `
+                <div class="p-3 text-sm w-[100px]">
+                    <span class="px-2 py-0.5 rounded-md border text-xs font-medium ${colors[data.level]}">${data.level}</span>
+                </div>
+                <div class="p-3 text-sm font-bold">${data.method}</div>
+                <div class="flex-1 w-full p-3 text-sm">
+                    <div class="truncate font-mono text-xs italic" title="${data.path}">${data.path}</div>
+                </div>
+                <div class="p-3 text-sm flex justify-start items-center gap-3">
+                    <i class="material-symbols-outlined text-base">account_circle</i>
+                    ${data.user.username || "Anonymous"}
+                </div>
+            `;
+
+            if (firstLog) {
+                tbody.innerHTML = '';
+                firstLog = false;
+            } else {
+                row.classList.add("border-t");
+                row.classList.add(colors["border"]);
+            }
+
+            tbody.appendChild(row);
+
+            if (tbody.children.length > 30) {
+                tbody.removeChild(tbody.lastChild);
+            }
+
+            setTimeout(() => row.classList.remove('animate-pulse'), 2000);
         }
     </script>
 {% endblock %}
