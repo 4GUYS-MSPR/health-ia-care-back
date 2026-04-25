@@ -2,6 +2,8 @@ import time
 
 from django.http import HttpRequest
 
+from core.utils.user import User
+
 from logs.logger import logger
 from logs.models import Log
 
@@ -44,7 +46,7 @@ class LoggingMiddleware:
             level=log_level,
             method=request.method,
             path=request.path,
-            user=user,
+            user=user if isinstance(user, User) else None,
         )
 
         return response
