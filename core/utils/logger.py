@@ -3,7 +3,6 @@ from typing import Any, Dict, Optional
 from rest_framework import status
 
 from logs.logger import logger
-from logs.models import Log
 from logs.levels import LogLevel
 
 from core.utils.response import JsonResponse

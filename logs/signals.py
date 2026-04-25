@@ -11,7 +11,7 @@ from .serializers import LogSerializer
 def announce_task_update(sender, instance, **kwargs): # pylint: disable=unused-argument
     channel_layer = get_channel_layer()
     serializer = LogSerializer(instance)
-    
+
     async_to_sync(channel_layer.group_send)(
         "tasks",
         {
