@@ -43,11 +43,6 @@ class Logger():
         context: Optional[Dict[str, Any]] = None,
         http_code: int = status.HTTP_200_OK
     ):
-        Log.objects.create(
-            type = level,
-            message = message,
-            context = context
-        )
         return JsonResponse.response({
             "level": level,
             "message": message,

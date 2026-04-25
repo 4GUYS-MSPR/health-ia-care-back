@@ -59,6 +59,7 @@ CORS_ALLOW_METHODS = [
 ] # À définir
 
 INSTALLED_APPS = [
+    "daphne",
     "django_prometheus",
     "app.apps.HealIaAppConfig",
     "core.apps.CoreConfig",
@@ -331,6 +332,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "healthIA.wsgi.application"
+ASGI_APPLICATION = "healthIA.asgi.application"
 
 DATABASES = {
     "default": {
@@ -348,6 +350,12 @@ if os.getenv("DATABASE_URL") == "sqlite:///:memory:":
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ":memory:",
     }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

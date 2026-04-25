@@ -3,6 +3,7 @@ import time
 from django.http import HttpRequest
 
 from logs.logger import logger
+from logs.models import Log
 
 class LoggingMiddleware:
 
@@ -11,13 +12,14 @@ class LoggingMiddleware:
 
     def __call__(self, request: HttpRequest):
         start_time = time.time()
+        user = request.user if hasattr(request, 'user') and request.user.is_authenticated else 'Anonymous'
 
         try:
             response = self.get_response(request)
         except Exception:
             logger.exception(
                 f"Exception sur {request.method} {request.path} par "
-                f"{request.user if hasattr(request, 'user') and request.user.is_authenticated else 'Anonymous'}"
+                f"{user}"
             )
             raise
 
@@ -34,8 +36,15 @@ class LoggingMiddleware:
             log_level,
             f"{request.method} {request.path} "
             f"status={response.status_code} "
-            f"user={request.user if hasattr(request, 'user') and request.user.is_authenticated else 'Anonymous'} "
+            f"user={user} "
             f"duration={duration:.3f}s"
+        )
+
+        Log.objects.create(
+            level=log_level,
+            method=request.method,
+            path=request.path,
+            user=user,
         )
 
         return response

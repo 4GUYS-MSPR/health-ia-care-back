@@ -45,12 +45,4 @@ class BaseAction(ABC):
         return value.upper()
 
     def success(self, count):
-        Log.objects.create(
-            type = LogLevel.SUCCESS,
-            message = f"{self.scheme().__name__} import success",
-            context = {
-                "model": self.scheme().__name__,
-                "rows": count
-            }
-        )
         return JsonResponse.success({"message": f"{count} row{'s' if count > 1 else ''} imported."})
