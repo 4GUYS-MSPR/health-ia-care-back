@@ -3,11 +3,46 @@
 {% load i18n unfold %}
 
 {% block content %}
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-4 mb-4">
         {% for kpi in kpis %}
-            {% component "unfold/components/card.html" with title=kpi.title %}
-                <p class="text-2xl font-bold">{{ kpi.metric }}</p>
+            {% component "unfold/components/card.html" with title=kpi.title|title %}
+                <p id="kpi-{{ kpi.title }}-display" class="text-2xl font-bold">{{ kpi.metric }}</p>
+                <div id="kpi-{{ kpi.title }}-data" hidden>{{ kpi.metric }}</div>
             {% endcomponent %}
         {% endfor %}
     </div>
+
+    {% component "unfold/components/card.html" with title="Logs" %}
+        {% component "unfold/components/table.html" with table=logs card_included=1 %}{% endcomponent %}
+    {% endcomponent %}
+
+    <script>
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const socketUrl = protocol + window.location.host + '/api/ws/logs/';
+
+        const logSocket = new WebSocket(socketUrl);
+
+        let logs_amount = Number(document.getElementById("kpi-requests-data").innerText);
+        let logs_metrics_display = document.getElementById("kpi-requests-display");
+
+        logSocket.onopen = function (e) {
+            console.log("Connecté au Dashboard temps réel !");
+        };
+
+        logSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            console.log("Nouveau log reçu :", data);
+            logs_amount++;
+            updateLogs();
+        };
+
+        logSocket.onclose = function (e) {
+            console.error("La connexion s'est coupée. Tentative de reconnexion...");
+        };
+
+        function updateLogs() {
+            logs_metrics_display.innerText = logs_amount;
+            // {{ user.get_full_name|default:"Anonymous"|capfirst }}
+        }
+    </script>
 {% endblock %}
