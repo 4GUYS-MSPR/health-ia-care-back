@@ -9,6 +9,7 @@ class CommentAdmin(ModelAdmin):
     fields = ["publication", "content", "created_at"]
 
 class CommentInline(TabularInline):
+    tab = True
     model = Comment
     verbose_name = "Comment"
     verbose_name_plural = "Comments"

@@ -21,7 +21,7 @@ class Member(models.Model):
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
 
-    create_at = models.DateTimeField(default=now)
+    created_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Member {self.pk}"

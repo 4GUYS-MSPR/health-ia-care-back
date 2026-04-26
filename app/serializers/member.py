@@ -35,6 +35,6 @@ class MemberSerializer(serializers.ModelSerializer):
             "gender",
             "level",
             "subscription",
-            "create_at"
+            "created_at"
         ]
         read_only_fields = ["client"]

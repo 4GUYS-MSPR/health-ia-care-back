@@ -6,14 +6,40 @@
     <div class="grid grid-cols-3 gap-4 mb-4">
         {% for kpi in kpis %}
             {% component "unfold/components/card.html" with title=kpi.title|title %}
-                <p id="kpi-{{ kpi.title }}-display" class="text-2xl font-bold">{{ kpi.metric }}</p>
-                <div id="kpi-{{ kpi.title }}-data" hidden>{{ kpi.metric }}</div>
+                <div class="flex items-baseline gap-2">
+                    <p id="kpi-{{ kpi.title }}-display" class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                        {{ kpi.metric }}
+                    </p>
+                    {% if "+" in kpi.metric|stringformat:"s" %}
+                        <span class="text-emerald-500 text-sm font-bold">↗︎</span>
+                    {% endif %}
+                </div>
             {% endcomponent %}
         {% endfor %}
     </div>
 
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Likes Activity (Last 15days)" %}
+            {% component "unfold/components/chart/line.html" with data=likes_chart %}{% endcomponent %}
+        {% endcomponent %}
+    </div>
+
     {% component "unfold/components/card.html" with title="Activity Logs" %}
-        <div id="logs-table-container">No logs</div>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-800">
+                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Level</th>
+                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Method</th>
+                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Path</th>
+                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">User</th>
+                </tr>
+            </thead>
+            <tbody id="logs-table-container">
+                <tr>
+                    <td colspan="4" class="pt-5 text-center">No logs</td>
+                </tr>
+            </tbody>
+        </table>
     {% endcomponent %}
 
     <script>
@@ -38,32 +64,30 @@
         };
 
         function updateLogs(data) {
-            console.log(data);
             const tbody = document.querySelector("#logs-table-container");
 
-            const row = document.createElement('div');
+            const row = document.createElement('tr');
 
             let colors = {
-                "ERROR": "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400",
-                "WARNING": "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400",
-                "INFO": "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400",
-                "border": "border-primary-500"
+                "ERROR": "bg-red-300 text-white",
+                "WARNING": "bg-orange-300 text-white",
+                "INFO": "bg-blue-300 text-white",
             }
 
-            row.className = "w-full flex justify-start items-center animate-pulse";
+            row.className = "animate-pulse";
 
             row.innerHTML = `
-                <div class="p-3 text-sm w-[100px]">
-                    <span class="px-2 py-0.5 rounded-md border text-xs font-medium ${colors[data.level]}">${data.level}</span>
-                </div>
-                <div class="p-3 text-sm font-bold">${data.method}</div>
-                <div class="flex-1 w-full p-3 text-sm">
+                <td class="p-3 text-sm">
+                    <span class="px-2 py-1 rounded-md text-xs font-medium ${colors[data.level]}">${data.level}</span>
+                </td>
+                <td class="p-3 text-sm font-bold">${data.method}</td>
+                <td class="flex-1 w-full p-3 text-sm">
                     <div class="truncate font-mono text-xs italic" title="${data.path}">${data.path}</div>
-                </div>
-                <div class="p-3 text-sm flex justify-start items-center gap-3">
+                </td>
+                <td class="p-3 text-sm flex justify-start items-center gap-3">
                     <i class="material-symbols-outlined text-base">account_circle</i>
                     ${data.user.username || "Anonymous"}
-                </div>
+                </td>
             `;
 
             if (firstLog) {
@@ -71,7 +95,6 @@
                 firstLog = false;
             } else {
                 row.classList.add("border-t");
-                row.classList.add(colors["border"]);
             }
 
             tbody.appendChild(row);

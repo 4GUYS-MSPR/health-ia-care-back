@@ -8,14 +8,14 @@ from core.exports import ExportCsvMixin
 
 class MemberAdmin(ExportCsvMixin, ModelAdmin):
 
-    list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription", "create_at"]
+    list_display = ["pk", "get_client_name", "age", "gender", "level", "subscription", "created_at"]
     list_filter = ["gender", "level", "subscription", "client"]
     search_fields = ["client__first_name", "client__last_name", "client__username"]
 
     readonly_fields = ["get_client_name"]
 
     fieldsets = [
-        (None, {"fields": ["client", "age", "gender", "level", "subscription", "create_at"]}),
+        (None, {"fields": ["client", "age", "gender", "level", "subscription", "created_at"]}),
         ("Data", {"fields": ["bmi", "fat_percentage", "height", "weight", "workout_frequency"]}),
     ]
 
