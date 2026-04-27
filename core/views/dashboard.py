@@ -136,7 +136,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
         },
         {
             "title": "Comment per publication",
-            "metric": f"{"" if average.is_integer() else "~"} {comment_per_pub}",
+            "metric": ("" if average.is_integer() else "~") + str(comment_per_pub),
         },
     ]
 
