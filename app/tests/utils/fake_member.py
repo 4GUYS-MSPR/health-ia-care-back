@@ -14,7 +14,7 @@ def create_subscription():
     return subscription
 
 
-def create_member(client, **kwargs):
+def create_member(user, client, **kwargs):
     """
         Just a function to create a fake member
     """
@@ -31,11 +31,12 @@ def create_member(client, **kwargs):
             "height" : 180.2,
             "weight" : 80.5,
             "workout_frequency" : 3,
+            "user" : user,
             "client" : client,
             "gender" : gender,
             "level" : level,
             "subscription" : subscription,
-            "create_at" : datetime.datetime.now()
+            "created_at" : datetime.datetime.now()
     }
 
     defaults.update(kwargs)
