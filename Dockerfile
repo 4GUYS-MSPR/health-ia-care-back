@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py setup && gunicorn healthIA.wsgi:application --bind 0.0.0.0:5555"
+CMD sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py setup && daphne -b 0.0.0.0 -p 5555 healthIA.asgi:application"
