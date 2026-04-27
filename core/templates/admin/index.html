@@ -25,22 +25,26 @@
     </div>
 
     {% component "unfold/components/card.html" with title="Activity Logs" %}
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="border-b border-gray-200 dark:border-gray-800">
-                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Level</th>
-                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Method</th>
-                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Path</th>
-                    <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">User</th>
-                </tr>
-            </thead>
-            <tbody id="logs-table-container">
-                <tr>
-                    <td colspan="4" class="pt-5 text-center">No logs</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="overflow-y-auto" style="max-height: 500px;">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-200 dark:border-gray-800">
+                        <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Level</th>
+                        <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Method</th>
+                        <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Path</th>
+                        <th class="p-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">User</th>
+                    </tr>
+                </thead>
+                <tbody id="logs-table-container">
+                    <tr>
+                        <td colspan="4" class="pt-5 text-center">No logs</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     {% endcomponent %}
+
+    {{ logs|json_script:"logs" }}
 
     <script>
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -63,6 +67,11 @@
             console.error("disconnected");
         };
 
+        const logs = JSON.parse(document.getElementById('logs').textContent);
+        logs.forEach(log => {
+            updateLogs(log);
+        });
+
         function updateLogs(data) {
             const tbody = document.querySelector("#logs-table-container");
 
@@ -71,7 +80,6 @@
             let colors = {
                 "ERROR": "bg-red-300 text-white",
                 "WARNING": "bg-orange-300 text-white",
-                "INFO": "bg-blue-300 text-white",
             }
 
             row.className = "animate-pulse";

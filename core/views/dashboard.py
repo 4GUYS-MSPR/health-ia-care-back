@@ -8,6 +8,9 @@ from django.utils import timezone
 
 from app.models import Member
 
+from logs.models import Log
+from logs.levels import LogLevel
+
 from social_network.models import Comment, Like, Publication
 
 def dashboard_callback(request, context):
@@ -103,6 +106,19 @@ def dashboard_callback(request, context):
     total_pub = Publication.objects.count()
     total_com = Comment.objects.count()
     average = round(total_com / total_pub, 2) if total_pub > 0 else 0
+
+    target_types = [LogLevel.ERROR.name, LogLevel.WARNING.name]
+    logQueryset = Log.objects.filter(level__in=target_types).order_by('-created_at')[:10]
+    logs = [
+        {
+            "level": l.level,
+            "method": l.method,
+            "path": l.path,
+            "user": {"username": l.user.username if l.user else "Anonymous"}
+        } for l in logQueryset
+    ]
+    logs.reverse()
+    context["logs"] = logs
 
     context["kpis"] = [
         {
