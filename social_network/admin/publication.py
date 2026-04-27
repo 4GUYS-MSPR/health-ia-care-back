@@ -53,5 +53,4 @@ class PublicationAdmin(ModelAdmin):
 
     @admin.display(description="Likes")
     def get_like_count(self, obj: Publication):
-        print(dir(obj))
         return obj.like_set.count()
