@@ -3,9 +3,10 @@ from django.utils.html import format_html
 
 from unfold.admin import ModelAdmin
 
-from social_network.admin import CommentInline, LikeInline
+from social_network.admin.comment import CommentInline
+from social_network.admin.like import LikeInline
 from social_network.forms import PublicationForm
-from social_network.models import Publication
+from social_network.models.publication import Publication
 from core.utils.display import display_video
 
 class PublicationAdmin(ModelAdmin):

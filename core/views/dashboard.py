@@ -18,7 +18,7 @@ def format_timedelta(td):
     seconds = total_seconds % 60
     return f"{minutes}m {seconds}s"
 
-def dashboard_callback(request, context):
+def dashboard_callback(request, context): # pylint: disable=too-many-locals
     now = timezone.now()
     last_24h = now - timedelta(hours=24)
 

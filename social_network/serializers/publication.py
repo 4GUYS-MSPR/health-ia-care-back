@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from social_network.models import Comment, Publication
+from social_network.models.comment import Comment
+from social_network.models.publication import Publication
 from social_network.serializers.comment import CommentSerializer
 
 class PublicationSerializer(serializers.ModelSerializer):
