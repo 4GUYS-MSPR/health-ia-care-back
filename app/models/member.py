@@ -16,12 +16,14 @@ class Member(models.Model):
     weight = models.FloatField()
     workout_frequency = models.IntegerField()
 
-    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="members")
+    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="clients")
     gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True, related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
 
     created_at = models.DateTimeField(default=now)
+    last_activity = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Member {self.pk}"
+        return str(self.user.username)

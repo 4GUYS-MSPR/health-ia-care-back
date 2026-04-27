@@ -2,16 +2,21 @@ import json
 
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Avg, Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 
-from app.models import Member
-
-from logs.models import Log
-from logs.levels import LogLevel
+from app.models import Member, Session
 
 from social_network.models import Comment, Like, Publication
+
+def format_timedelta(td):
+    if not td:
+        return "0s"
+    total_seconds = int(td.total_seconds())
+    minutes = total_seconds // 60
+    seconds = total_seconds % 60
+    return f"{minutes}m {seconds}s"
 
 def dashboard_callback(request, context):
     now = timezone.now()
@@ -105,20 +110,12 @@ def dashboard_callback(request, context):
 
     total_pub = Publication.objects.count()
     total_com = Comment.objects.count()
-    average = round(total_com / total_pub, 2) if total_pub > 0 else 0
 
-    target_types = [LogLevel.ERROR.name, LogLevel.WARNING.name]
-    logQueryset = Log.objects.filter(level__in=target_types).order_by('-created_at')[:10]
-    logs = [
-        {
-            "level": l.level,
-            "method": l.method,
-            "path": l.path,
-            "user": {"username": l.user.username if l.user else "Anonymous"}
-        } for l in logQueryset
-    ]
-    logs.reverse()
-    context["logs"] = logs
+    average = total_com / total_pub if total_pub > 0 else 0
+    comment_per_pub = int(average) if average.is_integer() else round(average, 2)
+
+    average_duration = Session.objects.aggregate(avg=Avg('duration'))['avg']
+    readable_avg = format_timedelta(average_duration)
 
     context["kpis"] = [
         {
@@ -130,8 +127,16 @@ def dashboard_callback(request, context):
             "metric": f"+ {new_members_24h}",
         },
         {
+            "title": "Member connected (24h)",
+            "metric": Member.objects.filter(last_activity__gte=last_24h).count(),
+        },
+        {
+            "title": "Session average time",
+            "metric": readable_avg,
+        },
+        {
             "title": "Comment per publication",
-            "metric": f"~ {average}",
+            "metric": f"{"" if average.is_integer() else "~"} {comment_per_pub}",
         },
     ]
 
