@@ -15,7 +15,7 @@ class TestSession(APITestCase):
         self.user_1 = User.objects.create_user(username="user_one", password="userOnePassword")
         self.user_2 = User.objects.create_user(username="user_two", password="userTwoPassword")
         self.url = reverse_lazy('session-list')
-        self.member_1 = create_member(self.user_1)
+        self.member_1 = create_member(self.user_2, self.user_1)
         self.exercice_1 = create_exercice(self.user_1)
         session_1 = Session.objects.create(
             avg_bpm = 12,
