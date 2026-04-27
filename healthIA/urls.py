@@ -15,8 +15,12 @@ from app.views import ExerciceViewSet, MemberViewSet, SessionViewSet
 
 from core.views import DataImportViewSet, EnumViewSet, UserViewSet
 
+from logs.consumers import LogConsumer
+
 from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
+
+from social_network.consumers import LikeConsumer
 from social_network.views import CommentViewSet, PublicationViewSet
 
 router = routers.DefaultRouter()
@@ -43,4 +47,9 @@ urlpatterns = [
         'document_root': settings.MEDIA_ROOT,
     }),
     path('', include('django_prometheus.urls')),
+]
+
+websocket_urlpatterns = [
+    re_path(r'api/ws/logs/$', LogConsumer.as_asgi()),
+    re_path(r'api/ws/likes/$', LikeConsumer.as_asgi()),
 ]
