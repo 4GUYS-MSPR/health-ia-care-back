@@ -3,27 +3,79 @@
 {% load i18n unfold %}
 
 {% block content %}
-    <div class="grid grid-cols-3 gap-4 mb-4">
-        {% for kpi in kpis %}
-            {% component "unfold/components/card.html" with title=kpi.title|title %}
-                <div class="flex items-baseline gap-2">
-                    <p id="kpi-{{ kpi.title }}-display"
-                        class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
-                        {{ kpi.metric }}
-                    </p>
-                    {% if "+" in kpi.metric|stringformat:"s" %}
-                        <span class="text-emerald-500 text-sm font-bold">↗︎</span>
-                    {% endif %}
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Health IA" %}
+            <div class="mb-4 flex flex-wrap gap-2">
+                {% for kpi in health_ia %}
+                    {% component "unfold/components/card.html" with title=kpi.title|title %}
+                        <div class="flex items-baseline gap-2">
+                            <p id="kpi-{{ kpi.title }}-display"
+                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                                {{ kpi.metric }}
+                            </p>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+            <div id="new-members-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">New Member (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=new_members_chart %}{% endcomponent %}
+            </div>
+            <div>
+                <div class="p-5 doughnut">
+                    <script id="doughnut-data" type="application/json">
+                        {{ doughnut_chart|safe }}
+                    </script>
+                    <canvas id="doughnut-member"></canvas>
                 </div>
-            {% endcomponent %}
-        {% endfor %}
-    </div>
-
-    <div id="likes-chart-container" class="mb-4">
-        {% component "unfold/components/card.html" with title="Likes Activity (Last 15days)" %}
-            {% component "unfold/components/chart/line.html" with data=likes_chart %}{% endcomponent %}
+            </div>
         {% endcomponent %}
     </div>
+
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Social Network" %}
+            <div class="flex flex-wrap gap-2 mb-4">
+                {% for kpi in social_network %}
+                    {% component "unfold/components/card.html" with title=kpi.title|title %}
+                        <div class="flex items-baseline gap-2">
+                            <p id="kpi-{{ kpi.title }}-display"
+                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                                {{ kpi.metric }}
+                            </p>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+            <div id="likes-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">Likes Activity (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=likes_chart %}{% endcomponent %}
+            </div>
+        {% endcomponent %}
+    </div>
+
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Coach" %}
+            <div class="mb-4 flex flex-wrap gap-2">
+                {% for kpi in coach %}
+                    {% component "unfold/components/card.html" with title=kpi.title|title %}
+                        <div class="flex items-baseline gap-2">
+                            <p id="kpi-{{ kpi.title }}-display"
+                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                                {{ kpi.metric }}
+                            </p>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+        {% endcomponent %}
+    </div>
+
+    <style>
+        .doughnut {
+            width: 250px;
+            height: 300px;
+        }
+    </style>
 
     <script>
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -40,6 +92,34 @@
         likeSocket.onclose = function (e) {
             console.error("Like ws disconnected", e);
         };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('doughnut-member').getContext('2d');
+            const doughnutData = JSON.parse(document.getElementById('doughnut-data').textContent);
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: doughnutData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    layout: {
+                        padding: 20,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#9ca3af',
+                                usePointStyle: true,
+                                padding: 10
+                            }
+                        }
+                    }
+                }
+            });
+        });
 
         function updateChart(id) {
             const canvas = document.querySelector(`#${id} canvas`);
