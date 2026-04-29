@@ -6,7 +6,7 @@ from django.db.models import Avg, Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 
-from app.models import Member, MemberLastActivity, Session
+from app.models import Exercice, Member, MemberLastActivity, Session
 
 from core.utils.user import User
 
@@ -140,10 +140,24 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     members = Member.objects.count()
 
     context["doughnut_member"] = json.dumps({
-        "labels": ["Members", "Clients"],
+        "labels": ["Clients", "Members"],
         "datasets": [{
-            "data": [members, clients],
+            "data": [clients, members],
             "backgroundColor": ["#3b82f6", "#10b981"],
+            "hoverOffset": 15,
+            "borderWidth": 0,
+        }],
+    })
+
+    free = Member.objects.filter(subscription__value="FREE").count()
+    premium = Member.objects.filter(subscription__value="PREMIUM").count()
+    premium_plus = Member.objects.filter(subscription__value="PREMIUM PLUS").count()
+
+    context["doughnut_subscription"] = json.dumps({
+        "labels": ["Free", "Premium", "Premium Plus"],
+        "datasets": [{
+            "data": [free, premium, premium_plus],
+            "backgroundColor": ["#3b82f6", "#10b981", "#00D68D"],
             "hoverOffset": 15,
             "borderWidth": 0,
         }],
@@ -159,6 +173,40 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "metric": ("" if average.is_integer() else "~") + str(comment_per_pub),
         },
     ]
+
+    exercices = Exercice.objects.count()
+    stats_exercices = (
+        Exercice.objects.values('category__value')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+    exercice_labels = [item['category__value'] for item in stats_exercices]
+    exercice_counts = [item['total'] for item in stats_exercices]
+
+    context["doughnut_exercice"] = json.dumps({
+        "total": exercices,
+        "data": {
+            "labels": exercice_labels,
+            "datasets": [{
+                "data": exercice_counts,
+                "backgroundColor": ["#10b981", "#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6"],
+                "hoverOffset": 15,
+                "borderWidth": 0,
+            }],
+        }
+    })
+
+    sessions = Session.objects.count()
+    context["doughnut_session"] = json.dumps({
+        "labels": ["Sessions"],
+        "datasets": [{
+            "data": [sessions],
+            "backgroundColor": ["#10b981"],
+            "hoverOffset": 15,
+            "borderWidth": 0,
+        }],
+    })
 
     context["coach"] = [
         {
