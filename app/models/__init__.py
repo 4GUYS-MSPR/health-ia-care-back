@@ -5,6 +5,7 @@ from .exercice import Exercice
 from .gender import Gender
 from .level import Level
 from .member import Member
+from .member_last_activity import MemberLastActivity
 from .muscle import Muscle
 from .objective import Objective
 from .session import Session

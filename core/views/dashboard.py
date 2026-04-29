@@ -6,7 +6,7 @@ from django.db.models import Avg, Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 
-from app.models import Member, Session
+from app.models import Member, MemberLastActivity, Session
 
 from core.utils.user import User
 
@@ -20,159 +20,112 @@ def format_timedelta(td):
     seconds = total_seconds % 60
     return f"{minutes}m {seconds}s"
 
+def line_chart(labels, data, data_label):
+    return json.dumps({
+        "labels": labels,
+        "datasets": [
+            {
+                "label": data_label,
+                "data": data,
+                "borderColor": "#059669",
+                "backgroundColor": "#059669",
+                "borderWidth": 3,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "tension": 0,
+            }
+        ],
+        "options": {
+            "responsive": True,
+            "maintainAspectRatio": False,
+            "interaction": {
+                "intersect": False,
+                "mode": 'index',
+            },
+            "plugins": {
+                "legend": {"display": False},
+                "tooltip": {
+                    "enabled": True,
+                    "backgroundColor": "#1e293b",
+                    "titleColor": "#fff",
+                    "bodyColor": "#fff",
+                    "padding": 10,
+                }
+            },
+            "scales": {
+                "x": {
+                    "display": True,
+                    "grid": {
+                        "display": True,
+                        "drawBorder": False,
+                        "borderDash": [5, 5],
+                        "color": "rgba(156, 163, 175, 0.2)",
+                    },
+                    "ticks": {
+                        "color": "#9ca3af",
+                        "font": {"size": 11},
+                    }
+                },
+                "y": {
+                    "display": True,
+                    "beginAtZero": True,
+                    "grid": {
+                        "display": True,
+                        "drawBorder": False,
+                        "borderDash": [5, 5],
+                        "color": "rgba(156, 163, 175, 0.2)",
+                    },
+                    "ticks": {
+                        "color": "#9ca3af", 
+                        "font": {"size": 11},
+                        "precision": 0,
+                    }
+                }
+            }
+        }
+    })
+
 def dashboard_callback(request, context): # pylint: disable=too-many-locals
     now = timezone.now()
-    last_24h = now - timedelta(hours=24)
-
     like_day_period = 15
     start_date = (now - timedelta(days=like_day_period - 1)).replace(hour=0, minute=0, second=0, microsecond=0)
 
-    likes_per_day = (
+    likes_stats = (
         Like.objects.filter(created_at__range=(start_date, now))
         .annotate(day=TruncDay('created_at'))
         .values('day')
         .annotate(count=Count('id'))
         .order_by('day')
     )
+    new_members_stats = (
+        Member.objects.filter(created_at__date__gte=start_date)
+            .values('created_at__date')
+            .annotate(total=Count('id'))
+    )
+    last_activity_stats = (
+        MemberLastActivity.objects.filter(date__gte=start_date)
+            .values('date')
+            .annotate(total=Count('id'))
+    )
 
-    data_map = {item['day'].date(): item['count'] for item in likes_per_day}
     labels = []
-    values = []
+    likes_map = {item['day'].date(): item['count'] for item in likes_stats}
+    new_members_map = {item['created_at__date']: item['total'] for item in new_members_stats}
+    last_activity_map = {item['date']: item['total'] for item in last_activity_stats}
+    likes = []
     new_members = []
+    last_activities = []
 
     for i in range(like_day_period):
         date = (start_date + timedelta(days=i)).date()
         labels.append(date.strftime("%d %b"))
-        values.append(data_map.get(date, 0))
-        new_members.append(Member.objects.filter(created_at__date=date).count())
+        likes.append(likes_map.get(date, 0))
+        new_members.append(new_members_map.get(date, 0))
+        last_activities.append(last_activity_map.get(date, 0))
 
-    context["likes_chart"] = json.dumps({
-        "labels": labels,
-        "datasets": [
-            {
-                "label": "Likes",
-                "data": values,
-                "borderColor": "#059669",
-                "backgroundColor": "#059669",
-                "borderWidth": 3,
-                "pointRadius": 0,
-                "pointHoverRadius": 6,
-                "tension": 0,
-            }
-        ],
-        "options": {
-            "responsive": True,
-            "maintainAspectRatio": False,
-            "interaction": {
-                "intersect": False,
-                "mode": 'index',
-            },
-            "plugins": {
-                "legend": {"display": False},
-                "tooltip": {
-                    "enabled": True,
-                    "backgroundColor": "#1e293b",
-                    "titleColor": "#fff",
-                    "bodyColor": "#fff",
-                    "padding": 10,
-                }
-            },
-            "scales": {
-                "x": {
-                    "display": True,
-                    "grid": {
-                        "display": True,
-                        "drawBorder": False,
-                        "borderDash": [5, 5],
-                        "color": "rgba(156, 163, 175, 0.2)",
-                    },
-                    "ticks": {
-                        "color": "#9ca3af",
-                        "font": {"size": 11},
-                    }
-                },
-                "y": {
-                    "display": True,
-                    "beginAtZero": True,
-                    "grid": {
-                        "display": True,
-                        "drawBorder": False,
-                        "borderDash": [5, 5],
-                        "color": "rgba(156, 163, 175, 0.2)",
-                    },
-                    "ticks": {
-                        "color": "#9ca3af", 
-                        "font": {"size": 11},
-                        "precision": 0,
-                    }
-                }
-            }
-        }
-    })
-
-    context["new_members_chart"] = json.dumps({
-        "labels": labels,
-        "datasets": [
-            {
-                "label": "New members",
-                "data": new_members,
-                "borderColor": "#059669",
-                "backgroundColor": "#059669",
-                "borderWidth": 3,
-                "pointRadius": 0,
-                "pointHoverRadius": 6,
-                "tension": 0,
-            }
-        ],
-        "options": {
-            "responsive": True,
-            "maintainAspectRatio": False,
-            "interaction": {
-                "intersect": False,
-                "mode": 'index',
-            },
-            "plugins": {
-                "legend": {"display": False},
-                "tooltip": {
-                    "enabled": True,
-                    "backgroundColor": "#1e293b",
-                    "titleColor": "#fff",
-                    "bodyColor": "#fff",
-                    "padding": 10,
-                }
-            },
-            "scales": {
-                "x": {
-                    "display": True,
-                    "grid": {
-                        "display": True,
-                        "drawBorder": False,
-                        "borderDash": [5, 5],
-                        "color": "rgba(156, 163, 175, 0.2)",
-                    },
-                    "ticks": {
-                        "color": "#9ca3af",
-                        "font": {"size": 11},
-                    }
-                },
-                "y": {
-                    "display": True,
-                    "beginAtZero": True,
-                    "grid": {
-                        "display": True,
-                        "drawBorder": False,
-                        "borderDash": [5, 5],
-                        "color": "rgba(156, 163, 175, 0.2)",
-                    },
-                    "ticks": {
-                        "color": "#9ca3af", 
-                        "font": {"size": 11},
-                        "precision": 0,
-                    }
-                }
-            }
-        }
-    })
+    context["likes_chart"] = line_chart(labels, likes, "Likes")
+    context["new_members_chart"] = line_chart(labels, new_members, "New members")
+    context["last_activities_chart"] = line_chart(labels, last_activities, "Members")
 
     total_pub = Publication.objects.count()
     total_com = Comment.objects.count()
@@ -185,10 +138,8 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
 
     clients = User.objects.filter(members__isnull=True).count()
     members = Member.objects.count()
-    mem_cli_avg = members / clients if clients > 0 else 0
-    member_per_client = int(mem_cli_avg) if mem_cli_avg.is_integer() else round(mem_cli_avg, 2)
 
-    context["doughnut_chart"] = json.dumps({
+    context["doughnut_member"] = json.dumps({
         "labels": ["Members", "Clients"],
         "datasets": [{
             "data": [members, clients],
@@ -197,17 +148,6 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "borderWidth": 0,
         }],
     })
-
-    context["health_ia"] = [
-        {
-            "title": "Membr per client",
-            "metric": ("" if member_per_client.is_integer() else "~") + str(member_per_client),
-        },
-        {
-            "title": "Member connected (24h)",
-            "metric": Member.objects.filter(last_activity__gte=last_24h).count(),
-        },
-    ]
 
     context["social_network"] = [
         {

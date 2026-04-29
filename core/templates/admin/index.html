@@ -5,26 +5,18 @@
 {% block content %}
     <div class="mb-4">
         {% component "unfold/components/card.html" with title="Health IA" %}
-            <div class="mb-4 flex flex-wrap gap-2">
-                {% for kpi in health_ia %}
-                    {% component "unfold/components/card.html" with title=kpi.title|title %}
-                        <div class="flex items-baseline gap-2">
-                            <p id="kpi-{{ kpi.title }}-display"
-                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
-                                {{ kpi.metric }}
-                            </p>
-                        </div>
-                    {% endcomponent %}
-                {% endfor %}
+            <div id="last-activity-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">Member connected (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=last_activities_chart %}{% endcomponent %}
             </div>
-            <div id="new-members-chart-container" class="mb-4">
+            <div id="new-24h-members-chart-container" class="mb-4">
                 <h1 class="mb-4 font-bold">New Member (Last 15days)</h1>
                 {% component "unfold/components/chart/line.html" with data=new_members_chart %}{% endcomponent %}
             </div>
             <div>
                 <div class="p-5 doughnut">
                     <script id="doughnut-data" type="application/json">
-                        {{ doughnut_chart|safe }}
+                        {{ doughnut_member|safe }}
                     </script>
                     <canvas id="doughnut-member"></canvas>
                 </div>
@@ -79,23 +71,43 @@
 
     <script>
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        const likeSocket = new WebSocket(protocol + window.location.host + '/api/ws/likes/');
+        const baseSocketUrl = protocol + window.location.host + '/api/ws';
+        const likeSocket = new WebSocket(baseSocketUrl + '/likes/');
+        const newMembersSocket = new WebSocket(baseSocketUrl + '/new-24h-members/');
 
         likeSocket.onopen = function (e) {
             console.log("Like ws connected");
+        };
+        newMembersSocket.onopen = function (e) {
+            console.log("New 24h members ws connected");
         };
 
         likeSocket.onmessage = function (e) {
             updateChart('likes-chart-container');
         };
+        newMembersSocket.onmessage = function (e) {
+            updateChart('new-24h-members-chart-container');
+        };
 
         likeSocket.onclose = function (e) {
             console.error("Like ws disconnected", e);
         };
+        newMembersSocket.onclose = function (e) {
+            console.error("New 24h members ws disconnected", e);
+        };
 
         document.addEventListener("DOMContentLoaded", function() {
+            const isDark = document.documentElement.classList.contains('dark');
+
             const ctx = document.getElementById('doughnut-member').getContext('2d');
             const doughnutData = JSON.parse(document.getElementById('doughnut-data').textContent);
+
+            const data = doughnutData.datasets[0].data;
+            const members = data[0];
+            const clients = data[1];
+
+            const memCliAvg = clients > 0 ? members / clients : 0;
+            const memberPerClient = Number.isInteger(memCliAvg) ? Number(memCliAvg) : memCliAvg.toFixed(2);
             
             new Chart(ctx, {
                 type: 'doughnut',
@@ -108,16 +120,53 @@
                         padding: 20,
                     },
                     plugins: {
+                        title: {
+                            display: true,
+                            text: 'Member per client',
+                            color: isDark ? '#ffffff' : '#374151',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                        },
                         legend: {
                             position: 'bottom',
                             labels: {
                                 color: '#9ca3af',
                                 usePointStyle: true,
-                                padding: 10
-                            }
+                                padding: 10,
+                            },
+                        },
+                        centerText: {
+                            display: true,
+                            text: `${Number.isInteger(memberPerClient) ? '' : '~'} ${memberPerClient}`,
+                        },
+                    },
+                },
+                plugins: [{
+                    id: 'centerText',
+                    beforeDraw: function(chart) {
+                        if (chart.config.options.plugins.centerText.display) {
+                            const width = chart.width;
+                            const height = chart.height;
+                            const ctx = chart.ctx;
+
+                            ctx.restore();
+
+                            const fontSize = (height / 140).toFixed(2);
+                            ctx.font = `bold ${fontSize}em sans-serif`;
+                            ctx.textBaseline = "middle";
+                            ctx.fillStyle = isDark ? '#c0c0c0' : '#111827';
+
+                            const text = chart.config.options.plugins.centerText.text;
+                            const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                            const textY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+
+                            ctx.fillText(text, textX, textY);
+                            ctx.save();
                         }
-                    }
-                }
+                    },
+                }],
             });
         });
 
