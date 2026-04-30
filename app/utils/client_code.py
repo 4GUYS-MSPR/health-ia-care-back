@@ -1,7 +1,7 @@
 import random
 import string
 
-from app.models import Client
+from app.models.client import Client
 
 def gen_code():
     chars = string.ascii_uppercase + string.digits
