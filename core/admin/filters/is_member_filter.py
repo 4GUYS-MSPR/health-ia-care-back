@@ -13,7 +13,7 @@ class IsMemberFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "yes":
-            return queryset.filter(members__isnull=False).distinct()
+            return queryset.filter(member__isnull=False).distinct()
         if self.value() == "no":
-            return queryset.filter(members__isnull=True).distinct()
+            return queryset.filter(member__isnull=True).distinct()
         return queryset
