@@ -18,4 +18,4 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 
     @admin.display(description="Is Member ?", boolean=True)
     def is_member(self, obj: User):
-        return obj.members.exists()
+        return hasattr(obj, 'member')
