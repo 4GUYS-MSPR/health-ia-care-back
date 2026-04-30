@@ -136,7 +136,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     average_duration = Session.objects.aggregate(avg=Avg('duration'))['avg']
     readable_avg = format_timedelta(average_duration)
 
-    clients = User.objects.filter(members__isnull=True).count()
+    clients = User.objects.filter(member__isnull=True).count()
     members = Member.objects.count()
 
     context["doughnut_member"] = json.dumps({
