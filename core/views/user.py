@@ -36,22 +36,22 @@ class UserViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def create(self, request: HttpRequest, *args, **kwargs):
         data = request.data.copy()
-        client_uuid = data.pop('client_uuid', None)
+        client_code = data.pop('client', None)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = serializer.save()
 
-        if client_uuid is not None:
+        if client_code is not None:
             try:
-                client = Client.objects.get(uuid=client_uuid)
+                client = Client.objects.get(uuid=client_code)
                 Member.object.create(
                     user=user,
                     client=client
                 )
             except Client.DoesNotExist as e:
-                logger.log.error(f"Unable to create member. Client {client_uuid} not found !", e)
+                logger.log.error(f"Unable to create member. Client {client_code} not found !", e)
                 raise serializer.ValidationError({"client_uuid": "Client not found."})
 
         return JsonResponse.response(serializer.data, 201)
