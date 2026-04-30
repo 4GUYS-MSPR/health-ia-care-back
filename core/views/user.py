@@ -46,7 +46,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if client_code is not None:
             try:
                 client = Client.objects.get(code=client_code)
-                Member.object.create(
+                Member.objects.create(
                     user=user,
                     client=client
                 )

@@ -11,11 +11,11 @@ from .subscription import Subscription
 class Member(models.Model):
 
     age = models.PositiveIntegerField(null=True)
-    bmi = models.FloatField()
-    fat_percentage = models.FloatField()
-    height = models.FloatField()
-    weight = models.FloatField()
-    workout_frequency = models.IntegerField()
+    bmi = models.FloatField(default=0)
+    fat_percentage = models.FloatField(default=0)
+    height = models.FloatField(default=0)
+    weight = models.FloatField(default=0)
+    workout_frequency = models.IntegerField(default=0)
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="member")
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, related_name="members")
