@@ -21,11 +21,7 @@ class MemberAdmin(ExportCsvMixin, ModelAdmin):
     ]
     list_filter = ["gender", "level", "subscription", "client"]
     search_fields = [
-        "client__first_name",
-        "client__last_name",
         "client__username",
-        "user__first_name",
-        "user__last_name",
         "user__username",
     ]
 
@@ -38,12 +34,10 @@ class MemberAdmin(ExportCsvMixin, ModelAdmin):
 
     inlines = [ObjectiveInline]
 
-    @admin.display(description="Name")
+    @admin.display(description="Client name")
     def get_client_name(self, obj):
-        fullname = obj.client.get_full_name()
-        return fullname if fullname != "" else str(obj.client.username)
+        return str(obj.client.username)
 
-    @admin.display(description="Name")
+    @admin.display(description="User name")
     def get_user_name(self, obj):
-        fullname = obj.user.get_full_name()
-        return fullname if fullname != "Anonymous" else str(obj.user.username)
+        return str(obj.user.username)

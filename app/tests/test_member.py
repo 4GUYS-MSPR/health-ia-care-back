@@ -4,13 +4,14 @@ from django.contrib.auth import get_user_model
 from app.tests.utils.fake_member import create_member
 from app.serializers.member import MemberSerializer
 
-class TestMember(APITestCase):
+class TestMember(APITestCase): # pylint: disable=too-many-instance-attributes
     def setUp(self):
         User = get_user_model()
         self.user_1 = User.objects.create_user(username="user_one", password="userOnePassword")
         self.user_2 = User.objects.create_user(username="user_two", password="userTwoPassword")
+        self.user_3 = User.objects.create_user(username="user_three", password="userTwoPassword")
         self.url = reverse_lazy('member-list')
-        self.member_1 = create_member(self.user_2, self.user_1)
+        self.member_1 = create_member(self.user_3, self.user_1)
         self.member_2 = create_member(self.user_2, self.user_1)
         self.member_4 = create_member(self.user_1, self.user_2)
 

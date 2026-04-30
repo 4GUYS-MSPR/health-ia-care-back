@@ -3,43 +3,166 @@
 {% load i18n unfold %}
 
 {% block content %}
-    <div class="grid grid-cols-3 gap-4 mb-4">
-        {% for kpi in kpis %}
-            {% component "unfold/components/card.html" with title=kpi.title|title %}
-                <div class="flex items-baseline gap-2">
-                    <p id="kpi-{{ kpi.title }}-display"
-                        class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
-                        {{ kpi.metric }}
-                    </p>
-                    {% if "+" in kpi.metric|stringformat:"s" %}
-                        <span class="text-emerald-500 text-sm font-bold">↗︎</span>
-                    {% endif %}
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Health IA" %}
+            <div class="flex flex-wrap justify-center gap-5 w-full">
+                <div class="p-5 pt-0 doughnut">
+                    <script id="doughnut-member-data" type="application/json">
+                        {{ doughnut_member|safe }}
+                    </script>
+                    <canvas id="doughnut-member"></canvas>
                 </div>
-            {% endcomponent %}
-        {% endfor %}
-    </div>
-
-    <div id="likes-chart-container" class="mb-4">
-        {% component "unfold/components/card.html" with title="Likes Activity (Last 15days)" %}
-            {% component "unfold/components/chart/line.html" with data=likes_chart %}{% endcomponent %}
+                <div class="p-5 pt-0 doughnut">
+                    <script id="doughnut-subscription-data" type="application/json">
+                        {{ doughnut_subscription|safe }}
+                    </script>
+                    <canvas id="doughnut-subscription"></canvas>
+                </div>
+            </div>
+            <div id="last-activity-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">Member connected (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=last_activities_chart %}{% endcomponent %}
+            </div>
+            <div id="new-24h-members-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">New Member (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=new_members_chart %}{% endcomponent %}
+            </div>
         {% endcomponent %}
     </div>
 
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Social Network" %}
+            <div class="flex flex-wrap gap-2 mb-4">
+                {% for kpi in social_network %}
+                    {% component "unfold/components/card.html" with title=kpi.title|title %}
+                        <div class="flex items-baseline gap-2">
+                            <p id="kpi-{{ kpi.title }}-display"
+                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                                {{ kpi.metric }}
+                            </p>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+            <div id="likes-chart-container" class="mb-4">
+                <h1 class="mb-4 font-bold">Likes Activity (Last 15days)</h1>
+                {% component "unfold/components/chart/line.html" with data=likes_chart %}{% endcomponent %}
+            </div>
+        {% endcomponent %}
+    </div>
+
+    <div class="mb-4">
+        {% component "unfold/components/card.html" with title="Coach" %}
+            <div class="mb-4 flex flex-wrap gap-2">
+                {% for kpi in coach %}
+                    {% component "unfold/components/card.html" with title=kpi.title|title %}
+                        <div class="flex items-baseline gap-2">
+                            <p id="kpi-{{ kpi.title }}-display"
+                                class="text-3xl font-extrabold tracking-tight text-primary-600 dark:text-primary-400">
+                                {{ kpi.metric }}
+                            </p>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+            <div class="flex flex-wrap justify-center gap-5 w-full">
+                <div class="p-5 pt-0 doughnut">
+                    <script id="doughnut-session-data" type="application/json">
+                        {{ doughnut_session|safe }}
+                    </script>
+                    <canvas id="doughnut-session"></canvas>
+                </div>
+                <div class="p-5 pt-0 doughnut">
+                    <script id="doughnut-exercice-data" type="application/json">
+                        {{ doughnut_exercice|safe }}
+                    </script>
+                    <canvas id="doughnut-exercice"></canvas>
+                </div>
+            </div>
+        {% endcomponent %}
+    </div>
+
+    <style>
+        .doughnut {
+            height: 300px;
+        }
+    </style>
+
     <script>
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        const likeSocket = new WebSocket(protocol + window.location.host + '/api/ws/likes/');
+        const baseSocketUrl = protocol + window.location.host + '/api/ws';
+        const likeSocket = new WebSocket(baseSocketUrl + '/likes/');
+        const newMembersSocket = new WebSocket(baseSocketUrl + '/new-24h-members/');
 
         likeSocket.onopen = function (e) {
             console.log("Like ws connected");
+        };
+        newMembersSocket.onopen = function (e) {
+            console.log("New 24h members ws connected");
         };
 
         likeSocket.onmessage = function (e) {
             updateChart('likes-chart-container');
         };
+        newMembersSocket.onmessage = function (e) {
+            updateChart('new-24h-members-chart-container');
+        };
 
         likeSocket.onclose = function (e) {
             console.error("Like ws disconnected", e);
         };
+        newMembersSocket.onclose = function (e) {
+            console.error("New 24h members ws disconnected", e);
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctxExercice = document.getElementById('doughnut-exercice').getContext('2d');
+            const ctxMember = document.getElementById('doughnut-member').getContext('2d');
+            const ctxSession = document.getElementById('doughnut-session').getContext('2d');
+            const ctxSubscription = document.getElementById('doughnut-subscription').getContext('2d');
+
+            const doughnutExerciceData = JSON.parse(document.getElementById('doughnut-exercice-data').textContent);
+            const doughnutMemberData = JSON.parse(document.getElementById('doughnut-member-data').textContent);
+            const doughnutSessionData = JSON.parse(document.getElementById('doughnut-session-data').textContent);
+            const doughnutSubscriptionData = JSON.parse(document.getElementById('doughnut-subscription-data').textContent);
+
+            const exerciceData = doughnutExerciceData;
+            const memberData = doughnutMemberData.datasets[0].data;
+            const sessionData = doughnutSessionData.datasets[0].data[0];
+
+            const members = memberData[0];
+            const clients = memberData[1];
+
+            const memCliAvg = clients > 0 ? members / clients : 0;
+            const memberPerClient = Number.isInteger(memCliAvg) ? Number(memCliAvg) : memCliAvg.toFixed(2);
+            
+            loadDoughnutCharts([
+                {
+                    ctx: ctxExercice,
+                    data: doughnutExerciceData.data,
+                    title: 'Exercice Categories',
+                    centerText: String(exerciceData.total),
+                    legend: false,
+                },
+                {
+                    ctx: ctxMember,
+                    data: doughnutMemberData,
+                    title: 'Member per client',
+                    centerText: `${Number.isInteger(memberPerClient) ? '' : '~'} ${memberPerClient}`,
+                },
+                {
+                    ctx: ctxSession,
+                    data: doughnutSessionData,
+                    title: 'Total Session',
+                    centerText: String(sessionData),
+                },
+                {
+                    ctx: ctxSubscription,
+                    data: doughnutSubscriptionData,
+                    title: 'Subscription',
+                },
+            ]);
+        });
 
         function updateChart(id) {
             const canvas = document.querySelector(`#${id} canvas`);
@@ -54,5 +177,79 @@
                 }
             }
         }
+
+        function loadDoughnutCharts(doughnuts) {
+            const isDark = document.documentElement.classList.contains('dark');
+
+            for (const doughnut of doughnuts) {
+                new Chart(doughnut.ctx, {
+                    type: 'doughnut',
+                    data: doughnut.data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        layout: {
+                            padding: 20,
+                        },
+                        plugins: {
+                            title: {
+                                display: doughnut.title != undefined,
+                                text: doughnut.title || '',
+                                color: isDark ? '#ffffff' : '#374151',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    bottom: 20
+                                }
+                            },
+                            legend: {
+                                display: doughnut.legend != undefined && doughnut.legend,
+                                position: 'bottom',
+                                labels: {
+                                    color: '#9ca3af',
+                                    usePointStyle: true,
+                                    padding: 10,
+                                },
+                            },
+                            centerText: {
+                                display: doughnut.centerText != undefined,
+                                text: doughnut.centerText || '',
+                            },
+                        },
+                    },
+                    plugins: [{
+                        id: 'centerText',
+                        beforeDraw: pluginCallback,
+                    }],
+                });
+            };
+        }
+
+        function pluginCallback(chart) {
+            const isDark = document.documentElement.classList.contains('dark');
+
+            if (chart.config.options.plugins.centerText.display) {
+                const width = chart.width;
+                const height = chart.height;
+                const ctx = chart.ctx;
+
+                ctx.restore();
+
+                const fontSize = (height / 140).toFixed(2);
+                ctx.font = `bold ${fontSize}em sans-serif`;
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = isDark ? '#c0c0c0' : '#111827';
+
+                const text = chart.config.options.plugins.centerText.text;
+                const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                const textY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        };
     </script>
 {% endblock %}
