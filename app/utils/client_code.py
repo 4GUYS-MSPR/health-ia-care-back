@@ -11,3 +11,4 @@ def gen_client_code():
         code = gen_code()
         if not Client.objects.filter(code=code).exists():
             return code
+        return code

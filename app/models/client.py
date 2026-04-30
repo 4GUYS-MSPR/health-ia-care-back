@@ -13,7 +13,7 @@ class Client(models.Model):
         related_name='client',
     )
     code = models.CharField(
-        max_length=100,
+        max_length=6,
         default=gen_client_code,
         unique=True,
         editable=False,
