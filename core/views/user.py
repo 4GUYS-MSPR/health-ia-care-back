@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from core.serializers import UserSerializer, UserCreateSerializer
@@ -19,6 +19,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ["me"]:
             return [IsAuthenticated()]
+        if self.action in ["create"]:
+            return [AllowAny()]
         return [IsAdminUser()]
 
     def get_queryset(self):
