@@ -20,23 +20,23 @@ class TestMember(APITestCase): # pylint: disable=too-many-instance-attributes
         self.serializer = MemberSerializer(instance=self.member_4)
 
     def test_should_return_a_list_of_members(self):
-        self.user.force_login(self.user_1)
-        self.user.force_authenticate(user=self.user_1)
-        response = self.user.get(self.url)
+        self.client.user.force_login(self.user_1)
+        self.client.user.force_authenticate(user=self.user_1)
+        response = self.client.user.get(self.url)
         self.assertEqual(response.status_code, 200)
         print("Le code de retour est bien 200")
         self.assertIsInstance(response.data["results"], list )
         print("L'api retourne un resultat sous forme de liste")
 
     def test_should_return_unauthorized_response_if_user_is_not_authentified(self):
-        response = self.user.get(self.url)
+        response = self.client.user.get(self.url)
         self.assertEqual(response.status_code, 401)
         print("L'API retourne un code erreur 401")
 
     def test_should_return_only_member_of_logged_client(self):
-        self.user.force_login(self.user_1)
-        self.user.force_authenticate(user=self.user_1)
-        response = self.user.get(self.url)
+        self.client.user.force_login(self.user_1)
+        self.client.user.force_authenticate(user=self.user_1)
+        response = self.client.user.get(self.url)
         self.assertEqual(len(response.data['results']),2)
         print("L'api retourne seulement les membres d'un user donné")
 
