@@ -1,5 +1,6 @@
 from .body_part import BodyPart
 from .category import Category
+from .client import Client
 from .equipment import Equipment
 from .exercice import Exercice
 from .gender import Gender

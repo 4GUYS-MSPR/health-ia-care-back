@@ -3,6 +3,7 @@ from django.utils.timezone import now
 
 from core.utils.user import User
 
+from .client import Client
 from .gender import Gender
 from .level import Level
 from .subscription import Subscription
@@ -17,7 +18,7 @@ class Member(models.Model):
     workout_frequency = models.IntegerField()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="member")
-    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="clients")
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, related_name="members")
     gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True, related_name='genders')
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True, related_name='levels')
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, related_name='subscriptions')

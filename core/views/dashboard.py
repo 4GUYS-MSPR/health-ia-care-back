@@ -6,9 +6,7 @@ from django.db.models import Avg, Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 
-from app.models import Exercice, Member, MemberLastActivity, Session
-
-from core.utils.user import User
+from app.models import Client, Exercice, Member, MemberLastActivity, Session
 
 from social_network.models import Comment, Like, Publication
 
@@ -136,7 +134,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     average_duration = Session.objects.aggregate(avg=Avg('duration'))['avg']
     readable_avg = format_timedelta(average_duration)
 
-    clients = User.objects.filter(member__isnull=True).count()
+    clients = Client.objects.count()
     members = Member.objects.count()
 
     context["doughnut_member"] = json.dumps({

@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 
-from core.utils.user import User
-
+from .client import Client
 from .exercice import Exercice
 from .member import Member
 
@@ -15,7 +14,7 @@ class Session(models.Model):
     resting_bpm = models.IntegerField()
     water_intake = models.FloatField()
 
-    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
     exercices = models.ManyToManyField(Exercice, blank=True)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
 

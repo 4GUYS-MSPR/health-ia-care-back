@@ -9,9 +9,7 @@ from nutrition.models.preferred_cuisine import PreferredCuisine
 from nutrition.models.recommendation import Recommendation
 from nutrition.models.severity import Severity
 
-from app.models.member import Member
-
-from core.utils.user import User
+from app.models import Client, Member
 
 class DietRecommendation(models.Model):
     adherence_to_diet_plan = models.FloatField()
@@ -24,7 +22,7 @@ class DietRecommendation(models.Model):
 
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
     allergies = models.ManyToManyField(Allergie, blank=True)
-    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
     dietary_restrictions = models.ManyToManyField(DietaryRestriction, blank=True)
     disease_type = models.ForeignKey(DiseaseType, on_delete=models.SET_NULL, null=True)
     member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)

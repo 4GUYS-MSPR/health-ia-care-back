@@ -157,6 +157,11 @@ UNFOLD = {
                 'title': 'HealthIA',
                 'items': [
                     {
+                        'title': 'Client',
+                        'icon': 'group',
+                        'link': reverse_lazy('admin:app_client_changelist'),
+                    },
+                    {
                         'title': 'Comment',
                         'icon': 'chat',
                         'link': reverse_lazy('admin:social_network_comment_changelist'),
