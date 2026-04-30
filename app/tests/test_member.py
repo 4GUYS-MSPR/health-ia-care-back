@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from app.tests.utils.fake_member import create_member
 from app.serializers.member import MemberSerializer
 
-class TestMember(APITestCase):
+class TestMember(APITestCase): # pylint: disable=too-many-instance-attributes
     def setUp(self):
         User = get_user_model()
         self.user_1 = User.objects.create_user(username="user_one", password="userOnePassword")
