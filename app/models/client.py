@@ -1,7 +1,7 @@
-from uuid import uuid4
-
 from django.db import models
 from django.utils.timezone import now
+
+from app.utils.client_code import gen_client_code
 
 from core.utils.user import User
 
@@ -12,9 +12,9 @@ class Client(models.Model):
         on_delete=models.CASCADE,
         related_name='client',
     )
-    uuid = models.CharField(
+    code = models.CharField(
         max_length=100,
-        default=uuid4,
+        default=gen_client_code,
         unique=True,
         editable=False,
     )

@@ -11,22 +11,22 @@ class ClientAdmin(ExportCsvMixin, ModelAdmin):
     list_display = [
         "pk",
         "get_user_name",
-        "uuid",
+        "code",
         "created_at",
     ]
     search_fields = [
         "pk",
         "user__user__username",
-        "uuid",
+        "code",
         "created_at",
     ]
 
     inlines = [MemberInline]
 
-    readonly_fields = ["get_user_name", "uuid"]
+    readonly_fields = ["get_user_name", "code"]
 
     fieldsets = [
-        (None, {"fields": ["user", "uuid", "created_at"]}),
+        (None, {"fields": ["user", "code", "created_at"]}),
     ]
 
     @admin.display(description="User name")
