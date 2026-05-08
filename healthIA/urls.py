@@ -13,7 +13,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from app.views import ExerciceViewSet, MemberViewSet, SessionViewSet
 
-from core.views import DataImportViewSet, EnumViewSet, UserViewSet
+from core.views import DataImportViewSet, EnumViewSet, LogoutView, UserViewSet
 
 from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
@@ -30,6 +30,7 @@ router.register(r'member', MemberViewSet, basename='member')
 router.register(r'publication', PublicationViewSet)
 router.register(r'session', SessionViewSet, basename='session')
 router.register(r'user', UserViewSet)
+router.register(r'token/logout', LogoutView, basename='logout')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

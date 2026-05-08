@@ -7,17 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0023_alter_exercice_client_alter_session_client'),
+        ('app', '0028_alter_member_bmi_alter_member_fat_percentage_and_more'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='client',
-            name='uuid',
-        ),
-        migrations.AddField(
+        migrations.AlterField(
             model_name='client',
             name='code',
-            field=models.CharField(editable=False, max_length=100, unique=True),
+            field=models.CharField(default=app.utils.client_code.gen_client_code, editable=False, max_length=100, unique=True),
         ),
     ]
