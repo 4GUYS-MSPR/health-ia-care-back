@@ -8,5 +8,5 @@ from .publication import Publication
 class Like(models.Model):
 
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
+    publication = models.ForeignKey(Publication, on_delete=models.CASCADE, related_name="likes")
     created_at = models.DateTimeField(default=timezone.now)
