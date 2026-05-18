@@ -10,7 +10,7 @@ from app.models.session import Session
 
 from core.exports import ExportCsvMixin
 
-class ExerciceAdmin(ExportCsvMixin, ModelAdmin):
+class ExerciceAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = ["pk", "category", "display_image", "client", "create_at"]
     list_filter = ["category", "client"]

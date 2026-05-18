@@ -7,7 +7,7 @@ from app.admin.objective import ObjectiveInline
 
 from core.exports import ExportCsvMixin
 
-class MemberAdmin(ExportCsvMixin, ModelAdmin):
+class MemberAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = [
         "pk",

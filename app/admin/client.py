@@ -6,7 +6,7 @@ from core.exports import ExportCsvMixin
 
 from .member import MemberInline
 
-class ClientAdmin(ExportCsvMixin, ModelAdmin):
+class ClientAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = [
         "pk",

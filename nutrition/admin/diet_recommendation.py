@@ -5,7 +5,7 @@ from core.exports import ExportCsvMixin
 from nutrition.admin.allergie import AllergieInline
 from nutrition.admin.dietary_restriction import DietaryRestrictionInline
 
-class DietRecommendationAdmin(ExportCsvMixin, ModelAdmin):
+class DietRecommendationAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = ["pk", "member", "client", "create_at"]
     list_filter = [

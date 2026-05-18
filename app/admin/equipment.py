@@ -4,7 +4,7 @@ from app.models.exercice import Exercice
 
 from core.exports import ExportCsvMixin
 
-class EquipmentAdmin(ExportCsvMixin, ModelAdmin):
+class EquipmentAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

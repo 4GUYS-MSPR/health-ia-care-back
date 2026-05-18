@@ -4,7 +4,7 @@ from core.exports import ExportCsvMixin
 
 from nutrition.models import DietRecommendation
 
-class DietaryRestrictionAdmin(ExportCsvMixin, ModelAdmin):
+class DietaryRestrictionAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

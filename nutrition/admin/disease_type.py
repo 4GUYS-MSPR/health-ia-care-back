@@ -2,7 +2,7 @@ from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
-class DiseaseTypeAdmin(ExportCsvMixin, ModelAdmin):
+class DiseaseTypeAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = ["pk", "value", "create_at"]
     search_fields = ["value"]

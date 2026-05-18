@@ -2,7 +2,7 @@ from unfold.admin import ModelAdmin
 
 from core.exports import ExportCsvMixin
 
-class FoodAdmin(ExportCsvMixin, ModelAdmin):
+class FoodAdmin(ModelAdmin, ExportCsvMixin):
 
     list_display = [
         "pk",
