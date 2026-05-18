@@ -21,4 +21,4 @@ class Client(models.Model):
     created_at = models.DateTimeField(default=now)
 
     def __str__(self):
-        return str(self.user.username)
+        return str(self.code)
