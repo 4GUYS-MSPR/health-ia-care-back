@@ -12,12 +12,14 @@ from core.utils.display import display_video
 class PublicationAdmin(ModelAdmin):
     form = PublicationForm
 
-    list_display = ["pk", "display_description", "get_like_count", "type", "display_image", "display_small_video", "created_at"]
+    list_display = ["pk", "get_user_name", "display_description", "get_like_count", "type", "display_image", "display_small_video", "created_at"]
     list_filter = ["type"]
+
+    readonly_fields = ["get_user_name"]
     search_fields = ["pk", "created_at"]
 
     def get_fields(self, request, obj=None):
-        fields = ("description", "type", "image", "video", "created_at")
+        fields = ("user", "description", "type", "image", "video", "created_at")
         if obj:
             fields += ("display_large_video",)
         return fields
@@ -30,6 +32,10 @@ class PublicationAdmin(ModelAdmin):
         "get_like_count"
     ]
     inlines = [CommentInline, LikeInline]
+
+    @admin.display(description="User name")
+    def get_user_name(self, obj):
+        return str(obj.user.username)
 
     @admin.display(description="Description")
     def display_description(self, obj: Publication):

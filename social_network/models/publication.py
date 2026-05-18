@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from core.utils.media import get_image_path, get_video_path
+from core.utils.user import User
+
 from social_network.validations import validate_video
 
 class Publication(models.Model):
@@ -10,6 +12,7 @@ class Publication(models.Model):
         IMAGE = 1, 'Image'
         VIDEO = 2, 'Vidéo'
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="publications")
     description = models.TextField(max_length=1000, default="")
 
     type = models.PositiveSmallIntegerField(

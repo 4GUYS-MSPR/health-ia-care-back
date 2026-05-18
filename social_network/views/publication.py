@@ -8,4 +8,4 @@ class PublicationViewSet(ModelViewSet):
     serializer_class = PublicationSerializer
 
     def perform_create(self, serializer):
-        serializer.save(client=self.request.user)
+        serializer.save(user=self.request.user)

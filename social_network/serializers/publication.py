@@ -1,18 +1,21 @@
 from rest_framework import serializers
 
+from core.serializers import UserSerializer
+
 from social_network.models.comment import Comment
 from social_network.models.publication import Publication
 from social_network.serializers.comment import CommentSerializer
 
 class PublicationSerializer(serializers.ModelSerializer):
 
+    user = UserSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     video = serializers.SerializerMethodField()
 
     class Meta:
         model = Publication
-        fields = ["id", "description", "type", "image", "video", "created_at", "comments"]
+        fields = ["id", "user", "description", "type", "image", "video", "created_at", "comments"]
 
     def get_comments(self, obj: Publication):
         return CommentSerializer(Comment.objects.filter(publication_id=obj.pk), many=True).data
