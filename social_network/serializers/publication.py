@@ -9,8 +9,38 @@ class PublicationSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
-    image = serializers.SerializerMethodField()
-    video = serializers.SerializerMethodField()
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+
+        if instance.image:
+            ret['image'] = instance.image.url
+        else:
+            ret['image'] = None
+
+        if instance.video:
+            ret['video'] = instance.video.url
+        else:
+            ret['video'] = None
+
+        return ret
+
+    def validate(self, attrs):
+        pub_type = attrs.get('type')
+        image = attrs.get('image')
+        video = attrs.get('video')
+
+        if pub_type == 1 and not image:
+            raise serializers.ValidationError(
+                {'image': "Can't be null for image type"}
+            )
+
+        if pub_type == 2 and not video:
+            raise serializers.ValidationError(
+                {'video': "Can't be null for video type"}
+            )
+
+        return attrs
 
     class Meta:
         model = Publication
@@ -21,9 +51,3 @@ class PublicationSerializer(serializers.ModelSerializer):
 
     def get_likes(self, obj: Publication):
         return obj.likes.count()
-
-    def get_image(self, obj: Publication):
-        return obj.image.url if obj.image else None
-
-    def get_video(self, obj: Publication):
-        return obj.video.url if obj.video else None
