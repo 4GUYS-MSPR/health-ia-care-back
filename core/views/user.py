@@ -1,13 +1,14 @@
 from django.db import transaction
 from django.http import HttpRequest
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from app.models import Client, Member
 
+from core.models import Avatar
 from core.serializers import UserSerializer, UserCreateSerializer
 from core.utils.logger import logger
 from core.utils.response import JsonResponse
@@ -24,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return UserSerializer
 
     def get_permissions(self):
-        if self.action in ["me"]:
+        if self.action in ["me", "avatar"]:
             return [IsAuthenticated()]
         if self.action in ["create"]:
             return [AllowAny()]
@@ -60,3 +61,30 @@ class UserViewSet(viewsets.ModelViewSet):
     def me(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get', 'post'])
+    def avatar(self, request, pk=None): # pylint: disable=unused-argument
+        user = self.get_object()
+
+        if request.method == 'GET':
+            if hasattr(user, 'avatar') and user.avatar.value:
+                return Response({"avatar": user.avatar.value.url})
+            return Response({"avatar": None})
+
+        if request.method == 'POST':
+            file = request.FILES.get('avatar')
+            if not file:
+                return Response(
+                    {"error": "No file found"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            Avatar.objects.update_or_create(
+                user=user,
+                defaults={'value': file}
+            )
+
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

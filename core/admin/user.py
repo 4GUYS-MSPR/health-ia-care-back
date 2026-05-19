@@ -7,7 +7,7 @@ from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationFo
 
 from core.utils.user import User
 
-from core.admin import AvatarInline
+from .avatar import AvatarInline
 
 class UserAdmin(BaseUserAdmin, ModelAdmin):
     form = UserChangeForm
