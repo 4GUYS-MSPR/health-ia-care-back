@@ -12,8 +12,8 @@ class MemberViewSet(ModelViewSet):
 
     def perform_create(self, serializer: MemberSerializer):
         data = serializer.validated_data
-        objectives = data.pop('objectives')
         member = serializer.save(client=self.request.user)
+        objectives = data.pop('objectives', Objective.objects.filter(member=member))
         for obj in objectives:
             Objective.objects.create(
                 member=member,
@@ -24,7 +24,7 @@ class MemberViewSet(ModelViewSet):
     def perform_update(self, serializer: MemberSerializer):
         old: Member = serializer.instance
         data = serializer.validated_data
-        objectives = data.pop('objectives')
+        objectives = data.pop('objectives', Objective.objects.filter(member=old))
         avalaible = Objective.objects.filter(member = old)
         serializer.save()
         for obj in objectives:
