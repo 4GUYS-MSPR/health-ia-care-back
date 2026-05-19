@@ -17,7 +17,7 @@ class MemberViewSet(ModelViewSet):
         for obj in objectives:
             Objective.objects.create(
                 member=member,
-                value=obj.get('value'),
+                value=obj.value,
                 create_at=timezone.now()
             )
 
@@ -31,12 +31,12 @@ class MemberViewSet(ModelViewSet):
             if obj not in avalaible:
                 Objective.objects.create(
                     member=old,
-                    value=obj.get('value'),
+                    value=obj.value,
                     create_at=timezone.now()
                 )
             else:
-                model = avalaible.get(id=obj.get('id'))
-                model.value = obj.get('value')
+                model = avalaible.get(id=obj.pk)
+                model.value = obj.value
                 model.save()
 
         for obj in avalaible:
