@@ -9,6 +9,8 @@ class PublicationSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
+    has_liked = serializers.SerializerMethodField()
+    has_commented = serializers.SerializerMethodField()
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -44,10 +46,36 @@ class PublicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Publication
-        fields = ["id", "user", "description", "type", "image", "video", "created_at", "comments", "likes"]
+        fields = [
+            "id",
+            "user",
+            "description",
+            "type",
+            "image",
+            "video",
+            "created_at",
+            "comments",
+            "likes",
+            "has_liked",
+            "has_commented",
+        ]
 
     def get_comments(self, obj: Publication):
         return obj.comments.count()
 
     def get_likes(self, obj: Publication):
         return obj.likes.count()
+
+    def get_has_commented(self, obj: Publication):
+        request = self.context.get('request')
+        if not request or not request.user or request.user.is_anonymous:
+            return False
+
+        return obj.comments.filter(member__user=request.user).exists()
+
+    def get_has_liked(self, obj: Publication):
+        request = self.context.get('request')
+        if not request or not request.user or request.user.is_anonymous:
+            return False
+
+        return obj.likes.filter(member__user=request.user).exists()
