@@ -3,10 +3,10 @@ from unfold.admin import ModelAdmin, TabularInline
 from social_network.models import Comment
 
 class CommentAdmin(ModelAdmin):
-    list_display = ["pk", "content", "created_at"]
+    list_display = ["pk", "member", "content", "created_at"]
     search_fields = ["pk", "created_at"]
 
-    fields = ["publication", "content", "created_at"]
+    fields = ["publication", "member", "content", "created_at"]
 
 class CommentInline(TabularInline):
     tab = True
