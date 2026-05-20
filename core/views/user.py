@@ -64,7 +64,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get', 'post'])
     def avatar(self, request, pk=None): # pylint: disable=unused-argument
+        print(request.FILES)
         user = self.get_object()
+        print("test")
 
         if request.method == 'GET':
             if hasattr(user, 'avatar') and user.avatar.value:
