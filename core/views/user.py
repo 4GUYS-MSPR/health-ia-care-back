@@ -3,6 +3,7 @@ from django.http import HttpRequest
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
@@ -62,7 +63,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get', 'patch'])
+    @action(detail=True, methods=['get', 'patch'], parser_classes=[MultiPartParser, FormParser])
     def avatar(self, request, pk=None): # pylint: disable=unused-argument
         print("test")
         user = self.get_object()
