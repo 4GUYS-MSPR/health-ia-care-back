@@ -71,7 +71,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({"avatar": user.avatar.value.url})
             return Response({"avatar": None})
 
-        if request.method == 'POST':
+        if request.method == 'PATCH':
             file = request.FILES.get('avatar')
             if not file:
                 return Response(
