@@ -25,9 +25,13 @@ class PublicationViewSet(viewsets.ModelViewSet):
 
             if request.method == "POST":
                 Like.objects.get_or_create(publication=publication, member=member)
+                serializer = PublicationSerializer(publication)
+                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
             if request.method == "DELETE":
                 Like.objects.get(publication=publication, member=member).delete()
+                serializer = PublicationSerializer(publication)
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
 
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
