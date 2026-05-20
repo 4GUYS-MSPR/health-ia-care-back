@@ -62,7 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get', 'patch'])
+    @action(detail=True, methods=['get', 'post'])
     def avatar(self, request, pk=None): # pylint: disable=unused-argument
         user = self.get_object()
 
@@ -71,8 +71,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({"avatar": user.avatar.value.url})
             return Response({"avatar": None})
 
-        print("test3")
-        if request.method == 'PATCH':
+        if request.method == 'POST':
             file = request.FILES.get('avatar')
             if not file:
                 return Response(
