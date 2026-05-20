@@ -62,7 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get', 'post'])
+    @action(detail=True, methods=['get', 'patch'])
     def avatar(self, request, pk=None): # pylint: disable=unused-argument
         user = self.get_object()
 
