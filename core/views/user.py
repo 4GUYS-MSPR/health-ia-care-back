@@ -72,6 +72,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"avatar": None})
 
         if request.method == 'PATCH':
+            print(request.FILES)
             file = request.FILES.get('avatar')
             if not file:
                 return Response(
