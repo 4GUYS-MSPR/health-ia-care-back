@@ -63,8 +63,8 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=['get', 'post'])
-    def avatar(self, request, pk=None): # pylint: disable=unused-argument
-        print(request.FILES)
+    def avatar(self, request: HttpRequest, pk=None): # pylint: disable=unused-argument
+        print(request.headers)
         user = self.get_object()
         print("test")
 
