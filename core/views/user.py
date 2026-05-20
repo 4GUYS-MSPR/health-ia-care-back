@@ -64,14 +64,18 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get', 'patch'])
     def avatar(self, request, pk=None): # pylint: disable=unused-argument
+        print("test")
         user = self.get_object()
+        print("test2")
 
         if request.method == 'GET':
             if hasattr(user, 'avatar') and user.avatar.value:
                 return Response({"avatar": user.avatar.value.url})
             return Response({"avatar": None})
 
+        print("test3")
         if request.method == 'PATCH':
+            print("test4")
             print(request.FILES)
             file = request.FILES.get('avatar')
             if not file:
