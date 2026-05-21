@@ -26,13 +26,13 @@ class PublicationViewSet(viewsets.ModelViewSet):
             if request.method == "POST":
                 Like.objects.get_or_create(publication=publication, member=member)
                 publication.has_liked = True
-                serializer = PublicationSerializer(publication)
+                serializer = PublicationSerializer(publication, context={'request': request})
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
             if request.method == "DELETE":
-                Like.objects.get(publication=publication, member=member).delete()
+                Like.objects.filter(publication=publication, member=member).delete()
                 publication.has_liked = False
-                serializer = PublicationSerializer(publication)
+                serializer = PublicationSerializer(publication, context={'request': request})
                 return Response(data=serializer.data, status=status.HTTP_200_OK)
 
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
