@@ -9,4 +9,4 @@ class Comment(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="comments", null=True)
     publication = models.ForeignKey(Publication, on_delete=models.CASCADE, related_name="comments")
     content = models.CharField(max_length=1000)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, db_index=True)
