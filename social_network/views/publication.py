@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from app.models import Member
 
-from social_network.serializers.publication import PublicationSerializer
-from social_network.models import Like, Publication
+from social_network.serializers import CommentSerializer, PublicationSerializer
+from social_network.models import Comment, Like, Publication
 
 class PublicationViewSet(viewsets.ModelViewSet):
     queryset = Publication.objects.all()
@@ -15,6 +15,14 @@ class PublicationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    @action(detail=True, methods=["get"])
+    def comments(self, request: HttpRequest, pk=None): # pylint: disable=unused-argument
+        publication = self.get_object()
+
+        comments = Comment.objects.filter(publication__id=publication.id)
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(data=serializer, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post', 'delete'])
     def like(self, request: HttpRequest, pk=None): # pylint: disable=unused-argument
