@@ -20,7 +20,7 @@ class PublicationViewSet(viewsets.ModelViewSet):
     def comments(self, request: HttpRequest, pk=None): # pylint: disable=unused-argument
         publication = self.get_object()
 
-        comments = Comment.objects.filter(publication__id=publication.id)
+        comments = Comment.objects.filter(publication__id=publication.id).order_by("-created_at")
         serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
