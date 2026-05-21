@@ -22,7 +22,7 @@ class PublicationViewSet(viewsets.ModelViewSet):
 
         comments = Comment.objects.filter(publication__id=publication.id)
         serializer = CommentSerializer(comments, many=True, context={'request': request})
-        return Response(data=serializer, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post', 'delete'])
     def like(self, request: HttpRequest, pk=None): # pylint: disable=unused-argument
