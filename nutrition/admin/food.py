@@ -10,14 +10,13 @@ class FoodAdmin(ModelAdmin, ExportCsvMixin):
         "category",
         "meal_type",
         "create_at",
-        "client"
     ]
-    list_filter = ["category", "meal_type", "client"]
+    list_filter = ["category", "meal_type"]
 
     search_fields = ["label"]
 
     fieldsets = [
-        (None, {"fields": ["label", "category", "meal_type", "client", "create_at"]}),
+        (None, {"fields": ["label", "category", "meal_type", "create_at"]}),
         ("Data", {"fields": [
             "calories",
             "protein",
@@ -27,6 +26,6 @@ class FoodAdmin(ModelAdmin, ExportCsvMixin):
             "sugars",
             "sodium",
             "cholesterol",
-            "water_intake"
+            "water_intake",
         ]})
     ]
