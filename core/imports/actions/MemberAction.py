@@ -1,4 +1,4 @@
-from app.models import Gender, Level, Member, Objective, Subscription
+from app.models import Client, Gender, Level, Member, Objective, Subscription
 from app.schemas.member import MemberScheme
 
 from core.utils.logger import logger
@@ -25,19 +25,23 @@ class MemberAction(BaseAction):
 
         for scheme in data:
 
+            client = Client.objects.get(code=scheme.client)
             objective = Objective.objects.get(value=self.upper(scheme.objective))
             gender = Gender.objects.get(value=self.upper(scheme.gender))
             level = Level.objects.get(value=self.upper(scheme.level))
             subscription = Subscription.objects.get(value=self.upper(scheme.subscription))
 
             Member.objects.get_or_create(
+                user=self.user,
+                client=client,
+
                 age=scheme.age,
                 bmi=scheme.bmi,
                 fat_percentage=scheme.fat_percentage,
                 height=scheme.height,
                 weight=scheme.weight,
                 workout_frequency=scheme.workout_frequency,
-                client=self.user,
+
                 objective=objective,
                 gender=gender,
                 level=level,

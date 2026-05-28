@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator, NonNegativeFloat, NonNegativeInt
 
 class MemberScheme(BaseModel):
+    client: str
     age: NonNegativeInt
     bmi: NonNegativeFloat
     fat_percentage: NonNegativeFloat
