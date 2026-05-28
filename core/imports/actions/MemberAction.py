@@ -14,10 +14,8 @@ class MemberAction(BaseAction):
 
     def handle(self, data: list[MemberScheme]):
         fields = [
-            {"name": "objective", "model": Objective, "is_list": False},
             {"name": "Gender", "model": Gender, "is_list": False},
             {"name": "Experience_Level", "model": Level, "is_list": False},
-            {"name": "level", "model": Level, "is_list": False},
             {"name": "subscription", "model": Subscription, "is_list": False},
         ]
         invalid_value = validate_fields_data(data, fields)
@@ -31,7 +29,7 @@ class MemberAction(BaseAction):
             level = Level.objects.get(pk=scheme.level)
             subscription = Subscription.objects.get(value=self.upper(scheme.subscription))
 
-            member = Member.objects.get_or_create(
+            Member.objects.get_or_create(
                 age=scheme.age,
                 bmi=scheme.bmi,
                 fat_percentage=scheme.fat_percentage,

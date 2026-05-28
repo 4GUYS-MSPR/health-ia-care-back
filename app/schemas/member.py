@@ -8,10 +8,10 @@ class MemberScheme(BaseModel):
     weight: NonNegativeFloat
     workout_frequency: NonNegativeInt
 
-    objective: str
+    objective: str = "MAINTENANCE"
 
     gender: str = "NOT SPECIFIED"
-    level: int
+    level: str = "BEGINNER"
     subscription: str = "FREE"
 
     @field_validator("gender")
