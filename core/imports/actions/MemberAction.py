@@ -26,7 +26,7 @@ class MemberAction(BaseAction):
 
             objective = Objective.objects.get(value=self.upper(scheme.objective))
             gender = Gender.objects.get(value=self.upper(scheme.gender))
-            level = Level.objects.get(pk=scheme.level)
+            level = Level.objects.get(value=self.upper(scheme.level))
             subscription = Subscription.objects.get(value=self.upper(scheme.subscription))
 
             Member.objects.get_or_create(
