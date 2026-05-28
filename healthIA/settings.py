@@ -281,6 +281,11 @@ UNFOLD = {
                         'link': reverse_lazy('admin:app_muscle_changelist'),
                     },
                     {
+                        'title': 'Objectives',
+                        'icon': 'track_changes',
+                        'link': reverse_lazy('admin:app_objective_changelist'),
+                    },
+                    {
                         'title': 'Preferred cuisines',
                         'icon': 'kitchen',
                         'link': reverse_lazy('admin:nutrition_preferredcuisine_changelist'),

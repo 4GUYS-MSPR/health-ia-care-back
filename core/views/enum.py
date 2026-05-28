@@ -30,6 +30,7 @@ class ModelEnum(str, Enum, metaclass=ModelMeta):
     Level = "app.models.level.Level"
     MealType = "nutrition.models.meal_type.MealType"
     Muscle = "app.models.muscle.Muscle"
+    Objective = "app.models.objective.Objective"
     PreferedCuisine = "nutrition.models.prefered_cuisine.PreferedCuisine"
     Recommendation = "nutrition.models.recommendation.Recommendation"
     Severity = "nutrition.models.severity.Severity"

@@ -9,6 +9,7 @@ from app.models.gender import Gender
 from app.models.level import Level
 from app.models.member import Member
 from app.models.muscle import Muscle
+from app.models.objective import Objective
 from app.models.session import Session
 from app.models.subscription import Subscription
 
@@ -19,8 +20,9 @@ from app.admin.equipment import EquipmentAdmin
 from app.admin.exercice import ExerciceAdmin
 from app.admin.gender import GenderAdmin
 from app.admin.level import LevelAdmin
-from app.admin.muscle import MuscleAdmin
 from app.admin.member import MemberAdmin
+from app.admin.muscle import MuscleAdmin
+from app.admin.objective import ObjectiveAdmin
 from app.admin.session import SessionAdmin
 from app.admin.subscription import SubscriptionAdmin
 
@@ -31,7 +33,8 @@ admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Exercice, ExerciceAdmin)
 admin.site.register(Gender, GenderAdmin)
 admin.site.register(Level, LevelAdmin)
-admin.site.register(Muscle, MuscleAdmin)
 admin.site.register(Member, MemberAdmin)
+admin.site.register(Muscle, MuscleAdmin)
+admin.site.register(Objective, ObjectiveAdmin)
 admin.site.register(Session, SessionAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)
