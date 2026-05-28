@@ -7,9 +7,6 @@ from core.utils.response import JsonResponse
 from core.utils.types import AnyUser
 from core.utils.validation import validate_errors, ValidationErrorItem
 
-from logs.models import Log
-from logs.levels import LogLevel
-
 class BaseAction(ABC):
 
     def __init__(self, scheme: type[BaseModel], user: AnyUser):

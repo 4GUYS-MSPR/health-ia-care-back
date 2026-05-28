@@ -14,8 +14,9 @@ class MemberAction(BaseAction):
 
     def handle(self, data: list[MemberScheme]):
         fields = [
-            {"name": "Gender", "model": Gender, "is_list": False},
-            {"name": "Experience_Level", "model": Level, "is_list": False},
+            {"name": "objective", "model": Objective, "is_list": False},
+            {"name": "gender", "model": Gender, "is_list": False},
+            {"name": "level", "model": Level, "is_list": False},
             {"name": "subscription", "model": Subscription, "is_list": False},
         ]
         invalid_value = validate_fields_data(data, fields)
