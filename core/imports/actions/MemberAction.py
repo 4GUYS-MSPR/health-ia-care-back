@@ -14,8 +14,10 @@ class MemberAction(BaseAction):
 
     def handle(self, data: list[MemberScheme]):
         fields = [
+            {"name": "objective", "model": Objective, "is_list": False},
             {"name": "Gender", "model": Gender, "is_list": False},
             {"name": "Experience_Level", "model": Level, "is_list": False},
+            {"name": "level", "model": Level, "is_list": False},
             {"name": "subscription", "model": Subscription, "is_list": False},
         ]
         invalid_value = validate_fields_data(data, fields)
@@ -24,6 +26,7 @@ class MemberAction(BaseAction):
 
         for scheme in data:
 
+            objective = Objective.objects.get(value=self.upper(scheme.objective))
             gender = Gender.objects.get(value=self.upper(scheme.gender))
             level = Level.objects.get(pk=scheme.level)
             subscription = Subscription.objects.get(value=self.upper(scheme.subscription))
@@ -36,12 +39,10 @@ class MemberAction(BaseAction):
                 weight=scheme.weight,
                 workout_frequency=scheme.workout_frequency,
                 client=self.user,
+                objective=objective,
                 gender=gender,
                 level=level,
                 subscription=subscription
             )
-
-            for objective in scheme.objectives:
-                Objective.objects.create(member=member, value=objective)
 
         return self.success(len(data))
