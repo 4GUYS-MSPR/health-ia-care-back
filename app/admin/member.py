@@ -3,7 +3,6 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
 
 from app.models import Member
-from app.admin.objective import ObjectiveInline
 
 from core.exports import ExportCsvMixin
 
@@ -14,13 +13,14 @@ class MemberAdmin(ModelAdmin, ExportCsvMixin):
         "get_user_name",
         "get_client_name",
         "age",
+        "objective",
         "gender",
         "level",
         "subscription",
         "last_activity",
         "created_at",
     ]
-    list_filter = ["gender", "level", "subscription", "client"]
+    list_filter = ["objective", "gender", "level", "subscription", "client"]
     search_fields = [
         "client__user__username",
         "user__user__username",
@@ -29,11 +29,9 @@ class MemberAdmin(ModelAdmin, ExportCsvMixin):
     readonly_fields = ["get_client_name", "get_user_name"]
 
     fieldsets = [
-        (None, {"fields": ["user", "client", "age", "gender", "level", "subscription", "last_activity", "created_at"]}),
+        (None, {"fields": ["user", "client", "age", "objective", "gender", "level", "subscription", "last_activity", "created_at"]}),
         ("Data", {"fields": ["bmi", "fat_percentage", "height", "weight", "workout_frequency"]}),
     ]
-
-    inlines = [ObjectiveInline]
 
     @admin.display(description="Client name")
     def get_client_name(self, obj):

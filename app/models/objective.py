@@ -1,11 +1,9 @@
 from django.db import models
 from django.utils.timezone import now
 
-from .member import Member
-
 class Objective(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='objectives')
-    value = models.CharField(max_length=1000)
+
+    value = models.CharField(max_length=20, blank=False, null=False)
     create_at = models.DateTimeField(default=now)
 
     def __str__(self):

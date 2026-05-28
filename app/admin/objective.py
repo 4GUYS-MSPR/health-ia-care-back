@@ -1,9 +1,8 @@
-from unfold.admin import TabularInline
+from unfold.admin import ModelAdmin
 
-from app.models.objective import Objective
+from core.exports import ExportCsvMixin
 
-class ObjectiveInline(TabularInline):
-    model = Objective
-    verbose_name = "Objective"
-    verbose_name_plural = "Objectives"
-    extra = 1
+class ObjectiveAdmin(ModelAdmin, ExportCsvMixin):
+
+    list_display = ["pk", "value", "create_at"]
+    search_fields = ["value"]

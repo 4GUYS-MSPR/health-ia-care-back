@@ -9,15 +9,13 @@ from app.serializers.subscription import SubscriptionSerializer
 
 class MemberSerializer(serializers.ModelSerializer):
 
-    objectives = ObjectiveSerializer(many=True, required=False)
-
     def to_representation(self, instance):
         rep = super().to_representation(instance)
 
         rep['gender'] = GenderSerializer(instance.gender).data if instance.gender else None
         rep['level'] = LevelSerializer(instance.level).data if instance.level else None
         rep['subscription'] = SubscriptionSerializer(instance.subscription).data if instance.subscription else None
-        rep['objectives'] = ObjectiveSerializer(instance.objectives, many=True).data if instance.objectives else []
+        rep['objective'] = ObjectiveSerializer(instance.objective).data if instance.objective else None
 
         return rep
 
@@ -31,7 +29,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "height",
             "weight",
             "workout_frequency",
-            "objectives",
+            "objective",
             "gender",
             "level",
             "subscription",

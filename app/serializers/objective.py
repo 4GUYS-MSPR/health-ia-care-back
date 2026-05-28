@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from app.models import Objective
+from app.models import Gender
 
 class ObjectiveSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Objective
+        model = Gender
         fields = ["id", "value"]
