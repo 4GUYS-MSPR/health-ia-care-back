@@ -24,13 +24,14 @@ class DB:
 
 def test():
     try:
-        logger.log.info("Tentative de connexion...")
+        logger.log.info("TEST MONGO | Tentative de connexion...")
         client = MongoClient(
             f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASSWORD}@{settings.MONGO_HOST}:{settings.MONGO_PORT}/?authSource={settings.MONGO_AUTH_SOURCE}&directConnection=true",
             serverSelectionTimeoutMS=3000
         )
         client.admin.command('ping')
+        logger.log.success("TEST MONGO | onnexion MongoDB réussie ! 🔥")
         return JsonResponse.response("Connexion MongoDB réussie ! 🔥", 200)
     except Exception as e:
-        logger.log.error(f"Échec de la connexion : {e}")
+        logger.log.error(f"TEST MONGO | Échec de la connexion : {e}")
         return JsonResponse.response(f"Échec de la connexion : {e}", 500)

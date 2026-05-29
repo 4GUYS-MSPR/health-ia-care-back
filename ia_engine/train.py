@@ -12,18 +12,14 @@ from ia_engine.engine import IA
 
 def train():
     ia = IA()
-    logger.log.info("📡 Récupération des profils depuis l'API Rest...")
-    try:
-        members = MemberSerializer(
-            Member.objects.all(),
-            many=True,
-        ).data
-    except Exception as e:
-        logger.log.error(f"🛑 Le script s'est arrêté à cause de : {e}")
-        return JsonResponse.error(e)
+    logger.log.info("IA | 📡 Récupération des profils depuis l'API Rest...")
+    members = MemberSerializer(
+        Member.objects.all(),
+        many=True,
+    ).data
 
     if not members:
-        logger.log.warning("⚠️ Aucun membre retourné par l'API.")
+        logger.log.warning("IA | ⚠️ Aucun membre retourné par l'API.")
         return JsonResponse.response("Aucun membre trouvé.", 422)
 
     inputs, targets = [], []
@@ -92,7 +88,7 @@ def train():
 
     count = len(inputs)
 
-    logger.log.info(f"🏋️‍♂️ Entraînement de l'IA sur {count} profils...")
+    logger.log.info(f"IA | 🏋️‍♂️ Entraînement de l'IA sur {count} profils...")
     ia.engine.train()
     for _ in range(1000):
         optimizer.zero_grad()
@@ -104,4 +100,5 @@ def train():
     # Sauvegarde directe dans MongoDB
     ia.save_model_to_mongo()
 
+    logger.log.success(f"IA | Ia entraînée  sur {count} membre{'s' if count > 1 else ''}.")
     return JsonResponse.success(f"Ia entraînée  sur {count} membre{'s' if count > 1 else ''}.")

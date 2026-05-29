@@ -30,6 +30,7 @@ class IAViewSet(viewsets.ViewSet):
             "evaluate",
             "recommendation",
             "test",
+            "train",
         ])
 
     @action(detail=False, methods=['get'])
