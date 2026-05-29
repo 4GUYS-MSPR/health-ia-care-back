@@ -39,7 +39,7 @@ class IA:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
 
-            cls.engine = cls.load_model_from_mongo()
+            cls._instance.engine = cls._instance.load_model_from_mongo()
 
         return cls._instance
 
@@ -80,7 +80,7 @@ class IA:
             upsert=True
         )
         mongo.close()
-        logger.log.info("💾 Les poids de l'IA ont été sauvegardés avec succès dans MongoDB !")
+        logger.log.success("💾 Les poids de l'IA ont été sauvegardés avec succès dans MongoDB !")
 
     def load_model_from_mongo(self):
         """Récupère le binaire depuis MongoDB et reconstruit le modèle PyTorch"""
@@ -89,6 +89,7 @@ class IA:
         mongo.close()
 
         self.engine = self.MemberProfileClassifier()
+
         if doc and "weights" in doc:
             buffer = io.BytesIO(doc["weights"])
             self.engine.load_state_dict(torch.load(buffer, map_location=torch.device('cpu')))
