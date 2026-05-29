@@ -100,5 +100,5 @@ def train():
     # Sauvegarde directe dans MongoDB
     ia.save_model_to_mongo()
 
-    logger.log.success(f"IA | Ia entraînée  sur {count} membre{'s' if count > 1 else ''}.")
-    return JsonResponse.success(f"Ia entraînée  sur {count} membre{'s' if count > 1 else ''}.")
+    logger.log.success(f"IA | Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
+    return JsonResponse.success(f"Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")

@@ -36,12 +36,12 @@ class IAViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def recommendation(self, request: HttpRequest):
         ia = IA()
-        logger.log.info("🚀 Démarrage du script de test de l'IA...")
+        logger.log.info("IA | 🚀 Démarrage du script de test de l'IA...")
 
         try:
             member: dict = MemberSerializer(Member.objects.get(user=request.user)).data
         except Member.DoesNotExist:
-            logger.log.error(f"Member for user={request.user.username} not found.")
+            logger.log.error(f"IA | Member for user={request.user.username} not found.")
             return JsonResponse.response({"message": f"Your account has not be found."}, 404)
 
         # 2. Extraction et normalisation des données (Préparation pour l'IA)
@@ -66,20 +66,20 @@ class IAViewSet(viewsets.ViewSet):
             # On récupère l'index de la classe qui a le score le plus élevé (0, 1 ou 2)
             id_status_predit = torch.argmax(predictions_brutes, dim=1).item()
 
-        logger.log.info(f"📊 Classe prédite par l'IA (depuis MongoDB) : {id_status_predit}")
+        logger.log.info(f"IA | 📊 Classe prédite par l'IA (depuis MongoDB) : {id_status_predit}")
 
         # 5. Passage dans le moteur modulaire pour fabriquer la phrase
         phrase_recommandation = ia.generer_recommandation_profile(id_status_predit, member)
 
         # 6. Affichage du résultat final
-        logger.log.info("\n📝 RÉPONSE ENVOYÉE PAR L'IA :")
-        logger.log.info(f"\n\"{phrase_recommandation}\"\n")
+        logger.log.info("IA | 📝 RÉPONSE ENVOYÉE PAR L'IA :")
+        logger.log.info(f"IA | {phrase_recommandation}")
         return JsonResponse.success({"result": phrase_recommandation})
 
     @action(detail=False, methods=['get'])
     def evaluate(self, _: HttpRequest):
         ia = IA()
-        logger.log.info("📡 Récupération des profils depuis l'API Rest...")
+        logger.log.info("IA | 📡 Récupération des membres...")
 
         members: list[dict] = MemberSerializer(
             Member.objects.all(),
@@ -87,16 +87,16 @@ class IAViewSet(viewsets.ViewSet):
         ).data
 
         if not members:
-            logger.log.warning("⚠️ Aucun membre retourné par l'API.")
+            logger.log.warning("IA | ⚠️ Aucun membre trouvé.")
             return
 
-        logger.log.info("🔄 Chargement du modèle PyTorch depuis MongoDB...")
+        logger.log.info("IA | 🔄 Chargement du modèle PyTorch depuis MongoDB...")
         ia.engine.eval()
 
         y_true = []
         y_pred = []
 
-        logger.log.info(f"🧠 Analyse de {len(members)} profils par le réseau de neurones...")
+        logger.log.info(f"IA | 🧠 Analyse de {len(members)} membres par le réseau de neurones...")
 
         # 2. Remplissage des vecteurs y_true et y_pred
         for m in members:
@@ -138,9 +138,8 @@ class IAViewSet(viewsets.ViewSet):
         tableau_lignes.append("-" * 60 + "|")
         tableau_string = "\n".join(tableau_lignes)
 
-        logger.log.info("\n🎯 RAPPORT DE FIABILITÉ\n")
-        logger.log.info(classification_report(y_true, y_pred, target_names=target_names))
-        logger.log.info("\n🧩 MATRICE DE CONFUSION :\n+ tableau_string")
+        logger.log.info("IA | 🎯 RAPPORT DE FIABILITÉ\n" + classification_report(y_true, y_pred, target_names=target_names))
+        logger.log.info("IA | 🧩 MATRICE DE CONFUSION :\n"+ tableau_string)
 
         api_response = {
             "status": "success",

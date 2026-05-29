@@ -80,7 +80,7 @@ class IA:
             upsert=True
         )
         mongo.close()
-        logger.log.success("💾 Les poids de l'IA ont été sauvegardés avec succès dans MongoDB !")
+        logger.log.success("IA | 💾 Les poids de l'IA ont été sauvegardés avec succès dans MongoDB !")
 
     def load_model_from_mongo(self):
         """Récupère le binaire depuis MongoDB et reconstruit le modèle PyTorch"""
@@ -93,15 +93,15 @@ class IA:
         if doc and "weights" in doc:
             buffer = io.BytesIO(doc["weights"])
             self.engine.load_state_dict(torch.load(buffer, map_location=torch.device('cpu')))
-            logger.log.info("🔄 Modèle chargé depuis MongoDB.")
+            logger.log.info("IA | 🔄 Modèle chargé depuis MongoDB.")
         else:
-            logger.log.info("🆕 Aucun modèle trouvé dans MongoDB. Utilisation d'un modèle vierge.")
+            logger.log.info("IA | 🆕 Aucun modèle trouvé dans MongoDB. Utilisation d'un modèle vierge.")
         return self.engine
 
     # =================================
     # CALCUL POUR L'ÉVALUATION DU MODEL
     # =================================
-    def calculer_y_true_metier(self, m):
+    def calculer_y_true_metier(self, m: dict):
         """
         Recopie exacte de la fonction cible de ton script d'entraînement.
         Garantit la cohérence scientifique pour le calcul du y_true.
