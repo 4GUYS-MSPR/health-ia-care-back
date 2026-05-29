@@ -8,6 +8,10 @@ class JsonResponse:
         return Response(data, status=status.HTTP_200_OK)
 
     @staticmethod
+    def error(data):
+        return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @staticmethod
     def response(data: dict | list, code: int):
         return Response(data, status=code)
 

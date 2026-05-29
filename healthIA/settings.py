@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django_prometheus",
     "app.apps.HealIaAppConfig",
     "core.apps.CoreConfig",
+    "ia_engine.apps.IaEngineConfig",
     "nutrition.apps.NutritionConfig",
     "social_network.apps.SocialNetworkConfig",
     "logs.apps.LogsConfig",
@@ -358,6 +359,13 @@ DATABASES = {
         "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
+
+MONGO_HOST=os.getenv('MONGO_HOST', 'localhost')
+MONGO_PORT=os.getenv('MONGO_PORT', '27017')
+MONGO_USER=os.getenv('MONGO_USER', 'mongo')
+MONGO_PASSWORD=os.getenv('MONGO_PASSWORD', 'password')
+MONGO_DBNAME=os.getenv('MONGO_DBNAME', 'database')
+MONGO_AUTH_SOURCE=os.getenv('MONGO_AUTH_SOURCE', 'admin')
 
 if os.getenv("DATABASE_URL") == "sqlite:///:memory:":
     DATABASES["default"] = {

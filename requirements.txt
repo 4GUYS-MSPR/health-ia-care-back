@@ -20,7 +20,10 @@ psycopg2-binary
 pydantic
 pylint
 pylint-django
+pymongo
 pytest
 pytest-django
 python-dotenv
+scikit-learn
+torch
 whitenoise

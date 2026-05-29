@@ -15,6 +15,8 @@ from app.views import ExerciceViewSet, MemberViewSet, SessionViewSet
 
 from core.views import DataImportViewSet, EnumViewSet, LogoutView, UserViewSet
 
+from ia_engine.views import IAViewSet
+
 from nutrition.views import DietRecommendationViewSet, FoodViewSet
 
 from social_network.views import CommentViewSet, PublicationViewSet
@@ -25,6 +27,7 @@ router.register(r'diet_recommendation', DietRecommendationViewSet, basename='die
 router.register(r'enum', EnumViewSet, basename='enum')
 router.register(r'exercice', ExerciceViewSet, basename='exercice')
 router.register(r'food', FoodViewSet, basename='food')
+router.register(r'ia', IAViewSet, basename='ia')
 router.register(r'import', DataImportViewSet, basename='import')
 router.register(r'member', MemberViewSet, basename='member')
 router.register(r'publication', PublicationViewSet)
