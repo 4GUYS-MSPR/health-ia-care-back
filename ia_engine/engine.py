@@ -2,6 +2,11 @@ import io
 import torch
 import torch.nn as nn
 
+from sklearn.metrics import classification_report, confusion_matrix
+
+from app.models.member import Member
+from app.serializers.member import MemberSerializer
+
 from core.utils.logger import logger
 
 from ia_engine.database import DB
@@ -143,6 +148,90 @@ class IA:
                 return 1
             else:
                 return 2
+
+    def evaluate(self):
+        logger.log.info("IA | 📡 Récupération des membres...")
+
+        members: list[dict] = MemberSerializer(
+            Member.objects.all(),
+            many=True,
+        ).data
+
+        if not members:
+            logger.log.warning("IA | ⚠️ Aucun membre trouvé.")
+            return
+
+        logger.log.info("IA | 🔄 Chargement du modèle PyTorch depuis MongoDB...")
+        self.engine.eval()
+
+        y_true = []
+        y_pred = []
+
+        logger.log.info(f"IA | 🧠 Analyse de {len(members)} membres par le réseau de neurones...")
+
+        # 2. Remplissage des vecteurs y_true et y_pred
+        for m in members:
+            vrai_label = self.calculer_y_true_metier(m)
+            y_true.append(vrai_label)
+
+            obj_str = m.get("objective", {}).get("value", "MAINTENANCE")
+            id_obj = self.extraire_id_objectif_ia(obj_str)
+
+            features = [
+                id_obj,
+                float(m.get("age", 20)) / self.MAX_VALS["age"],
+                float(m.get("bmi", 20)) / self.MAX_VALS["bmi"],
+                float(m.get("fat_percentage", 0)) / self.MAX_VALS["fat"],
+                float(m.get("workout_frequency", 0)) / self.MAX_VALS["freq"]
+            ]
+
+            input_tensor = torch.tensor([features], dtype=torch.float32)
+
+            with torch.no_grad():
+                outputs = self.engine(input_tensor)
+                prediction = torch.argmax(outputs, dim=1).item()
+                y_pred.append(prediction)
+
+        # 3. Génération des statistiques
+        target_names = ['0: Forte Demande', '1: Modération', '2: Équilibré']
+        labels = ['Demande (0)', 'Modere (1)', 'Equilibre (2)']
+
+        matrix = confusion_matrix(y_true, y_pred)
+        report = classification_report(y_true, y_pred, target_names=target_names, output_dict=True)
+
+        tableau_lignes = []
+        tableau_lignes.append(f"{'':<20} | {'Réel (0)':^10} | {'Réel (1)':^10} | {'Réel (2)':^10} |")
+        tableau_lignes.append("-" * 60 + "|")
+
+        for i, row in enumerate(matrix):
+            tableau_lignes.append(f"{f'Prédit {labels[i]}':<20} | {row[0]:^10} | {row[1]:^10} | {row[2]:^10} |")
+
+        tableau_lignes.append("-" * 60 + "|")
+        tableau_string = "\n".join(tableau_lignes)
+
+        logger.log.info("IA | 🎯 RAPPORT DE FIABILITÉ\n" + classification_report(y_true, y_pred, target_names=target_names))
+        logger.log.info("IA | 🧩 MATRICE DE CONFUSION :\n"+ tableau_string)
+
+        return {
+            "status": "success",
+            "metrics": {
+                "accuracy": round(report["accuracy"], 2),
+                "macro_avg": {
+                    "precision": round(report["macro avg"]["precision"], 2),
+                    "recall": round(report["macro avg"]["recall"], 2),
+                    "f1_score": round(report["macro avg"]["f1-score"], 2)
+                },
+                "details_per_class": {
+                    "forte_demande": report['0: Forte Demande'],
+                    "moderation": report['1: Modération'],
+                    "equilibre": report['2: Équilibré']
+                }
+            },
+            "confusion_matrix": {
+                "raw": matrix.tolist(),  # Convertit la matrice numpy en listes Python [ [] , [] ]
+                "formatted_string": tableau_string  # Permet au front d'afficher directement ton tableau s'il le souhaite
+            }
+        }
 
     # ============================
     # MOTEUR DE PHRASES MODULAIRES

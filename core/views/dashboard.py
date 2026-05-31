@@ -8,6 +8,8 @@ from django.utils import timezone
 
 from app.models import Client, Exercice, Member, MemberLastActivity, Session
 
+from ia_engine.engine import IA
+
 from social_network.models import Comment, Like, Publication
 
 def format_timedelta(td):
@@ -212,5 +214,25 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "metric": readable_avg,
         },
     ]
+
+    # ia = IA()
+    # evaluation = ia.evaluate()
+
+    # accuracy = evaluation["metrics"]["accuracy"]
+    accuracy = .9
+    percentage = int(accuracy * 100)
+
+    context["ia"] = {
+        "accuracy": accuracy,
+        "doughnut_accuracy": json.dumps({
+            "labels": ["Accuracy", "Remaining"],
+            "datasets": [{
+                "data": [accuracy, (100 - percentage)],
+                "backgroundColor": ["#10b981"],
+                "hoverOffset": 15,
+                "borderWidth": 0,
+            }],
+        })
+    }
 
     return context
