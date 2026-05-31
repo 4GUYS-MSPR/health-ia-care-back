@@ -53,13 +53,34 @@
 
 <div class="mb-4">
     {% component "unfold/components/card.html" with title="IA Engine" %}
-    <div class="mb-4 flex flex-wrap gap-2">
+    <div class="flex flex-wrap justify-center gap-5 w-full">
 
         <div class="p-5 pt-0 semi-doughnut">
             <script id="doughnut-accuracy-data" type="application/json">
                         {{ ia.doughnut_accuracy|safe }}
                     </script>
             <canvas id="doughnut-accuracy"></canvas>
+        </div>
+
+        <div class="p-5 pt-0 semi-doughnut">
+            <script id="doughnut-precision-data" type="application/json">
+                        {{ ia.doughnut_precision|safe }}
+                    </script>
+            <canvas id="doughnut-precision"></canvas>
+        </div>
+
+        <div class="p-5 pt-0 semi-doughnut">
+            <script id="doughnut-recall-data" type="application/json">
+                        {{ ia.doughnut_recall|safe }}
+                    </script>
+            <canvas id="doughnut-recall"></canvas>
+        </div>
+
+        <div class="p-5 pt-0 semi-doughnut">
+            <script id="doughnut-f1-score-data" type="application/json">
+                        {{ ia.doughnut_f1_score|safe }}
+                    </script>
+            <canvas id="doughnut-f1-score"></canvas>
         </div>
 
     </div>
@@ -139,26 +160,45 @@
         const ctxMember = document.getElementById('doughnut-member').getContext('2d');
         const ctxSession = document.getElementById('doughnut-session').getContext('2d');
         const ctxSubscription = document.getElementById('doughnut-subscription').getContext('2d');
+
         const ctxAccuracy = document.getElementById('doughnut-accuracy').getContext('2d');
+        const ctxPrecision = document.getElementById('doughnut-precision').getContext('2d');
+        const ctxRecall = document.getElementById('doughnut-recall').getContext('2d');
+        const ctxF1Score = document.getElementById('doughnut-f1-score').getContext('2d');
 
         const doughnutExerciceData = JSON.parse(document.getElementById('doughnut-exercice-data').textContent);
         const doughnutMemberData = JSON.parse(document.getElementById('doughnut-member-data').textContent);
         const doughnutSessionData = JSON.parse(document.getElementById('doughnut-session-data').textContent);
         const doughnutSubscriptionData = JSON.parse(document.getElementById('doughnut-subscription-data').textContent);
+
         const doughnutAccuracyData = JSON.parse(document.getElementById('doughnut-accuracy-data').textContent);
+        const doughnutPrecisionData = JSON.parse(document.getElementById('doughnut-precision-data').textContent);
+        const doughnutRecallData = JSON.parse(document.getElementById('doughnut-recall-data').textContent);
+        const doughnutF1ScoreData = JSON.parse(document.getElementById('doughnut-f1-score-data').textContent);
 
         const exerciceData = doughnutExerciceData;
         const memberData = doughnutMemberData.datasets[0].data;
         const sessionData = doughnutSessionData.datasets[0].data[0];
+
         let accuracyData = doughnutAccuracyData.datasets[0].data;
         const accuracy = accuracyData[0];
         accuracyData.splice(0, 1, Number(accuracy * 100));
+        let precisionData = doughnutPrecisionData.datasets[0].data;
+        const precision = precisionData[0];
+        precisionData.splice(0, 1, Number(precision * 100));
+        let recallData = doughnutRecallData.datasets[0].data;
+        const recall = recallData[0];
+        recallData.splice(0, 1, Number(recall * 100));
+        let f1ScoreData = doughnutF1ScoreData.datasets[0].data;
+        const f1Score = f1ScoreData[0];
+        f1ScoreData.splice(0, 1, Number(f1Score * 100));
 
         const isDark = document.documentElement.classList.contains('dark');
         const remainingColor = isDark ? '#142136' : '#e5e7eb';
         doughnutAccuracyData.datasets[0].backgroundColor.push(remainingColor);
-
-        console.log(doughnutAccuracyData);
+        doughnutPrecisionData.datasets[0].backgroundColor.push(remainingColor);
+        doughnutRecallData.datasets[0].backgroundColor.push(remainingColor);
+        doughnutF1ScoreData.datasets[0].backgroundColor.push(remainingColor);
 
         const members = memberData[0];
         const clients = memberData[1];
@@ -196,6 +236,27 @@
                 data: doughnutAccuracyData,
                 title: 'Accuracy',
                 centerText: String(accuracy),
+                semi: true,
+            },
+            {
+                ctx: ctxPrecision,
+                data: doughnutPrecisionData,
+                title: 'Precision',
+                centerText: String(precision),
+                semi: true,
+            },
+            {
+                ctx: ctxRecall,
+                data: doughnutRecallData,
+                title: 'Recall',
+                centerText: String(recall),
+                semi: true,
+            },
+            {
+                ctx: ctxF1Score,
+                data: doughnutF1ScoreData,
+                title: 'F1 Score',
+                centerText: String(f1Score),
                 semi: true,
             },
         ]);

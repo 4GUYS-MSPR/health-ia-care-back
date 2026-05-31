@@ -219,20 +219,61 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     evaluation = ia.evaluate()
 
     accuracy = evaluation["metrics"]["accuracy"]
+    precision = evaluation["metrics"]["macro_avg"]["precision"]
+    recall = evaluation["metrics"]["macro_avg"]["recall"]
+    f1_score = evaluation["metrics"]["macro_avg"]["f1_score"]
+
     # accuracy = .9
-    percentage = int(accuracy * 100)
+    # precision = .8
+    # recall = .7
+    # f1_score = .6
+
+    accuracy_percentage = int(accuracy * 100)
+    precision_percentage = int(precision * 100)
+    recall_percentage = int(recall * 100)
+    f1_score_percentage = int(f1_score * 100)
 
     context["ia"] = {
         "accuracy": accuracy,
         "doughnut_accuracy": json.dumps({
             "labels": ["Accuracy", "Remaining"],
             "datasets": [{
-                "data": [accuracy, (100 - percentage)],
+                "data": [accuracy, (100 - accuracy_percentage)],
                 "backgroundColor": ["#10b981"],
                 "hoverOffset": 15,
                 "borderWidth": 0,
             }],
-        })
+        }),
+        "precision": precision,
+        "doughnut_precision": json.dumps({
+            "labels": ["Precision", "Remaining"],
+            "datasets": [{
+                "data": [precision, (100 - precision_percentage)],
+                "backgroundColor": ["#10b981"],
+                "hoverOffset": 15,
+                "borderWidth": 0,
+            }],
+        }),
+        "recall": recall,
+        "doughnut_recall": json.dumps({
+            "labels": ["Recall", "Remaining"],
+            "datasets": [{
+                "data": [recall, (100 - recall_percentage)],
+                "backgroundColor": ["#10b981"],
+                "hoverOffset": 15,
+                "borderWidth": 0,
+            }],
+        }),
+        "f1_score": f1_score,
+        "doughnut_f1_score": json.dumps({
+            "labels": ["F1 Score", "Remaining"],
+            "datasets": [{
+                "data": [f1_score, (100 - f1_score_percentage)],
+                "backgroundColor": ["#10b981"],
+                "hoverOffset": 15,
+                "borderWidth": 0,
+            }],
+        }),
     }
 
     return context
