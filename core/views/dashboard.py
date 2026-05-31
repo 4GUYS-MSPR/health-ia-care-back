@@ -215,11 +215,11 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
         },
     ]
 
-    # ia = IA()
-    # evaluation = ia.evaluate()
+    ia = IA()
+    evaluation = ia.evaluate()
 
-    # accuracy = evaluation["metrics"]["accuracy"]
-    accuracy = .9
+    accuracy = evaluation["metrics"]["accuracy"]
+    # accuracy = .9
     percentage = int(accuracy * 100)
 
     context["ia"] = {
