@@ -84,7 +84,13 @@
         </div>
 
     </div>
+
+    {% component "unfold/components/card.html" with title="Matrice de Confusion" %}
+    {% component "unfold/components/table.html" with table=confusion_matrix %}{% endcomponent %}
     {% endcomponent %}
+</div>
+
+{% endcomponent %}
 </div>
 
 <div class="mb-4">

@@ -222,11 +222,26 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     precision = evaluation["metrics"]["macro_avg"]["precision"]
     recall = evaluation["metrics"]["macro_avg"]["recall"]
     f1_score = evaluation["metrics"]["macro_avg"]["f1_score"]
+    confusion_matrix = evaluation["confusion_matrix"]["raw"]
 
     # accuracy = .9
     # precision = .8
     # recall = .7
     # f1_score = .6
+    # confusion_matrix = [[8, 0, 0], [0, 23, 1], [0, 2, 22]]
+
+    classes = ["Forte Demande", "Modération", "Équilibre"]
+    headers = ["Classes"] + [f"Prédit: {c}" for c in classes]
+
+    rows = []
+    for i, row in enumerate(confusion_matrix):
+        formatted_row = [f"Réel: {classes[i]}"] + row
+        rows.append(formatted_row)
+
+    context["confusion_matrix"] = {
+        "headers": headers,
+        "rows": rows,
+    }
 
     accuracy_percentage = int(accuracy * 100)
     precision_percentage = int(precision * 100)
