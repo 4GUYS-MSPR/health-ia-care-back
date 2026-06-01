@@ -14,12 +14,8 @@ from ia_engine.engine import IA
 def train():
     ia = IA()
     logger.log.info("IA | 📡 Récupération des profils depuis l'API Rest...")
-    members = MemberSerializer(
-        Member.objects.all(),
-        many=True,
-    ).data
 
-    members = members + generate_members_json()
+    members = generate_members_json()
 
     if not members:
         logger.log.warning("IA | ⚠️ Aucun membre retourné par l'API.")
