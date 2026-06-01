@@ -10,6 +10,7 @@ from core.utils.logger import logger
 from core.utils.response import JsonResponse
 
 from ia_engine.engine import IA
+from ia_engine.models import Training
 
 def train(count=50000):
     ia = IA()
@@ -171,5 +172,7 @@ def generate_members_json(count):
         }
 
         members = members + [member_json]
+    
+    Training.objects.create(members=count)
 
     return members

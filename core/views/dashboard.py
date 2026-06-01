@@ -9,6 +9,7 @@ from django.utils.html import format_html
 from app.models import Client, Exercice, Member, MemberLastActivity, Session
 
 from ia_engine.engine import IA
+from ia_engine.models import Training
 
 from social_network.models import Comment, Like, Publication
 
@@ -217,7 +218,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
 
     ia = IA()
     evaluation = ia.evaluate()
-    total_training = ia.get_total_members_count()
+    total_training = Training.objects.last().members
 
     accuracy = evaluation["metrics"]["accuracy"]
     precision = evaluation["metrics"]["macro_avg"]["precision"]
