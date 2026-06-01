@@ -84,5 +84,5 @@ class IAViewSet(viewsets.ViewSet):
         return test()
 
     @action(detail=False, methods=['get'])
-    def train(self, _: HttpRequest):
-        return train()
+    def train(self, request: HttpRequest):
+        return train(int(request.GET.get('count', '50000')))

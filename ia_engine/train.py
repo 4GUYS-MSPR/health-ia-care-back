@@ -3,19 +3,18 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from app.models import Gender, Level, Member, Objective, Subscription
-from app.serializers import GenderSerializer, LevelSerializer, MemberSerializer, ObjectiveSerializer, SubscriptionSerializer
+from app.models import Gender, Level, Objective, Subscription
+from app.serializers import GenderSerializer, LevelSerializer, ObjectiveSerializer, SubscriptionSerializer
 
 from core.utils.logger import logger
 from core.utils.response import JsonResponse
 
 from ia_engine.engine import IA
 
-def train():
+def train(count=50000):
     ia = IA()
     logger.log.info("IA | 📡 Récupération des profils depuis l'API Rest...")
-
-    members = generate_members_json()
+    members = generate_members_json(count)
 
     if not members:
         logger.log.warning("IA | ⚠️ Aucun membre retourné par l'API.")
@@ -102,7 +101,8 @@ def train():
     logger.log.success(f"IA | Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
     return JsonResponse.success(f"Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
 
-def generate_members_json(count=500):
+def generate_members_json(count):
+    logger.log.debug(count)
     """
     Génère un fichier JSON contenant 'count' membres réalistes 
     prêts à être injectés ou testés dans ton backend Django.
