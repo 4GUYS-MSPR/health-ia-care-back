@@ -107,6 +107,7 @@ class IA:
         """Récupère le nombre total de membres dans la collection MongoDB"""
         mongo = DB()
         total_membres = mongo.db["members"].count_documents({}) 
+        logger.log.info(f"IA | 👥 {total_membres} membres trouvés dans la base de données MongoDB.")
         mongo.close()
         return total_membres
 
