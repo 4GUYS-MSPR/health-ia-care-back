@@ -102,7 +102,6 @@ def train(count=50000):
     return JsonResponse.success(f"Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
 
 def generate_members_json(count):
-    logger.log.debug(count)
     """
     Génère un fichier JSON contenant 'count' membres réalistes 
     prêts à être injectés ou testés dans ton backend Django.
