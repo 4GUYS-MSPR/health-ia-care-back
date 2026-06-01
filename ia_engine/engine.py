@@ -103,6 +103,13 @@ class IA:
             logger.log.info("IA | 🆕 Aucun modèle trouvé dans MongoDB. Utilisation d'un modèle vierge.")
         return self.engine
 
+    def get_total_members_count(self):
+        """Récupère le nombre total de membres dans la collection MongoDB"""
+        mongo = DB()
+        total_membres = mongo.db["members"].count_documents({}) 
+        mongo.close()
+        return total_membres
+
     # =================================
     # CALCUL POUR L'ÉVALUATION DU MODEL
     # =================================

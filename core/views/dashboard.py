@@ -217,6 +217,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
 
     ia = IA()
     evaluation = ia.evaluate()
+    total_training = ia.get_total_members_count()
 
     accuracy = evaluation["metrics"]["accuracy"]
     precision = evaluation["metrics"]["macro_avg"]["precision"]
@@ -238,17 +239,17 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
         formatted_row = [f"Réel: {classes[i]}"] + row
         rows.append(formatted_row)
 
-    context["confusion_matrix"] = {
-        "headers": headers,
-        "rows": rows,
-    }
-
     accuracy_percentage = int(accuracy * 100)
     precision_percentage = int(precision * 100)
     recall_percentage = int(recall * 100)
     f1_score_percentage = int(f1_score * 100)
 
     context["ia"] = {
+        "confusion_matrix": {
+            "headers": headers,
+            "rows": rows,
+        },
+        "total_training": total_training,
         "accuracy": accuracy,
         "doughnut_accuracy": json.dumps({
             "labels": ["Accuracy", "Remaining"],
