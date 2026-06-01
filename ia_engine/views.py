@@ -40,7 +40,7 @@ class IAViewSet(viewsets.ViewSet):
             member: dict = MemberSerializer(Member.objects.get(user=request.user)).data
         except Member.DoesNotExist:
             logger.log.error(f"IA | Member for user={request.user.username} not found.")
-            return JsonResponse.response({"message": f"Your account has not be found."}, 404)
+            return JsonResponse.response({"message": "Your account has not be found."}, 404)
 
         # 2. Extraction et normalisation des données (Préparation pour l'IA)
         obj_str = member.get("objective", {}).get("value", "GAIN_WEIGHT")

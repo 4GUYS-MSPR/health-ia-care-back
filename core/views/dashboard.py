@@ -86,7 +86,7 @@ def line_chart(labels, data, data_label):
         }
     })
 
-def dashboard_callback(request, context): # pylint: disable=too-many-locals
+def dashboard_callback(request, context): # pylint: disable=too-many-locals,too-many-statements
     now = timezone.now()
     like_day_period = 15
     start_date = (now - timedelta(days=like_day_period - 1)).replace(hour=0, minute=0, second=0, microsecond=0)
@@ -251,7 +251,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "headers": headers,
             "rows": rows,
         },
-        "total_training": format_html("<div class='bg-primary-900 rounded-full px-3 py-1'>Entraînée sur {} membres</div>", total_training),
+        "total_training": format_html("<div class='flex gap-2'><div class='bg-primary-900 rounded-full px-3 py-1'>Entraînée sur {} membres</div><div class='bg-primary-600 rounded-full px-3 py-1'>Évaluée sur {} membres</div></div>", total_training, members),
         "accuracy": accuracy,
         "doughnut_accuracy": json.dumps({
             "labels": ["Accuracy", "Remaining"],

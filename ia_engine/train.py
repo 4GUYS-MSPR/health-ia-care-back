@@ -1,7 +1,8 @@
 import random
 import torch
-import torch.nn as nn
-import torch.optim as optim
+
+from torch import nn
+from torch import optim
 
 from app.models import Gender, Level, Objective, Subscription
 from app.serializers import GenderSerializer, LevelSerializer, ObjectiveSerializer, SubscriptionSerializer
@@ -12,7 +13,7 @@ from core.utils.response import JsonResponse
 from ia_engine.engine import IA
 from ia_engine.models import Training
 
-def train(count=50000):
+def train(count=50000): # pylint: disable=too-many-locals,too-many-branches,too-many-statements
     ia = IA()
     logger.log.info("IA | 📡 Récupération des profils depuis l'API Rest...")
     members = generate_members_json(count)
@@ -102,7 +103,7 @@ def train(count=50000):
     logger.log.success(f"IA | Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
     return JsonResponse.success(f"Ia entraînée sur {count} membre{'s' if count > 1 else ''}.")
 
-def generate_members_json(count):
+def generate_members_json(count): # pylint: disable=too-many-locals
     """
     Génère un fichier JSON contenant 'count' membres réalistes 
     prêts à être injectés ou testés dans ton backend Django.
@@ -125,7 +126,7 @@ def generate_members_json(count):
             age = random.randint(18, 35)
             height = random.randint(170, 195) if gender == "MALE" else random.randint(160, 180)
             # Plutôt mince de base pour une prise de masse, ou standard
-            bmi = round(random.uniform(17.5, 24.0), 1) 
+            bmi = round(random.uniform(17.5, 24.0), 1)
             fat_percentage = round(random.uniform(9.0, 16.0), 1) if gender == "MALE" else round(random.uniform(18.0, 24.0), 1)
             workout_frequency = random.randint(3, 6)
             level = "EXPERT" if workout_frequency > 5 else "INTERMEDIATE" if workout_frequency > 2 else "BEGINNER"
@@ -172,7 +173,7 @@ def generate_members_json(count):
         }
 
         members = members + [member_json]
-    
+
     Training.objects.create(members=count)
 
     return members

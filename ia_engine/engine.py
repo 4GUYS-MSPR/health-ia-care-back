@@ -1,6 +1,7 @@
 import io
+
 import torch
-import torch.nn as nn
+from torch import nn
 
 from sklearn.metrics import classification_report, confusion_matrix
 
@@ -11,12 +12,12 @@ from core.utils.logger import logger
 
 from ia_engine.database import DB
 
-class IA:
+class IA: # pylint: disable=too-many-locals,too-many-branches,too-many-return-statements
     _instance = None
     engine = None
 
     model_name="nutrition_model"
-    
+
     # Constantes de normalisation pour les 7 entrées de l'IA
     MAX_VALS = {
         "age": 100.0, "bmi": 50.0, "fat": 100.0, 
@@ -122,32 +123,29 @@ class IA:
         if id_obj == 0.0:  # FAMILLE SURPLUS
             if bmi < 18.5 or fat < 10.0:
                 return 0
-            elif fat > 22.0:
+            if fat > 22.0:
                 return 1
-            elif freq >= 5 and age < 35:
+            if freq >= 5 and age < 35:
                 return 0
-            else:
-                return 2
+            return 2
 
-        elif id_obj == 1.0:  # FAMILLE DÉFICIT
+        if id_obj == 1.0:  # FAMILLE DÉFICIT
             if fat > 25.0 or (bmi > 25.0 and fat > 18.0):
                 return 1
-            elif bmi < 19.0 or fat < 12.0:
+            if bmi < 19.0 or fat < 12.0:
                 return 0
-            elif freq <= 0:
+            if freq <= 0:
                 return 1
-            else:
-                return 2
+            return 2
 
-        else:  # FAMILLE MAINTENANCE
-            if freq >= 5 and fat < 13.0:
-                return 0
-            elif fat > 28.0:
-                return 1
-            elif age > 50 and freq < 2:
-                return 1
-            else:
-                return 2
+        # FAMILLE MAINTENANCE
+        if freq >= 5 and fat < 13.0:
+            return 0
+        if fat > 28.0:
+            return 1
+        if age > 50 and freq < 2:
+            return 1
+        return 2
 
     def evaluate(self):
         logger.log.info("IA | 📡 Récupération des membres...")
@@ -159,7 +157,7 @@ class IA:
 
         if not members:
             logger.log.warning("IA | ⚠️ Aucun membre trouvé.")
-            return
+            return {}
 
         logger.log.info("IA | 🔄 Chargement du modèle PyTorch depuis MongoDB...")
         self.engine.eval()
@@ -260,7 +258,7 @@ class IA:
         elif 0 < fat < 10.0:
             phrases.append(f"⚡ Votre taux de masse grasse de {fat}% est particulièrement bas, ce qui nécessite un soutien nutritionnel accru pour protéger votre capital musculaire.")
 
-        if bmi < 18.5 and bmi > 0:
+        if 0 < bmi < 18.5:
             phrases.append(f"⚠️ Votre indice de masse corporelle ({bmi}) signale un profil en sous-poids qui exige une vigilance sur vos apports quotidiens.")
 
         # 4. ANALYSE DU RYTHME DE VIE & DE L'ÂGE (Workout frequency & Age)
