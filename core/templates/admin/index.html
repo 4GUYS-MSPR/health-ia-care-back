@@ -52,9 +52,9 @@
 </div>
 
 <div class="mb-4">
-    {% component "unfold/components/card.html" with title="IA Engine" description="Entraîné sur " | add:ia.total_training | add:" membres" %}
+    {% component "unfold/components/card.html" with title="IA Engine" action=ia.total_training %}
     <div class="flex flex-wrap justify-center gap-5 w-full">
-
+ 
         <div class="p-5 pt-0 semi-doughnut">
             <script id="doughnut-accuracy-data" type="application/json">
                         {{ ia.doughnut_accuracy|safe }}

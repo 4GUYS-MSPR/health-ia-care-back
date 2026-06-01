@@ -1,10 +1,10 @@
 import json
 
 from datetime import timedelta
-
 from django.db.models import Avg, Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
+from django.utils.html import format_html
 
 from app.models import Client, Exercice, Member, MemberLastActivity, Session
 
@@ -225,6 +225,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
     f1_score = evaluation["metrics"]["macro_avg"]["f1_score"]
     confusion_matrix = evaluation["confusion_matrix"]["raw"]
 
+    # total_training = 50
     # accuracy = .9
     # precision = .8
     # recall = .7
@@ -249,7 +250,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "headers": headers,
             "rows": rows,
         },
-        "total_training": total_training,
+        "total_training": format_html("<div class='bg-primary-700 rounded-full px-3 py-1'>{} membres</div>", total_training),
         "accuracy": accuracy,
         "doughnut_accuracy": json.dumps({
             "labels": ["Accuracy", "Remaining"],
