@@ -251,7 +251,7 @@ def dashboard_callback(request, context): # pylint: disable=too-many-locals
             "headers": headers,
             "rows": rows,
         },
-        "total_training": format_html("<div class='bg-primary-700 rounded-full px-3 py-1'>{} membres</div>", total_training),
+        "total_training": format_html("<div class='bg-primary-900 rounded-full px-3 py-1'>Entraînée sur {} membres</div>", total_training),
         "accuracy": accuracy,
         "doughnut_accuracy": json.dumps({
             "labels": ["Accuracy", "Remaining"],
