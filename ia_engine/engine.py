@@ -5,8 +5,8 @@ from torch import nn
 
 from sklearn.metrics import classification_report, confusion_matrix
 
-from app.models.member import Member
-from app.serializers.member import MemberSerializer
+from app.models import Exercice, Member
+from app.serializers import ExerciceSerializer, MemberSerializer
 
 from core.utils.logger import logger
 
@@ -296,4 +296,50 @@ class IA: # pylint: disable=too-many-locals,too-many-branches,too-many-return-st
             phrases.append("💎 Pour sculpter votre silhouette, visez une balance calorique neutre combinée à un apport protéique strict pour tonifier le muscle.")
 
         # 6. SÉCURITÉ : On fusionne et on limite strictement aux 3 premières phrases les plus pertinentes
-        return " ".join(phrases[:3])
+        return " ".join(phrases)
+
+    # ============================
+    # MOTEUR D'EXERCICE MODULAIRES
+    # ============================
+    def recuperer_exercice_recommmande(self, id_status, member_data):
+        exercices_ids = set()
+
+        # 1. RÉCUPÉRATION DES METRICS DU MEMBRE
+        objective = member_data.get("objectives", {}).get("value", "MAINTENANCE")
+        bmi = float(member_data.get("bmi", 0))
+        fat = float(member_data.get("fat_percentage", 0))
+        freq = int(member_data.get("workout_frequency", 0))
+
+        # 2. LA TENDANCE GLOBALE DE L'IA (id_status calculé via les poids de MongoDB)
+        if id_status == 0:
+            exercices_ids.update([4, 5])
+        elif id_status == 1:
+            exercices_ids.update([7, 12])
+
+        # 3. ANALYSE DES COMPOSITIONS CORPORELLES (Fat & BMI)
+        if fat > 25.0 or objective == "FAT_LOSS":
+            exercices_ids.update([11, 17])
+
+        if 0 < fat < 10.0 or objective == "GAIN_MUSCLE":
+            exercices_ids.update([6, 13])
+
+        if 0 < bmi < 18.5:
+            exercices_ids.update([8, 9])
+
+        # 4. ANALYSE DU RYTHME DE VIE (Workout frequency)
+        if freq >= 5:
+            exercices_ids.update([10])
+        elif freq <= 0:
+            exercices_ids.update([7, 8])
+
+        # 5. OBJECTIFS SPÉCIFIQUES (Endurance, Santé, Tonification)
+        if objective == "ENDURANCE_PREP":
+            exercices_ids.update([16])
+        elif objective == "HEALTH_HEART":
+            exercices_ids.update([11, 17])
+        elif objective == "TONING":
+            exercices_ids.update([18, 19])
+
+        exercices = Exercice.objects.filter(pk__in=exercices_ids)
+
+        return ExerciceSerializer(exercices, many=True).data

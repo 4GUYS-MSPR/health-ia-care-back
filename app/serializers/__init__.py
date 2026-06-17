@@ -1,3 +1,4 @@
+from .exercice import ExerciceSerializer
 from .gender import GenderSerializer
 from .level import LevelSerializer
 from .member import MemberSerializer
