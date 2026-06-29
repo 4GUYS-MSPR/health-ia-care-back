@@ -15,12 +15,8 @@ from ia_engine.models import Training
 
 def train(count=50000): # pylint: disable=too-many-locals,too-many-branches,too-many-statements
     ia = IA()
-    logger.log.info("IA | 📡 Récupération des profils depuis l'API Rest...")
+    logger.log.info("IA | 📡 Génération des profils depuis...")
     members = generate_members_json(count)
-
-    if not members:
-        logger.log.warning("IA | ⚠️ Aucun membre retourné par l'API.")
-        return JsonResponse.response("Aucun membre trouvé.", 422)
 
     inputs, targets = [], []
 
