@@ -20,7 +20,7 @@ class ExerciceAdmin(ModelAdmin, ExportCsvMixin):
     search_fields = ["pk", "category__value", "image_url"]
 
     fieldsets = [
-        (None, {"fields": ["display_image_large", "category", "client", "create_at"]}),
+        (None, {"fields": ["display_image_large", "image_url", "category", "client", "create_at"]}),
     ]
 
     inlines = [
