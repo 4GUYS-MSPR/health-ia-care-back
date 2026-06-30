@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from app.models import Exercice
+from app.models import Client, Exercice
 from app.serializers.exercice import ExerciceSerializer
 
 from core.utils.query import get_query_all_for_user
@@ -17,7 +17,7 @@ class ExerciceViewSet(ModelViewSet):
     ]
 
     def perform_create(self, serializer):
-        serializer.save(client=self.request.user)
+        serializer.save(client=Client.objects.get(user=self.request.user))
 
     def get_queryset(self):
         queryset = get_query_all_for_user(Exercice, self.request.user)

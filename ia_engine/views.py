@@ -66,13 +66,18 @@ class IAViewSet(viewsets.ViewSet):
 
         logger.log.info(f"IA | 📊 Classe prédite par l'IA (depuis MongoDB) : {id_status_predit}")
 
-        # 5. Passage dans le moteur modulaire pour fabriquer la phrase
+        # 5. Passage dans le moteur modulaire
         phrase_recommandation = ia.generer_recommandation_profile(id_status_predit, member)
+
+        exercices = ia.recuperer_exercice_recommmande(id_status_predit, member)
 
         # 6. Affichage du résultat final
         logger.log.info("IA | 📝 RÉPONSE ENVOYÉE PAR L'IA :")
         logger.log.info(f"IA | {phrase_recommandation}")
-        return JsonResponse.success({"result": phrase_recommandation})
+        return JsonResponse.success({
+            "message": phrase_recommandation,
+            "exercices": exercices,
+        })
 
     @action(detail=False, methods=['get'])
     def evaluate(self, _: HttpRequest):
